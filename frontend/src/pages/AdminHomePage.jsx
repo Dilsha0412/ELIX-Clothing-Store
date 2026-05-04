@@ -19,13 +19,13 @@ const AdminHomePage = () => {
     {
       _id: "675bf2c6ca77bd83eefd7a18",
       user: { name: "Admin User" },
-      totalPrice: 39.99,
+      totalPrice: 49.99,
       status: "Processing",
     },
     {
       _id: "675c24b09b88827304bd5cc1",
       user: { name: "Admin User" },
-      totalPrice: 39.99,
+      totalPrice: 59.99,
       status: "Processing",
     },
   ];
@@ -85,7 +85,7 @@ const AdminHomePage = () => {
                     <td className="p-4">{order._id}</td>
                     <td className="p-4">{order.user.name}</td>
                     <td className="p-4">
-                        
+
                       ${order.totalPrice} 
                     </td>
                     <td className="p-4">{order.status}</td>
