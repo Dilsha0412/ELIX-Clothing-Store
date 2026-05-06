@@ -12,7 +12,36 @@ router.post("/register", async (req, res) => {
 
   try {
     // Registration logic
-    res.send({ name, email, password });
+    let user = await User.findOne({ email });
+
+    if (user) return res.status(400).json({ message: "User already exists" });
+      user = new User({ name, email, password });
+      await user.save();
+
+      // Create JWT Payload
+    const payload = { user: { id: user._id, role: user.role } };
+
+    //Sign and return JWT
+    jwt.sign(
+        payload,
+         process.env.JWT_SECRET,
+         {expiresIn: "40h"}, 
+         (err, token) => {
+      if (err) throw err;
+
+      res.status(201).json({
+        user: {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+      },
+      token,
+      })
+      
+    });
+    
+
   } catch (error) {
     console.log(error);
     res.status(500).send("Server Error");
