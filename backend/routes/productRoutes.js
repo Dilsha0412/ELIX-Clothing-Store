@@ -199,8 +199,8 @@ router.get("/", async (req, res) => {
 
     if (minPrice || maxPrice) {
       query.price = {};
-      if (minPrice) query.price.gte = Number(minPrice);
-      if (maxPrice) query.price.lte = Number(maxPrice);
+      if (minPrice) query.price.$gte = Number(minPrice);
+      if (maxPrice) query.price.$lte = Number(maxPrice);
     }
 
     if (search) {
@@ -237,6 +237,23 @@ router.get("/", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).send("server Error");
+  }
+});
+
+// @route GET /api/products/:id
+// @desc Get a single product by ID
+// @access Public
+router.get("/:id", async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+    if (product) {
+      res.json(product);
+    } else {
+      res.status(404).json({ message: "Product Not Found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server Error");
   }
 });
 
