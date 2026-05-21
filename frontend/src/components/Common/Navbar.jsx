@@ -6,6 +6,7 @@ import SearchBar from './SearchBar';
 import CartDrawer from '../Layout/CartDrawer';
 import { useState } from 'react';
 import { IoMdClose } from 'react-icons/io';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Navbar = () => {
     const[drawerOpen, setDrawerOpen] = useState(false);
