@@ -100,7 +100,6 @@ const productsSlice = createSlice({
       material: "",
       collection: "",
     },
-    
   },
 
   reducers: {
@@ -125,21 +124,8 @@ const productsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // handle fetching products with filter
+      // handle fetching products with filter 
       .addCase(fetchProductsByFilters.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(fetchProductsByFilters.fulfilled, (state, action) => {
-        state.loading = false;
-        state.products = Array.isArray(action.payload) ? action.payload : [];
-      })
-      .addCase(fetchProductsByFilters.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message;
-      })
-
-       .addCase(fetchProductsByFilters.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
@@ -205,8 +191,3 @@ const productsSlice = createSlice({
 // Action and Reducer Exports
 export const { setFilters, clearFilters } = productsSlice.actions;
 export default productsSlice.reducer;
-  
-
-  
-  
-
