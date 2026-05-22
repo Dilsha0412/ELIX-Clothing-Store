@@ -93,7 +93,7 @@ const authSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload; // සාර්ථකව user state එකට වැටෙනවා
+        state.user = action.payload; 
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
@@ -107,7 +107,7 @@ const authSlice = createSlice({
       })
       .addCase(registerUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload; // 👈 FIX: කලින් තිබ්බ state.error වෙනුවට state.user කළා
+        state.user = action.payload;
         state.error = null;
       })
       .addCase(registerUser.rejected, (state, action) => {

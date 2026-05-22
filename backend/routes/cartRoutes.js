@@ -109,7 +109,7 @@ router.put("/", async (req, res) => {
       if (quantity > 0) {
         cart.products[productIndex].quantity = quantity;
       } else {
-        cart.products.splice(productIndex, 1); // Remove product if quantity is 0
+        cart.products.splice(productIndex, 1); 
       }
 
       cart.totalPrice = cart.products.reduce(
@@ -187,14 +187,11 @@ router.get("/", async (req, res) => {
 // @desc Merge guest cart into user cart on login
 // @access Private
 router.post("/merge", protect, async (req, res) => {
-  // Frontend එකෙන් එවන guestId එක සහ user එක body එකෙන් ගන්නවා
   const { guestId, user } = req.body;
 
   try {
-    // req.user (middleware එකෙන්) හෝ body එකෙන් එන user ගෙන් _id එක ආරක්ෂිතව ගන්නවා
     const userId = req.user ? req.user._id : (user ? user._id : null);
 
-    // userId එකක් නැත්නම් error එකක් යවනවා (Server එක crash වෙන්නේ නෑ)
     if (!userId) {
       return res.status(400).json({ message: "User ID is required to merge carts" });
     }
@@ -209,7 +206,6 @@ router.post("/merge", protect, async (req, res) => {
       }
 
       if (userCart) {
-        // Merge guest cart into user cart
         guestCart.products.forEach((guestItem) => {
           const productIndex = userCart.products.findIndex(
             (item) =>
@@ -219,10 +215,8 @@ router.post("/merge", protect, async (req, res) => {
           );
 
           if (productIndex > -1) {
-            // If the items exists in the user cart, update the quantity
             userCart.products[productIndex].quantity += guestItem.quantity;
           } else {
-            // Otherwise, add the guest item to the cart
             userCart.products.push(guestItem);
           }
         });
@@ -233,7 +227,6 @@ router.post("/merge", protect, async (req, res) => {
         );
         await userCart.save();
 
-        // Remove the guest cart after merging
         try {
           await Cart.findOneAndDelete({ guestId });
         } catch (error) {
@@ -241,8 +234,7 @@ router.post("/merge", protect, async (req, res) => {
         }
         return res.status(200).json(userCart);
       } else {
-        // If user has no existing cart, assign the guest cart to the user
-        guestCart.user = userId; // <-- මෙතනත් අපි අලුත් userId variable එක පාවිච්චි කරනවා
+        guestCart.user = userId; 
         guestCart.guestId = undefined;
         await guestCart.save();
 
