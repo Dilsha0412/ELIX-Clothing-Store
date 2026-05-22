@@ -1,9 +1,19 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const userFromStorage = localStorage.getItem("userInfo")
-  ? JSON.parse(localStorage.getItem("userInfo"))
-  : null;
+const getInitialUser = () => {
+  try {
+    const storedUser = localStorage.getItem("userInfo");
+    if (storedUser && storedUser !== "undefined" && storedUser !== "null") {
+      return JSON.parse(storedUser);
+    }
+  } catch (error) {
+    console.error("Error parsing userInfo from localStorage:", error);
+  }
+  return null;
+};
+
+const userFromStorage = getInitialUser();
 
 const initialGuestId =
   localStorage.getItem("guestId") || `guest_${new Date().getTime()}`;
@@ -27,16 +37,17 @@ export const loginUser = createAsyncThunk(
         userData
       );
 
-      localStorage.setItem("userInfo", JSON.stringify(response.data.user));
+      localStorage.setItem("userInfo", JSON.stringify(response.data));
       localStorage.setItem("userToken", response.data.token);
 
-    return response.data.user;
+      return response.data;
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.response?.data || { message: "Login failed" });
     }
   }
 );
 
+// Async Thunk for User Registration
 export const registerUser = createAsyncThunk(
   "auth/registerUser",
   async (userData, { rejectWithValue }) => {
@@ -46,12 +57,12 @@ export const registerUser = createAsyncThunk(
         userData
       );
 
-      localStorage.setItem("userInfo", JSON.stringify(response.data.user));
+      localStorage.setItem("userInfo", JSON.stringify(response.data));
       localStorage.setItem("userToken", response.data.token);
 
-    return response.data.user; 
+      return response.data; 
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.response?.data || { message: "Registration failed" });
     }
   }
 );
@@ -75,32 +86,36 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // Login Handlers
       .addCase(loginUser.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.error = action.payload;
+        state.user = action.payload; // සාර්ථකව user state එකට වැටෙනවා
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload?.message || action.error?.message || "Login failed. Server is unreachable.";      })
+        state.error = action.payload?.message || action.error?.message || "Login failed. Server is unreachable.";
+      })
 
+      // Register Handlers
       .addCase(registerUser.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
       .addCase(registerUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.error = action.payload;
+        state.user = action.payload; // 👈 FIX: කලින් තිබ්බ state.error වෙනුවට state.user කළා
+        state.error = null;
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload?.message || action.error?.message || "Registration failed. Server is unreachable.";      })
+        state.error = action.payload?.message || action.error?.message || "Registration failed. Server is unreachable.";
+      });
   },
 });
 
 export const { logout, generateNewGuestId } = authSlice.actions;
 export default authSlice.reducer;
-

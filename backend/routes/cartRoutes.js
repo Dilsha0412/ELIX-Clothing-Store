@@ -187,12 +187,21 @@ router.get("/", async (req, res) => {
 // @desc Merge guest cart into user cart on login
 // @access Private
 router.post("/merge", protect, async (req, res) => {
-  const { guestId } = req.body;
+  // Frontend එකෙන් එවන guestId එක සහ user එක body එකෙන් ගන්නවා
+  const { guestId, user } = req.body;
 
   try {
+    // req.user (middleware එකෙන්) හෝ body එකෙන් එන user ගෙන් _id එක ආරක්ෂිතව ගන්නවා
+    const userId = req.user ? req.user._id : (user ? user._id : null);
+
+    // userId එකක් නැත්නම් error එකක් යවනවා (Server එක crash වෙන්නේ නෑ)
+    if (!userId) {
+      return res.status(400).json({ message: "User ID is required to merge carts" });
+    }
+
     // Find the guest cart and user cart
     const guestCart = await Cart.findOne({ guestId });
-    const userCart = await Cart.findOne({ user: req.user._id });
+    const userCart = await Cart.findOne({ user: userId });
 
     if (guestCart) {
       if (guestCart.products.length === 0) {
@@ -227,34 +236,32 @@ router.post("/merge", protect, async (req, res) => {
         // Remove the guest cart after merging
         try {
           await Cart.findOneAndDelete({ guestId });
-        }catch (error) {
+        } catch (error) {
           console.error("Error deleting guest cart:", error);
         }
-        res.status(200).json(userCart);
-      }else{
-        // If user has no existing cart,assign the guest cart to the user
-        guestCart.user = req.user._id;
+        return res.status(200).json(userCart);
+      } else {
+        // If user has no existing cart, assign the guest cart to the user
+        guestCart.user = userId; // <-- මෙතනත් අපි අලුත් userId variable එක පාවිච්චි කරනවා
         guestCart.guestId = undefined;
         await guestCart.save();
 
-        res.status(200).json(guestCart);
+        return res.status(200).json(guestCart);
       }
-    }else{
+    } else {
       if (userCart) {
-        // Guest cart has already been merged,return user cart
+        // Guest cart has already been merged, return user cart
         return res.status(200).json(userCart);
       }
 
-      res.status(404).json({ message: "Guest cart not found" });
+      return res.status(404).json({ message: "Guest cart not found" });
     }
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error" });
+    console.error("Cart Merge Error: ", error);
+    return res.status(500).json({ message: "Server error" });
   }
 });
-
 module.exports = router;
-
 
 
 

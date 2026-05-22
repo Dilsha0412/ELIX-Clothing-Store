@@ -1,20 +1,52 @@
-import { useDispatch } from 'react-redux';
-import React, { useState } from "react"; 
-import { Link, useNavigate } from "react-router-dom"; 
+import { useDispatch, useSelector } from 'react-redux';
+import React, { useState, useEffect } from "react"; 
+import { Link, useNavigate, useLocation } from "react-router-dom"; 
 import loginImg from "../assets/login.webp"; 
 import { loginUser } from "../redux/slices/authSlice";
+import { mergeCart } from '../redux/slices/cartSlice';
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const dispatch = useDispatch();
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
+    const location = useLocation();
+    
+    const { user, guestId } = useSelector((state) => state.auth);
+    const { cart } = useSelector((state) => state.cart);
+
+    // Get redirect parameter and check if it's checkout or something
+    const redirect = new URLSearchParams(location.search).get("redirect") || "/";
+    const isCheckoutRedirect = redirect.includes("checkout");
+
+    useEffect(() => {
+        // Backend key mapping එක අනුව id හෝ _id ආරක්ෂිතව කියවීම
+        const userId = user?._id || user?.id;
+
+        if (user && userId) {
+            // Cart එකක් තියෙනවා නම් සහ එකේ products තියෙනවා නම් විතරක් merge කරන්න
+            if (cart && cart.products && cart.products.length > 0 && guestId) {
+                dispatch(mergeCart({ guestId, user }))
+                    .unwrap() // Merge එක සාර්ථක වෙනකම් බලා සිටීම
+                    .then(() => {
+                        navigate(isCheckoutRedirect ? "/checkout" : "/");
+                    })
+                    .catch((err) => {
+                        console.error("Cart merge failed, navigating anyway:", err);
+                        navigate(isCheckoutRedirect ? "/checkout" : "/");
+                    });
+            } else {
+                // Cart එකක් නැත්නම් හෝ හිස් නම් කෙලින්ම ඊළඟ පිටුවට
+                navigate(isCheckoutRedirect ? "/checkout" : "/");
+            }
+        }
+    }, [user, guestId, cart, navigate, isCheckoutRedirect, dispatch]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            // Login කිරීම පමණක් සිදු කරයි. Navigation එක උඩ තියෙන useEffect එකෙන් බලාගනී.
             await dispatch(loginUser({ email, password })).unwrap();
-            navigate("/"); 
         } catch (error) {
             alert(error || "Invalid Credentials! Please try again.");
         }
@@ -68,7 +100,7 @@ const Login = () => {
                     
                     <p className="mt-6 text-center text-sm">
                         Don't have an account?{" "}
-                        <Link to="/register" className="text-blue-500">
+                        <Link to={`/register?redirect=${encodeURIComponent(redirect)}`} className="text-blue-500">
                             Register
                         </Link>
                     </p>

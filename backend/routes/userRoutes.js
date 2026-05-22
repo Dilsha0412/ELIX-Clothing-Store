@@ -30,16 +30,13 @@ router.post("/register", async (req, res) => {
          (err, token) => {
       if (err) throw err;
 
-      res.status(201).json({
-        user: {
-          id: user._id,
-          name: user.name,
-          email: user.email,
-          role: user.role,
-      },
-      token,
-      })
-      
+     res.status(201).json({
+  _id: user._id,
+  name: user.name,
+  email: user.email,
+  role: user.role,
+  token,
+});
      }
 );
     
@@ -78,14 +75,12 @@ router.post("/login", async (req, res) => {
       if (err) throw err;
 
       res.json({
-        user: {
-          id: user._id,
-          name: user.name,
-          email: user.email,
-          role: user.role,
-      },
-      token,
-      })
+  _id: user._id,
+  name: user.name,
+  email: user.email,
+  role: user.role,
+  token,
+});
       
      }
 );
