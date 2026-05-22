@@ -1,15 +1,43 @@
-import { useDispatch } from 'react-redux';
-import React, { useState } from "react"; 
-import { Link, useNavigate } from "react-router-dom"; 
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import registerImg from "../assets/register.webp"; 
 import { registerUser } from "../redux/slices/authSlice";
+import { useSelector, useDispatch } from 'react-redux';
 
 const Register = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const dispatch = useDispatch();
-    const navigate = useNavigate(); 
+    const dispatch = useDispatch();    
+    const navigate = useNavigate();
+    const location = useLocation();
+    
+    const { user, guestId } = useSelector((state) => state.auth);
+    const { cart } = useSelector((state) => state.cart);
+
+    // Get redirect parameter and check if it's checkout or something
+    const redirect = new URLSearchParams(location.search).get("redirect") || "/";
+    const isCheckoutRedirect = redirect.includes("checkout");
+
+    useEffect(() => {
+        const userId = user?._id || user?.id;
+
+        if (user && userId) {
+            if (cart && cart.products && cart.products.length > 0 && guestId) {
+                dispatch(mergeCart({ guestId, user }))
+                    .unwrap() 
+                    .then(() => {
+                        navigate(isCheckoutRedirect ? "/checkout" : "/");
+                    })
+                    .catch((err) => {
+                        console.error("Cart merge failed, navigating anyway:", err);
+                        navigate(isCheckoutRedirect ? "/checkout" : "/");
+                    });
+            } else {
+                navigate(isCheckoutRedirect ? "/checkout" : "/");
+            }
+        }
+    }, [user, guestId, cart, navigate, isCheckoutRedirect, dispatch]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -83,7 +111,7 @@ const Register = () => {
                     
                     <p className="mt-6 text-center text-sm">
                         Already have an account?{" "}
-                        <Link to="/login" className="text-blue-500">
+                        <Link to={`/login?redirect=${encodeURIComponent(redirect)}`} className="text-blue-500">
                             Login
                         </Link>
                     </p>

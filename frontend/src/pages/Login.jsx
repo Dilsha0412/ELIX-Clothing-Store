@@ -20,14 +20,12 @@ const Login = () => {
     const isCheckoutRedirect = redirect.includes("checkout");
 
     useEffect(() => {
-        // Backend key mapping එක අනුව id හෝ _id ආරක්ෂිතව කියවීම
         const userId = user?._id || user?.id;
 
         if (user && userId) {
-            // Cart එකක් තියෙනවා නම් සහ එකේ products තියෙනවා නම් විතරක් merge කරන්න
             if (cart && cart.products && cart.products.length > 0 && guestId) {
                 dispatch(mergeCart({ guestId, user }))
-                    .unwrap() // Merge එක සාර්ථක වෙනකම් බලා සිටීම
+                    .unwrap() 
                     .then(() => {
                         navigate(isCheckoutRedirect ? "/checkout" : "/");
                     })
@@ -36,7 +34,6 @@ const Login = () => {
                         navigate(isCheckoutRedirect ? "/checkout" : "/");
                     });
             } else {
-                // Cart එකක් නැත්නම් හෝ හිස් නම් කෙලින්ම ඊළඟ පිටුවට
                 navigate(isCheckoutRedirect ? "/checkout" : "/");
             }
         }
@@ -45,7 +42,6 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            // Login කිරීම පමණක් සිදු කරයි. Navigation එක උඩ තියෙන useEffect එකෙන් බලාගනී.
             await dispatch(loginUser({ email, password })).unwrap();
         } catch (error) {
             alert(error || "Invalid Credentials! Please try again.");
