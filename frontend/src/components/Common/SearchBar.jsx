@@ -1,21 +1,29 @@
 
 import React, { useState } from 'react'; 
 import { HiMagnifyingGlass, HiMiniXMark } from 'react-icons/hi2';
+import { useDispatch } from 'react-redux';
+import { setFilters } from '../../redux/slices/productsSlice';
+import { fetchProductsByFilters } from '../../redux/slices/productsSlice';
+import { useNavigate } from 'react-router-dom';
 
 const SearchBar = () => {
 
 const [searchTerm, setSearchTerm] = useState("");
-
 const[isOpen, setIsOpen] = useState(false);
+const dispatch = useDispatch();
+const navigate = useNavigate();
+
 
 const handleSearchToggle = () => {
     setIsOpen(!isOpen);
 }
 const handleSearch = (e) => {
     e.preventDefault();
-    console.log("Search Term:", searchTerm);
+    dispatch(setFilters({search: searchTerm}));
+    dispatch(fetchProductsByFilters({search: searchTerm}));
+    navigate(`/collections/all?search=${searchTerm}`);
     setIsOpen(false);
-}
+};
   return (
     <div className={`flex items-center justify-center w-full transition-all duration-300 ${isOpen?
     "absolute top-0 left-0 w-full bg-white h-24 z-50" : "w-auto"}`}>
