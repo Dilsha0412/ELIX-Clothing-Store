@@ -188,6 +188,5 @@ const productsSlice = createSlice({
   },
 });
 
-// Action and Reducer Exports
 export const { setFilters, clearFilters } = productsSlice.actions;
 export default productsSlice.reducer;
