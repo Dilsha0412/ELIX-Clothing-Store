@@ -3,6 +3,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import registerImg from "../assets/register.webp"; 
 import { registerUser } from "../redux/slices/authSlice";
 import { useSelector, useDispatch } from 'react-redux';
+import { mergeCart } from '../redux/slices/cartSlice';
 
 const Register = () => {
     const [name, setName] = useState("");
