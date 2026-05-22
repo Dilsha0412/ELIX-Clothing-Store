@@ -87,7 +87,7 @@ const AdminHomePage = () => {
                       >
                         <td className="p-4">{order._id}</td>
                         <td className="p-4">{order.user?.name || "N/A"}</td>
-                        <td className="p-4">${order.totalPrice}</td>
+                        <td className="p-4">${order.totalPrice.toFixed(2)}</td>
                         <td className="p-4">{order.status}</td>
                       </tr>
                     ))
