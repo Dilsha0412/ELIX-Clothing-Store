@@ -23,7 +23,7 @@ const Home = () => {
     dispatch(
       fetchProductsByFilters({ 
         gender: "Women",
-        category: "Bottom Wears",
+        category: "Bottom Wear",
         limit: 8,
       })
     );
@@ -60,7 +60,7 @@ const Home = () => {
         {/* Product Grid Section */}
         <div className='container mx-auto my-12'>
           <h2 className='text-3xl text-center font-bold mb-4'>
-            Bottom Wears For Women 
+            Bottom Wear For Women 
           </h2>
           <ProductGrid products={products} loading={loading} error={error} />
         </div>
