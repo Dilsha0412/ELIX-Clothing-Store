@@ -1,11 +1,28 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { IoLogoInstagram } from 'react-icons/io'
 import { RiTwitterXFill, RiTwitterXLine } from 'react-icons/ri'
 import { TbBrandMeta } from 'react-icons/tb'
 import { FiPhoneCall } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
+import { toast } from 'sonner'
 
 const Footer = () => {
+  const [email, setEmail] = useState('');
+
+  const handleSubscribe = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/subscribe`,
+        { email }
+      );
+      toast.success(response.data.message || "Successfully subscribed!");
+      setEmail('');
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Subscription failed.");
+    }
+  };
   return <footer className='border-t py-12'>
     <div className='container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 px-4 lg:px-0'>
         <div>
@@ -17,12 +34,14 @@ const Footer = () => {
             <p className='font-medium text-sm text-gray-600 mb-6'>
               Sign up and get 10% off your first order.
             </p>
-            <form className='flex'>
+            <form onSubmit={handleSubscribe} className='flex'>
                 <input 
                 type='email'
                 placeholder='Enter your email'
                 className='p-3 w-full text-sm border border-gray-300 rounded-l-md
                 focus:outline-none focus:ring-gray-500 transition-all'
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required
                 />
                 <button type='submit'
