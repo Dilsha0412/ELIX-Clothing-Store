@@ -301,7 +301,7 @@ const ProductDetails = ({ productId }) => {
           {/* Similar Products Section - Moved outside for full-width layout matching New Arrivals */}
           <div className="mb-16 w-full px-4 sm:px-8 lg:px-16 max-w-[1600px] mx-auto">
             <div className='flex items-center justify-center mb-8 relative'>
-                <h2 className='text-xl md:text-2xl font-semibold uppercase tracking-widest text-center'>
+                <h2 className='text-lg md:text-xl font-bold uppercase tracking-widest text-center'>
                   You May Also Like
                 </h2>
             </div>

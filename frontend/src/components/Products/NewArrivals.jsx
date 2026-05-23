@@ -141,7 +141,7 @@ const NewArrivals = () => {
                             <div className='mt-4 text-center'>
                                 <Link to={`/product/${product._id}`} className='block'>
                                     <h4 className='text-xs font-semibold uppercase tracking-wider text-gray-800 mb-1'>{product.name}</h4>
-                                    <p className='font-bold text-sm text-gray-900'>Rs {Number(product.price).toLocaleString('en-US', {minimumFractionDigits: 2})}</p>
+                                    <p className='font-bold text-sm text-gray-900'>${Number(product.price).toLocaleString('en-US', {minimumFractionDigits: 2})}</p>
                                 </Link>
                             </div>
                         </div>

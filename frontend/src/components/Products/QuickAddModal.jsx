@@ -78,7 +78,7 @@ const QuickAddModal = ({ product, onClose }) => {
           <div>
             <h3 className="font-semibold text-gray-800 line-clamp-2">{product.name}</h3>
             <p className="font-bold text-neutral-900 mt-1">
-              Rs {Number(product.price).toLocaleString("en-US", { minimumFractionDigits: 2 })}
+              ${Number(product.price).toLocaleString("en-US", { minimumFractionDigits: 2 })}
             </p>
           </div>
         </div>
