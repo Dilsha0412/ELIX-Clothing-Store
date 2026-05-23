@@ -43,7 +43,7 @@ const Features = () => {
   return (
     <div className="max-w-5xl mx-auto px-6 py-16">
       <div className="text-center mb-16">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4 tracking-tight">Rabbit Features</h1>
+        <h1 className="text-4xl font-bold text-gray-900 mb-4 tracking-tight">ELIX Features</h1>
         <p className="text-lg text-gray-600 max-w-xl mx-auto">
           We are committed to delivering the ultimate online shopping experience through premium services, ethical craftsmanship, and top-tier customer care.
         </p>

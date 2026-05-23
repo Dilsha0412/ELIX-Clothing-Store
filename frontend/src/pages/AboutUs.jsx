@@ -4,7 +4,7 @@ const AboutUs = () => {
   return (
     <div className="max-w-4xl mx-auto px-6 py-16">
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4 tracking-tight">About Rabbit</h1>
+        <h1 className="text-4xl font-bold text-gray-900 mb-4 tracking-tight">About ELIX</h1>
         <p className="text-lg text-gray-600 max-w-xl mx-auto">
           Crafting premium, everyday essentials that seamlessly blend comfort, functionality, and timeless design.
         </p>
@@ -21,7 +21,7 @@ const AboutUs = () => {
         <div>
           <h2 className="text-2xl font-semibold text-gray-800 mb-4">Our Story</h2>
           <p className="text-gray-600 mb-4 leading-relaxed">
-            Founded with a vision to redefine modern wardrobe essentials, Rabbit was born out of a desire for apparel that keeps up with everyday life. We believe clothing should be comfortable without sacrificing style, and durable enough to accompany you on any journey.
+            Founded with a vision to redefine modern wardrobe essentials, ELIX was born out of a desire for apparel that keeps up with everyday life. We believe clothing should be comfortable without sacrificing style, and durable enough to accompany you on any journey.
           </p>
           <p className="text-gray-600 leading-relaxed">
             From our fabric selection to our tailoring, every detail is meticulously curated to ensure the highest standards of quality and ethical production.

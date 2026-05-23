@@ -26,7 +26,7 @@ const PORT = process.env.PORT || 3000;
 connectDB();
 
 app.get('/', (req, res) => {
-    res.send('Welcome To RABBIT Api!');
+    res.send('Welcome To ELIX Api!');
 });
 
 // API Routes

@@ -59,7 +59,7 @@ const ContactUs = () => {
               <span className="text-xl">✉️</span>
               <div>
                 <h4 className="font-medium text-gray-800 text-sm">Email Address</h4>
-                <p className="text-gray-500 text-xs mt-1">support@rabbit-shop.com</p>
+                <p className="text-gray-500 text-xs mt-1">support@elix-shop.com</p>
               </div>
             </div>
           </div>

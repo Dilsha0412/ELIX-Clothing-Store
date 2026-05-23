@@ -31,7 +31,7 @@ const Navbar = () => {
 
         <div>
             <Link to="/" className='text-2xl font-medium'>
-            Rabbit
+            ELIX
             </Link>
         </div>
 
