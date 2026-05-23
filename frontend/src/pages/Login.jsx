@@ -11,8 +11,7 @@ const Login = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
-    
-    const { user, guestId } = useSelector((state) => state.auth);
+    const { user, guestId,loading } = useSelector((state) => state.auth);
     const { cart } = useSelector((state) => state.cart);
 
     // Get redirect parameter and check if it's checkout or something
@@ -23,28 +22,39 @@ const Login = () => {
         const userId = user?._id || user?.id;
 
         if (user && userId) {
+            if (user.role === "admin") {
+                navigate("/admin");
+                return;
+            }
+
             if (cart && cart.products && cart.products.length > 0 && guestId) {
                 dispatch(mergeCart({ guestId, user }))
                     .unwrap() 
                     .then(() => {
-                        navigate(isCheckoutRedirect ? "/checkout" : "/");
+                        navigate(isCheckoutRedirect ? "/checkout" : redirect); 
                     })
                     .catch((err) => {
                         console.error("Cart merge failed, navigating anyway:", err);
-                        navigate(isCheckoutRedirect ? "/checkout" : "/");
+                        navigate(isCheckoutRedirect ? "/checkout" : redirect);
                     });
             } else {
-                navigate(isCheckoutRedirect ? "/checkout" : "/");
+                navigate(isCheckoutRedirect ? "/checkout" : redirect);
             }
         }
-    }, [user, guestId, cart, navigate, isCheckoutRedirect, dispatch]);
+    }, [user, guestId, cart, navigate, isCheckoutRedirect, redirect]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await dispatch(loginUser({ email, password })).unwrap();
+            const result = await dispatch(loginUser({ email, password })).unwrap();
+            
+            if (result && result.token) {
+                localStorage.setItem("token", result.token);
+                localStorage.setItem("userToken", result.token);
+            }
+            
         } catch (error) {
-            alert(error || "Invalid Credentials! Please try again.");
+            alert(error?.message || error || "Invalid Credentials! Please try again.");
         }
     };
 
@@ -91,7 +101,7 @@ const Login = () => {
                         type="submit"
                         className="w-full bg-black text-white p-2 rounded-lg font-semibold hover:bg-gray-800 transition"
                     >
-                        Sign In
+                        {loading ? "Loading..." : "Sign In"}
                     </button>
                     
                     <p className="mt-6 text-center text-sm">
