@@ -1,26 +1,33 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { updateOrderStatus, fetchAllOrders } from '../../redux/slices/adminOrderSlice';
 
 const OrderManagement = () => {
-  const [orders, setOrders] = useState([
-    {
-      _id: "12312321",
-      user: {
-        name: "John Doe",
-      },
-      totalPrice: 110,
-      status: "Processing",
-    },
-  ]);
+const dispatch = useDispatch();
+const navigate = useNavigate();
+
+const { user } = useSelector((state) => state.auth);
+const { orders, loading, error } = useSelector((state) => state.adminOrders);
+
+useEffect(() => {
+  if (!user || user.role !== "admin") {
+    navigate("/");
+  }else {
+    dispatch(fetchAllOrders());
+  }
+},[dispatch, navigate, user]);
 
   const handleStatusChange = (orderId, newStatus) => {
     console.log(`Order ID: ${orderId} status updated to ${newStatus}`);
 
-    setOrders(orders.map(order => 
-      order._id === orderId ? { ...order, status: newStatus } : order
-    ));
+    dispatch(updateOrderStatus({ id: orderId, status: newStatus }));
 
     alert(`Order #${orderId} status has been updated to ${newStatus}!`);
   };
+
+  if(loading) return <p>Loading...</p>;
+  if(error) return <p >Error: {error}</p>;
 
   return (
     <div className="max-w-7xl mx-auto p-6">
@@ -46,7 +53,7 @@ const OrderManagement = () => {
                   <td className="py-4 px-4 font-medium text-gray-900 whitespace-nowrap">
                     #{order._id}
                   </td>
-                  <td className="p-4">{order.user.name}</td>
+                  <td className="p-4">{order.user?.name || "Unknown"}</td>
                   <td className="p-4">${order.totalPrice}</td>
                   <td className="p-4">
 

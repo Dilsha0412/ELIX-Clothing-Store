@@ -1,11 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+// 1. නිවැරදිව Redux slices වලින් actions import කිරීම (folder structure එකට අනුව)
+import { fetchProductDetails, updateProduct } from "../../redux/slices/adminProductSlice";
 
 const EditProductPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { selectedProduct, loading, error } = useSelector((state) => state.adminProducts);
 
-  //  Product Data 
+  // 2. config file එක වෙනුවට environment variable එක කෙලින්ම variable එකකට ගැනීම
+  const API_URL = import.meta.env.VITE_BACKEND_URL;
+
+  // Product Data State
   const [productData, setProductData] = useState({
     name: "",
     description: "",
@@ -19,38 +31,22 @@ const EditProductPage = () => {
     collections: "",
     material: "",
     gender: "",
-    images: [
-      {
-        url: "https://picsum.photos/150?random=1",
-      },
-      {
-        url: "https://picsum.photos/150?random=2",
-      }
-    ],
+    images: [],
   });
+
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     if (id) {
-        setProductData({
-            name: "Classic Oxford Shirt",
-            description: "This classic Oxford shirt is tailored for a polished yet casual look. Crafted from high-quality cotton, it features a button-down collar and a comfortable, slightly relaxed fit.",
-            price: 39.99,
-            countInStock: 20,
-            sku: "OX-SH-001",
-            category: "Shirts",
-            brand: "Rabbit",
-            sizes: ["S", "M", "L", "XL", "XXL"],
-            colors: ["Red", "Blue", "Yellow", "pink"],
-            collections: "Spring",
-            material: "Cotton",
-            gender: "Men",
-            images: [
-              { url: "https://picsum.photos/150?random=1" },
-              { url: "https://picsum.photos/150?random=2" }
-            ],
-        });
+      dispatch(fetchProductDetails(id));
     }
-  }, [id]);
+  }, [dispatch, id]);
+
+  useEffect(() => {
+    if (selectedProduct) {
+      setProductData(selectedProduct);
+    }
+  }, [selectedProduct]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -60,35 +56,65 @@ const EditProductPage = () => {
     }));
   };
 
-  // Handle image file 
-  const handleImage = (e) => {
-    console.log("File selected:", e.target.files[0]);
+  // Image Upload Handle කිරීම
+  const handleImage = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    console.log("File selected:", file);
+    const formData = new FormData();
+    formData.append("image", file);
+
+    try {
+      setUploading(true);
+      
+      // 3. config එකෙන් ආපු API_URL වෙනුවට ඉහත සාදාගත් variable එක භාවිතා කිරීම
+      const { data } = await axios.post(`${API_URL}/api/upload`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      setProductData((prevData) => ({
+        ...prevData,
+        images: [...prevData.images, { url: data.imageUrl, altText: "" }],
+      }));
+
+      toast.success("Image uploaded successfully!");
+      setUploading(false);
+    } catch (error) {
+      console.error(error);
+      toast.error("Image upload failed.");
+      setUploading(false);
+    }
   };
 
-  // Handle Form Submit
+  // Form එක Submit කිරීම
   const handleSubmit = (e) => {
-    e.preventDefault(); 
-    
+    e.preventDefault();
     console.log(productData);
 
-    alert("Product updated successfully!");
+    // 4. USER_TOKEN එක config එකෙන් ගන්නවා වෙනුවට කෙලින්ම localStorage එකෙන් ලබා ගැනීම (Auth flow වල පොදු ක්‍රමය)
+    const token = localStorage.getItem("userToken"); 
 
-    navigate('/admin/products');
+    dispatch(updateProduct({ id, productData, token }));
+    toast.success("Product updated successfully!");
+    navigate("/admin/products");
   };
+
+  if (loading) return <p className="text-center my-8">Loading...</p>;
+  if (error) return <p className="text-center my-8 text-red-500">Error: {error}</p>;
 
   return (
     <div className="max-w-5xl mx-auto p-6 shadow-md rounded-md bg-white my-8">
       <h2 className="text-3xl font-bold mb-6">Edit Product</h2>
       
       <form onSubmit={handleSubmit}>
-        
-        {/* Name */}
+        {/* Product Name */}
         <div className="mb-6">
           <label className="block font-semibold mb-2">Product Name</label>
           <input
             type="text"
             name="name"
-            value={productData.name}
+            value={productData.name || ""}
             onChange={handleChange}
             className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
@@ -100,7 +126,7 @@ const EditProductPage = () => {
           <label className="block font-semibold mb-2">Description</label>
           <textarea
             name="description"
-            value={productData.description}
+            value={productData.description || ""}
             onChange={handleChange}
             className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             rows={4}
@@ -114,7 +140,7 @@ const EditProductPage = () => {
           <input
             type="number"
             name="price"
-            value={productData.price}
+            value={productData.price || 0}
             onChange={handleChange}
             className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
@@ -127,7 +153,7 @@ const EditProductPage = () => {
           <input
             type="number"
             name="countInStock"
-            value={productData.countInStock}
+            value={productData.countInStock || 0}
             onChange={handleChange}
             className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
@@ -140,7 +166,7 @@ const EditProductPage = () => {
           <input
             type="text"
             name="sku"
-            value={productData.sku}
+            value={productData.sku || ""}
             onChange={handleChange}
             className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
@@ -153,7 +179,7 @@ const EditProductPage = () => {
           <input
             type="text"
             name="sizes"
-            value={productData.sizes.join(", ")}
+            value={productData.sizes ? productData.sizes.join(", ") : ""}
             onChange={(e) =>
               setProductData({
                 ...productData,
@@ -164,13 +190,13 @@ const EditProductPage = () => {
           />
         </div>
 
-        {/* Colors  */}
+        {/* Colors */}
         <div className="mb-6">
           <label className="block font-semibold mb-2">Colors (comma-separated)</label>
           <input
             type="text"
             name="colors"
-            value={productData.colors.join(", ")}
+            value={productData.colors ? productData.colors.join(", ") : ""}
             onChange={(e) =>
               setProductData({
                 ...productData,
@@ -184,16 +210,24 @@ const EditProductPage = () => {
         {/* Image Upload */}
         <div className="mb-6">
           <label className="block font-semibold mb-2">Upload Image</label>
-          <input 
-            type="file" 
-            onChange={handleImage} 
+          <input
+            type="file"
+            onChange={handleImage}
             className="mb-4 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200 cursor-pointer"
           />
-          
+
+          {uploading && <p className="text-blue-500 mb-2">Uploading...</p>}
+
           <div className="flex gap-4">
-             {productData.images.map((img, index) => (
-                 <img key={index} src={img.url} alt={`product-img-${index}`} className="w-24 h-24 object-cover rounded shadow" />
-             ))}
+            {productData.images &&
+              productData.images.map((img, index) => (
+                <img
+                  key={index}
+                  src={img.url}
+                  alt={`product-img-${index}`}
+                  className="w-24 h-24 object-cover rounded shadow"
+                />
+              ))}
           </div>
         </div>
 
@@ -203,7 +237,6 @@ const EditProductPage = () => {
         >
           Update Product
         </button>
-
       </form>
     </div>
   );
