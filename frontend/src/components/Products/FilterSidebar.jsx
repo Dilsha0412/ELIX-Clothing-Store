@@ -11,9 +11,9 @@ const FilterSidebar = () => {
     category:"",
     gender:"",
     color:"",
-    size:"",
-    material:"",
-    brand:"",
+    size:[],
+    material:[],
+    brand:[],
     minPrice:0,
     maxPrice:100,
   });
@@ -109,12 +109,12 @@ const updateURLParams = (newFilters) => {
 };
 
   const handlePriceChange = (e) => {
-    const newPrice = e.target.value;
-    setPriceRange([0,newPrice]);
-    const newFilters = {...filters, minPrice: 0, maxPrice: newPrice};
-    setFilters(filters);
-    updateURLParams(newFilters);
-  };
+     const newPrice = e.target.value;
+     setPriceRange([0,newPrice]);
+     const newFilters = {...filters, minPrice: 0, maxPrice: newPrice};
+     setFilters(newFilters);
+     updateURLParams(newFilters);
+   };
   
   return (
     <div className='p-4'>
