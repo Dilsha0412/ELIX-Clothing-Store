@@ -302,10 +302,10 @@ router.get("/similar/:id", async (req, res) => {
     }
 
     const similarProducts = await Product.find({
-      _id: { $ne: id }, // Exclude the current product
+      _id: { $ne: product._id },
       gender: product.gender,
       category: product.category,
-    }).limit(4); // Limit to 4 similar products
+    }).limit(8); // Limit to 8 similar products
 
     res.json(similarProducts);
 

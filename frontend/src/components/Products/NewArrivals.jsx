@@ -1,5 +1,5 @@
 import React from 'react'
-import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
+import { FiChevronLeft, FiChevronRight, FiHeart, FiEye } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import { useRef, useState, useEffect } from 'react';
 import axios from 'axios';
@@ -72,15 +72,20 @@ const NewArrivals = () => {
     }, [newArrivals]);
 
     return (
-        <section className='py-16 px-4 lg:px-0'>
-            <div className='container mx-auto text-center mb-10 relative'>
-                <h2 className='text-3xl font-bold mb-4'> Explore New Arrivals</h2>
-                <p className='text-lg text-gray-600 mb-8'>
-                    Discover the latest styles straight off the runway, freshly added to
-                    keep your wardrobe on the cutting edge of fashion.
-                </p>
+        <section className='py-16 w-full px-4 sm:px-8 lg:px-16 max-w-[1600px] mx-auto'>
+            <div className='text-center mb-10 relative'>
+                {/* Title with lines */}
+                <div className='flex items-center justify-center mb-4'>
+                    <div className='h-[1px] bg-black flex-1 mx-4'></div>
+                    <h2 className='text-2xl md:text-3xl font-black uppercase tracking-widest'>New Arrivals</h2>
+                    <div className='h-[1px] bg-black flex-1 mx-4'></div>
+                </div>
+                
+                <Link to="/collections/all" className='text-sm text-gray-600 border-b border-gray-600 pb-0.5 mb-8 inline-block'>
+                    View All
+                </Link>
 
-                <div className='absolute right-0 bottom-[-30px] flex space-x-2'>
+                <div className='absolute right-0 bottom-[-30px] flex space-x-2 z-10'>
                     <button 
                         onClick={() => scroll("left")}
                         disabled={!canScrollLeft}
@@ -110,28 +115,52 @@ const NewArrivals = () => {
             {/* Scrollable Content */}
             <div 
                 ref={scrollRef}
-                className={`container mx-auto overflow-x-scroll flex space-x-6 relative no-scrollbar ${
+                className={`overflow-x-scroll flex space-x-6 relative no-scrollbar ${
                     isDragging ? "cursor-grabbing" : "cursor-grab"
-                }`}
+                } pb-10`}
                 onMouseDown={handleMouseDown}
                 onMouseMove={handleMouseMove}
                 onMouseUp={handleMouseUpOrLeave}
                 onMouseLeave={handleMouseUpOrLeave}
             >
                 {newArrivals?.map((product) => (
-                    <div key={product._id} className='min-w-[100%] sm:min-w-[50%] lg:min-w-[30%] relative select-none'>
-                        <Link to={`/product/${product._id}`} className='block'>
-                            <img
-                                src={product.images?.[0]?.url || 'https://via.placeholder.com/500'}
-                                alt={product.images?.[0]?.altText || product.name}
-                                className='w-full h-[500px] object-cover rounded-lg pointer-events-none'
-                                draggable={false}
-                            />
-                        </Link>
-                        <div className='absolute bottom-0 left-0 right-0 bg-opacity-50 backdrop-blur-md text-white p-4 rounded-b-lg'>
+                    <div key={product._id} className='min-w-full sm:min-w-[calc(50%-12px)] lg:min-w-[calc(25%-18px)] w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] shrink-0 relative select-none group'>
+                        <div className='relative overflow-hidden bg-gray-100'>
                             <Link to={`/product/${product._id}`} className='block'>
-                                <h4 className='font-medium'>{product.name}</h4>
-                                <p className='mt-1'>${product.price}</p>
+                                <img
+                                    src={product.images?.[0]?.url || 'https://via.placeholder.com/500'}
+                                    alt={product.images?.[0]?.altText || product.name}
+                                    className='w-full h-[450px] object-cover pointer-events-none transition-transform duration-500 group-hover:scale-105'
+                                    draggable={false}
+                                />
+                            </Link>
+
+                            {/* Badges */}
+                            <div className='absolute top-2 left-2 bg-white px-2 py-0.5 text-xs font-semibold'>
+                                New
+                            </div>
+                            
+                            {/* Icons (Hover or static, screenshot shows them) */}
+                            <div className='absolute top-3 right-3 flex flex-col space-y-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
+                                <button className='bg-white p-2 rounded-full shadow hover:bg-black hover:text-white transition'>
+                                    <FiHeart className='text-lg' />
+                                </button>
+                                <button className='bg-white p-2 rounded-full shadow hover:bg-black hover:text-white transition'>
+                                    <FiEye className='text-lg' />
+                                </button>
+                            </div>
+
+                            {/* Quick Add Bar */}
+                            <button className='absolute bottom-0 left-0 right-0 bg-neutral-900 text-white font-bold py-3 text-sm tracking-widest uppercase opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300'>
+                                Quick Add
+                            </button>
+                        </div>
+                        
+                        {/* Product Info below image */}
+                        <div className='mt-4 text-center'>
+                            <Link to={`/product/${product._id}`} className='block'>
+                                <h4 className='text-xs font-semibold uppercase tracking-wider text-gray-800 mb-1'>{product.name}</h4>
+                                <p className='font-bold text-sm text-gray-900'>Rs {Number(product.price).toLocaleString('en-US', {minimumFractionDigits: 2})}</p>
                             </Link>
                         </div>
                     </div>

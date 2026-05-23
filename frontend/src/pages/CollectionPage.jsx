@@ -42,11 +42,11 @@ const CollectionPage = () => {
     }, []);
 
     return (
-        <div className='flex flex-col lg:flex-row'>
+        <div className='flex flex-col md:flex-row'>
             {/* Mobile Filter Button */}
             <button
                 onClick={toggleSidebar}
-                className="lg:hidden border p-2 flex justify-center items-center m-4 rounded bg-gray-100 hover:bg-gray-200"
+                className="md:hidden border p-2 flex justify-center items-center m-4 rounded bg-gray-100 hover:bg-gray-200"
             >
                 <FaFilter className='mr-2' /> Filters
             </button>
@@ -54,8 +54,8 @@ const CollectionPage = () => {
             {/* Filters Sidebar */}
             <div
                 ref={sidebarRef}
-                className={`fixed inset-y-0 left-0 z-50 w-64 bg-white transform transition-transform duration-300 lg:static lg:translate-x-0 ${
-                    isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+                className={`w-64 bg-white transform transition-transform duration-300 fixed inset-y-0 left-0 z-50 md:relative md:inset-auto md:z-0 ${
+                    isSidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
                 }`}
             >
                 <FilterSidebar />

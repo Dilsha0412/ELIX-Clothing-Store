@@ -7,8 +7,8 @@ import { FiArrowUpRight } from 'react-icons/fi'
 
 const GenderCollectionSection = () => {
   return (
-    <section className='py-16 px-4 lg:px-0'>
-    <div className='container mx-auto flex flex-col md:flex-row gap-8'>
+    <section className='py-16 px-4 md:px-8 lg:px-12'>
+    <div className='w-full flex flex-col md:flex-row gap-8'>
         {/*Womens collection*/}
         <div className='relative flex-1 group overflow-hidden rounded-lg shadow-lg'>
             <img

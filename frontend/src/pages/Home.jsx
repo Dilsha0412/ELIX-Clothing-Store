@@ -50,20 +50,19 @@ const Home = () => {
         <NewArrivals/>
 
         {/* Best Seller */}
-        <h2 className="text-3xl text-center font-bold mb-4">Best Seller</h2>
+        <div className='max-w-7xl mx-auto text-center mb-10 mt-16 px-6 sm:px-12 md:px-16 lg:px-20 relative'>
+            <div className='flex items-center justify-center mb-4'>
+                <div className='h-[1px] bg-black flex-1 mx-4'></div>
+                <h2 className='text-2xl md:text-3xl font-black uppercase tracking-widest'>Best Seller</h2>
+                <div className='h-[1px] bg-black flex-1 mx-4'></div>
+            </div>
+        </div>
         {bestSellerProduct ? (
             <ProductDetails productId={bestSellerProduct._id} />
         ) : (
             <p className="text-center">Loading best seller product ...</p>
         )}
 
-        {/* Product Grid Section */}
-        <div className='container mx-auto my-12'>
-          <h2 className='text-3xl text-center font-bold mb-4'>
-            Bottom Wear For Women 
-          </h2>
-          <ProductGrid products={products} loading={loading} error={error} />
-        </div>
 
         <FeaturedCollection/>
         <FeaturedSection/>
