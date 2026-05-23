@@ -1,5 +1,6 @@
 import React from 'react';
 import Hero from '../components/Layout/Hero';
+import GenderCollectionSection from './GenderCollectionSection';
 import NewArrivals from '../components/Products/NewArrivals';
 import ProductDetails from '../components/Products/ProductDetails';
 import ProductGrid from '../components/Products/ProductGrid';
@@ -45,6 +46,7 @@ const Home = () => {
   return (
     <div>
         <Hero/>
+        <GenderCollectionSection/>
         <NewArrivals/>
 
         {/* Best Seller */}
