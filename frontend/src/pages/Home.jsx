@@ -5,6 +5,7 @@ import ProductDetails from '../components/Products/ProductDetails';
 import ProductGrid from '../components/Products/ProductGrid';
 import FeaturedCollection from '../components/Products/FeaturedCollection';
 import FeaturedSection from '../components/Products/FeaturedSection';
+import GenderCollectionSection from './GenderCollectionSection';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from "react";
 import axios from 'axios'; 
@@ -45,6 +46,7 @@ const Home = () => {
   return (
     <div>
         <Hero/>
+        <GenderCollectionSection/>
         <NewArrivals/>
 
         {/* Best Seller */}

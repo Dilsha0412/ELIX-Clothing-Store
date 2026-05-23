@@ -7,6 +7,7 @@ import { FiChevronLeft, FiChevronRight, FiHeart, FiEye } from 'react-icons/fi';
 
 import { fetchProductDetails, fetchSimilarProducts } from "../../redux/slices/productsSlice";
 import { addToCart } from "../../redux/slices/cartSlice";
+import QuickAddModal from "./QuickAddModal";
 
 const ProductDetails = ({ productId }) => {
   const { id } = useParams();
@@ -22,6 +23,7 @@ const ProductDetails = ({ productId }) => {
   const [selectedColor, setSelectedColor] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const [selectedQuickAddProduct, setSelectedQuickAddProduct] = useState(null);
 
   const scrollRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -299,89 +301,82 @@ const ProductDetails = ({ productId }) => {
           {/* Similar Products Section - Moved outside for full-width layout matching New Arrivals */}
           <div className="mb-16 w-full px-4 sm:px-8 lg:px-16 max-w-[1600px] mx-auto">
             <div className='flex items-center justify-center mb-8 relative'>
-                <div className='h-[1px] bg-black flex-1 mx-4'></div>
-                <h2 className='text-2xl md:text-3xl font-black uppercase tracking-widest text-center'>
+                <h2 className='text-xl md:text-2xl font-semibold uppercase tracking-widest text-center'>
                   You May Also Like
                 </h2>
-                <div className='h-[1px] bg-black flex-1 mx-4'></div>
+            </div>
 
-                {/* Desktop Scroll Buttons */}
-                <div className='absolute right-0 flex space-x-2 z-10 hidden md:flex'>
+            {/* Scrollable Content Container */}
+            <div className="relative group">
+                {/* Floating Left Scroll Button */}
+                {canScrollLeft && (
                     <button 
                         onClick={() => scroll("left")}
-                        disabled={!canScrollLeft}
-                        className={`p-2 rounded border ${
-                            canScrollLeft
-                            ? "bg-white text-black border-gray-300 hover:border-black"
-                            : "bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed"
-                        }`}
+                        className="absolute left-2 top-[225px] -translate-y-1/2 bg-white text-black p-3 rounded-full shadow-lg border border-gray-200 hover:bg-gray-100 hover:scale-110 active:scale-95 opacity-0 group-hover:opacity-100 transition-all duration-300 z-20 pointer-events-none group-hover:pointer-events-auto"
                     >
-                        <FiChevronLeft className='text-2xl'/>
+                        <FiChevronLeft className='text-xl'/>
                     </button>
+                )}
 
-                    <button 
-                        onClick={() => scroll("right")}
-                        disabled={!canScrollRight}
-                        className={`p-2 rounded border ${
-                            canScrollRight
-                            ? "bg-white text-black border-gray-300 hover:border-black"
-                            : "bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed"
-                        }`}
-                    >
-                        <FiChevronRight className='text-2xl'/>
-                    </button>
-                </div>
-            </div>
+                {/* Scrollable Content */}
+                <div 
+                    ref={scrollRef}
+                    className={`overflow-x-scroll flex space-x-6 relative no-scrollbar ${
+                        isDragging ? "cursor-grabbing" : "cursor-grab"
+                    } pb-4`}
+                    onMouseDown={handleMouseDown}
+                    onMouseMove={handleMouseMove}
+                    onMouseUp={handleMouseUpOrLeave}
+                    onMouseLeave={handleMouseUpOrLeave}
+                >
+                    {similarProducts?.map((product) => (
+                        <div key={product._id} className='min-w-full sm:min-w-[calc(50%-12px)] lg:min-w-[calc(25%-18px)] w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] shrink-0 relative select-none group/card'>
+                            <div className='relative overflow-hidden bg-gray-100 rounded-lg'>
+                                <Link to={`/product/${product._id}`} className='block'>
+                                    <img
+                                        src={product.images?.[0]?.url || 'https://via.placeholder.com/500'}
+                                        alt={product.images?.[0]?.altText || product.name}
+                                        className='w-full h-[450px] object-cover pointer-events-none transition-transform duration-500 group-hover/card:scale-105'
+                                        draggable={false}
+                                    />
+                                </Link>
 
-            {/* Scrollable Content */}
-            <div 
-                ref={scrollRef}
-                className={`overflow-x-scroll flex space-x-6 relative no-scrollbar ${
-                    isDragging ? "cursor-grabbing" : "cursor-grab"
-                } pb-4`}
-                onMouseDown={handleMouseDown}
-                onMouseMove={handleMouseMove}
-                onMouseUp={handleMouseUpOrLeave}
-                onMouseLeave={handleMouseUpOrLeave}
-            >
-                {similarProducts?.map((product) => (
-                    <div key={product._id} className='min-w-full sm:min-w-[calc(50%-12px)] lg:min-w-[calc(25%-18px)] w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] shrink-0 relative select-none group'>
-                        <div className='relative overflow-hidden bg-gray-100 rounded-lg'>
-                            <Link to={`/product/${product._id}`} className='block'>
-                                <img
-                                    src={product.images?.[0]?.url || 'https://via.placeholder.com/500'}
-                                    alt={product.images?.[0]?.altText || product.name}
-                                    className='w-full h-[450px] object-cover pointer-events-none transition-transform duration-500 group-hover:scale-105'
-                                    draggable={false}
-                                />
-                            </Link>
-
-                            {/* Icons */}
-                            <div className='absolute top-3 right-3 flex flex-col space-y-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
-                                <button className='bg-white p-2 rounded-full shadow hover:bg-black hover:text-white transition'>
-                                    <FiHeart className='text-lg' />
-                                </button>
-                                <button className='bg-white p-2 rounded-full shadow hover:bg-black hover:text-white transition'>
-                                    <FiEye className='text-lg' />
+                                {/* Quick Add Bar */}
+                                <button 
+                                    onClick={() => setSelectedQuickAddProduct(product)}
+                                    className='absolute bottom-0 left-0 right-0 bg-neutral-900 text-white font-bold py-3 text-sm tracking-widest uppercase opacity-0 translate-y-full group-hover/card:opacity-100 group-hover/card:translate-y-0 transition-all duration-300'
+                                >
+                                    Quick Add
                                 </button>
                             </div>
+                            
+                            {/* Product Info below image */}
+                            <div className='mt-4 text-center'>
+                                <Link to={`/product/${product._id}`} className='block'>
+                                    <h4 className='text-xs font-semibold uppercase tracking-wider text-gray-800 mb-1'>{product.name}</h4>
+                                    <p className='font-bold text-sm text-gray-900'>${Number(product.price).toLocaleString('en-US', {minimumFractionDigits: 2})}</p>
+                                </Link>
+                            </div>
+                        </div>
+                    ))}
+                </div>
 
-                            {/* Quick Add Bar */}
-                            <button className='absolute bottom-0 left-0 right-0 bg-neutral-900 text-white font-bold py-3 text-sm tracking-widest uppercase opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300'>
-                                Quick Add
-                            </button>
-                        </div>
-                        
-                        {/* Product Info below image */}
-                        <div className='mt-4 text-center'>
-                            <Link to={`/product/${product._id}`} className='block'>
-                                <h4 className='text-xs font-semibold uppercase tracking-wider text-gray-800 mb-1'>{product.name}</h4>
-                                <p className='font-bold text-sm text-gray-900'>${Number(product.price).toLocaleString('en-US', {minimumFractionDigits: 2})}</p>
-                            </Link>
-                        </div>
-                    </div>
-                ))}
+                {/* Floating Right Scroll Button */}
+                {canScrollRight && (
+                    <button 
+                        onClick={() => scroll("right")}
+                        className="absolute right-2 top-[225px] -translate-y-1/2 bg-white text-black p-3 rounded-full shadow-lg border border-gray-200 hover:bg-gray-100 hover:scale-110 active:scale-95 opacity-0 group-hover:opacity-100 transition-all duration-300 z-20 pointer-events-none group-hover:pointer-events-auto"
+                    >
+                        <FiChevronRight className='text-xl'/>
+                    </button>
+                )}
             </div>
+            {selectedQuickAddProduct && (
+                <QuickAddModal 
+                    product={selectedQuickAddProduct} 
+                    onClose={() => setSelectedQuickAddProduct(null)} 
+                />
+            )}
           </div>
         </>
       )}
