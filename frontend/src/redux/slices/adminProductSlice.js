@@ -4,6 +4,19 @@ import axios from "axios";
 const API_URL = `${import.meta.env.VITE_BACKEND_URL}`;
 const USER_TOKEN = `Bearer ${localStorage.getItem("userToken")}`;
 
+// 1. තනි භාණ්ඩයක විස්තර ID එක මඟින් ලබා ගැනීමට අලුතින් එක් කළ Thunk එක (EditProductPage එකට අත්‍යවශ්‍යයි)
+export const fetchProductDetails = createAsyncThunk(
+    "adminProducts/fetchProductDetails",
+    async (id, { rejectWithValue }) => {
+        try {
+            const response = await axios.get(`${API_URL}/api/products/${id}`); // backend route එක පරික්ෂා කරගන්න
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || error.message);
+        }
+    }
+);
+
 // async thunk to fetch admin products
 export const fetchAdminProducts = createAsyncThunk(
     "adminProducts/fetchProducts",
@@ -16,7 +29,7 @@ export const fetchAdminProducts = createAsyncThunk(
             });
             return response.data;
         } catch (error) {
-            return rejectWithValue(error.response.data);
+            return rejectWithValue(error.response?.data || error.message);
         }
     }
 );
@@ -27,7 +40,7 @@ export const createProduct = createAsyncThunk(
     async (productData, { rejectWithValue }) => {
         try {
             const response = await axios.post(
-                `${API_URL}/api/admin/products`,
+                `${API_URL}/api/products`,
                 productData,
                 {
                     headers: {
@@ -37,7 +50,7 @@ export const createProduct = createAsyncThunk(
             );
             return response.data;
         } catch (error) {
-            return rejectWithValue(error.response.data);
+            return rejectWithValue(error.response?.data || error.message);
         }
     }
 );
@@ -48,7 +61,7 @@ export const updateProduct = createAsyncThunk(
     async ({ id, productData }, { rejectWithValue }) => {
         try {
             const response = await axios.put(
-                `${API_URL}/api/admin/products/${id}`,
+                `${API_URL}/api/products/${id}`,
                 productData,
                 {
                     headers: {
@@ -58,7 +71,7 @@ export const updateProduct = createAsyncThunk(
             );
             return response.data;
         } catch (error) {
-            return rejectWithValue(error.response.data);
+            return rejectWithValue(error.response?.data || error.message);
         }
     }
 );
@@ -68,12 +81,12 @@ export const deleteProduct = createAsyncThunk(
     "adminProducts/deleteProduct",
     async (id, { rejectWithValue }) => {
         try {
-            await axios.delete(`${API_URL}/api/admin/products/${id}`, {
+            await axios.delete(`${API_URL}/api/products/${id}`, {
                 headers: { Authorization: USER_TOKEN },
             });
             return id;
         } catch (error) {
-            return rejectWithValue(error.response.data);
+            return rejectWithValue(error.response?.data || error.message);
         }
     }
 );
@@ -82,6 +95,7 @@ const adminProductSlice = createSlice({
     name: "adminProducts",
     initialState: {
         products: [],
+        selectedProduct: null, // 2. EditProductPage එකේදී selectedProduct එක read කරන්න මෙතන null ලෙස තැබුවා
         loading: false,
         error: null,
     },
@@ -90,6 +104,7 @@ const adminProductSlice = createSlice({
         builder
             .addCase(fetchAdminProducts.pending, (state) => {
                 state.loading = true;
+                state.error = null;
             })
             .addCase(fetchAdminProducts.fulfilled, (state, action) => {
                 state.loading = false;
@@ -97,13 +112,28 @@ const adminProductSlice = createSlice({
             })
             .addCase(fetchAdminProducts.rejected, (state, action) => {
                 state.loading = false;
-                state.error = action.error.message;
+                state.error = action.payload || action.error.message;
+            })
+
+            // 3. fetchProductDetails සඳහා Reducers කොටස එක් කිරීම
+            .addCase(fetchProductDetails.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchProductDetails.fulfilled, (state, action) => {
+                state.loading = false;
+                state.selectedProduct = action.payload; // ලැබෙන දත්ත selectedProduct එකට දැමීම
+            })
+            .addCase(fetchProductDetails.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload || action.error.message;
             })
 
             // Create Product
             .addCase(createProduct.fulfilled, (state, action) => {
                 state.products.push(action.payload);
             })
+            
             // Update Product
             .addCase(updateProduct.fulfilled, (state, action) => {
                 const index = state.products.findIndex(
@@ -112,6 +142,7 @@ const adminProductSlice = createSlice({
                 if (index !== -1) {
                     state.products[index] = action.payload;
                 }
+                state.selectedProduct = action.payload; // සකස් කල පසු දැනට තෝරාගෙන ඇති product එකත් update කිරීම
             })
             
             // Delete Product
