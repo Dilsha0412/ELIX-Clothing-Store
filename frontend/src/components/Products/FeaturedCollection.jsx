@@ -4,7 +4,7 @@ import featured from "../../assets/Custom-Logo-Wholesales-New-Style-High-Quality
 
 const FeaturedCollection = () => {
   return (
-    <section className='py-16 px-4 lg:px-6'>
+    <section className='pt-16 pb-8 px-4 lg:px-6'>
       <div className='container mx-auto flex flex-col-reverse lg:flex-row items-stretch bg-[#F8F8F8] rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 group'>
 
         {/* Left Content */}

@@ -3,7 +3,7 @@ import { HiOutlineCreditCard, HiShoppingBag } from 'react-icons/hi'
 import { HiArrowPathRoundedSquare } from 'react-icons/hi2';
 
 const FeaturedSection = () => {
-  return <section className='py-16 px-4 bg-white'>
+  return <section className='pb-12 pt-0 px-4 bg-white'>
     <div className='container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-center'>
 
         {/*Feature 1*/}
