@@ -268,11 +268,12 @@ const Checkout = () => {
                 />
                 <div>
                   <h3 className='text-md'>{product.name}</h3>
-                  <p className='text-gray-500'>Size: {product.size}</p>
-                  <p className='text-gray-500'>Color: {product.color}</p>
+                  <p className='text-gray-500 text-sm'>Size: {product.size}</p>
+                  <p className='text-gray-500 text-sm'>Color: {product.color}</p>
+                  <p className='text-gray-500 text-sm'>Qty: {product.quantity}</p>
                 </div>
               </div>
-              <p className='text-xl'>${product.price?.toLocaleString()}</p>
+              <p className='text-xl'>${(product.price * product.quantity)?.toLocaleString()}</p>
             </div>
           ))}
         </div> 

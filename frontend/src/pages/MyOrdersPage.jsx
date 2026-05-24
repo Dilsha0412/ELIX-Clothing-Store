@@ -61,7 +61,7 @@ const MyOrdersPage = () => {
 
                                 <td className='py-2 px-2 sm:py-4 sm:px-4'>
                                     {order.shippingAddress
-                                    ? `{order.shippingAddress.city}, ${order.shippingAddress.country}`
+                                    ? `${order.shippingAddress.city}, ${order.shippingAddress.country}`
                                     :"N/A"}
                                 </td>
 
@@ -78,7 +78,7 @@ const MyOrdersPage = () => {
                                             order.isPaid
                                              ? "bg-green-100 text-green-700"
                                               : 'bg-red-100 text-red-700'
-                                              }px-2 py-1 rounded-full text-xs sm:text-sm font-medium`}
+                                              } px-2 py-1 rounded-full text-xs sm:text-sm font-medium`}
                                               >{order.isPaid ? "Paid" : "Pending"}</span>
                                     </td>
                             </tr>

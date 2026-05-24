@@ -1,6 +1,8 @@
 import { Link, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchOrderDetails } from '../redux/slices/orderSlice';
 
 
 
@@ -32,7 +34,7 @@ const OrderDetailsPage = () => {
                             Order ID: #{orderDetails._id}
                         </h3>
                         <p className='text-gray-600'>
-                            {new Date(orderDetails.createdAT).toLocaleDateString()}
+                            {new Date(orderDetails.createdAt).toLocaleDateString()}
                         </p>
                     </div>
                     <div className='flex flex-col items-start sm:items-end mt-4 sm:mt-0'>
@@ -69,7 +71,7 @@ const OrderDetailsPage = () => {
                         <p>Shipping Method: {orderDetails.shippingMethod}</p>
                         <p>
                             Address:{" "}
-                            {`${orderDetails.shippingAdddress.city}, ${orderDetails.shippingAdddress.country}`}
+                            {`${orderDetails.shippingAddress.city}, ${orderDetails.shippingAddress.country}`}
                         </p>
                     </div>
                 </div>
@@ -104,9 +106,9 @@ const OrderDetailsPage = () => {
                                     </td>
 
                                     <td className='py-2 px-4'>${item.price}</td>
-                                    <td className='py-2 px-4'>{item.Quantity}</td>
+                                    <td className='py-2 px-4'>{item.quantity}</td>
                                     <td className='py-2 px-4'>
-                                        ${item.price * item.Quantity}
+                                        ${item.price * item.quantity}
                                     </td>
                                 </tr>
                             ))}
