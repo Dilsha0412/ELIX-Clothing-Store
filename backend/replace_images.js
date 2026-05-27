@@ -15,15 +15,15 @@ mongoose.connect(process.env.MONGO_URI).then(async () => {
 
     // List all files in assets
     const files = fs.readdirSync(frontendAssetsDir);
-    
+
     // Filter out non-product images
     const excluded = [
-        'login.webp', 'register.webp', 'rabbit-hero.webp', 
+        'login.webp', 'register.webp', 'rabbit-hero.webp',
         'react.svg', 'react (1).svg', 'images.jpg', 'images (1).jpg', 'featured.webp'
     ];
-    
+
     const validImages = files.filter(f => !excluded.includes(f) && (f.endsWith('.jpg') || f.endsWith('.jpeg') || f.endsWith('.webp') || f.endsWith('.avif') || f.endsWith('.png')));
-    
+
     console.log(`Found ${validImages.length} valid product images.`);
 
     // Copy to public
@@ -35,21 +35,20 @@ mongoose.connect(process.env.MONGO_URI).then(async () => {
     // Update DB
     const products = await Product.find();
     let imgIndex = 0;
-    
+
     for (let p of products) {
-        // Assign 1 or 2 images randomly or sequentially
         const img1 = validImages[imgIndex % validImages.length];
         const img2 = validImages[(imgIndex + 1) % validImages.length];
-        
+
         p.images = [
             { url: `/${img1}`, altText: p.name },
             { url: `/${img2}`, altText: p.name + " alternate" }
         ];
-        
+
         await p.save();
         imgIndex += 2;
     }
-    
+
     console.log(`Updated ${products.length} products with local images.`);
     process.exit(0);
 

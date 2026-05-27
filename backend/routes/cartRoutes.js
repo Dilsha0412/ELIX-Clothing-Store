@@ -2,10 +2,8 @@ const express = require("express");
 const Cart = require("../models/Cart");
 const Product = require("../models/Product");
 const { protect } = require("../middleware/authMiddleware");
-
 const router = express.Router();
 
-// Helper function to get a cart by user Id or guest ID
 const getCart = async (userId, guestId) => {
   if (userId) {
     return await Cart.findOne({ user: userId });
@@ -26,8 +24,6 @@ router.post("/", async (req, res) => {
 
     // Determine if the user is logged in or guest
     let cart = await getCart(userId, guestId);
-
-    // If the cart exists, update it
     if (cart) {
       const productIndex = cart.products.findIndex(
         (p) =>
@@ -37,7 +33,6 @@ router.post("/", async (req, res) => {
       );
 
       if (productIndex > -1) {
-        // If the product already exists, update the quantity
         cart.products[productIndex].quantity += quantity;
       } else {
         // add new product
@@ -109,7 +104,7 @@ router.put("/", async (req, res) => {
       if (quantity > 0) {
         cart.products[productIndex].quantity = quantity;
       } else {
-        cart.products.splice(productIndex, 1); 
+        cart.products.splice(productIndex, 1);
       }
 
       cart.totalPrice = cart.products.reduce(
@@ -195,7 +190,6 @@ router.post("/merge", protect, async (req, res) => {
     if (!userId) {
       return res.status(400).json({ message: "User ID is required to merge carts" });
     }
-
     // Find the guest cart and user cart
     const guestCart = await Cart.findOne({ guestId });
     const userCart = await Cart.findOne({ user: userId });
@@ -234,7 +228,7 @@ router.post("/merge", protect, async (req, res) => {
         }
         return res.status(200).json(userCart);
       } else {
-        guestCart.user = userId; 
+        guestCart.user = userId;
         guestCart.guestId = undefined;
         await guestCart.save();
 
@@ -242,7 +236,6 @@ router.post("/merge", protect, async (req, res) => {
       }
     } else {
       if (userCart) {
-        // Guest cart has already been merged, return user cart
         return res.status(200).json(userCart);
       }
 
@@ -253,6 +246,7 @@ router.post("/merge", protect, async (req, res) => {
     return res.status(500).json({ message: "Server error" });
   }
 });
+
 module.exports = router;
 
 

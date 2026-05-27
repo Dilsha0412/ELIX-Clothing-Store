@@ -4,7 +4,6 @@ const jwt = require("jsonwebtoken");
 const { protect } = require("../middleware/authMiddleware");
 const router = express.Router();
 
-
 // @route POST /api/users/register
 // @desc Register a new user
 // @access Public
@@ -16,30 +15,29 @@ router.post("/register", async (req, res) => {
     let user = await User.findOne({ email });
 
     if (user) return res.status(400).json({ message: "User already exists" });
-      user = new User({ name, email, password });
-      await user.save();
+    user = new User({ name, email, password });
+    await user.save();
 
-      // Create JWT Payload
+    // Create JWT Payload
     const payload = { user: { id: user._id, role: user.role } };
 
     //Sign and return JWT
     jwt.sign(
-        payload,
-         process.env.JWT_SECRET,
-         {expiresIn: "40h"}, 
-         (err, token) => {
-      if (err) throw err;
+      payload,
+      process.env.JWT_SECRET,
+      { expiresIn: "40h" },
+      (err, token) => {
+        if (err) throw err;
 
-     res.status(201).json({
-  _id: user._id,
-  name: user.name,
-  email: user.email,
-  role: user.role,
-  token,
-});
-     }
-);
-    
+        res.status(201).json({
+          _id: user._id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+          token,
+        });
+      }
+    );
 
   } catch (error) {
     console.log(error);
@@ -53,7 +51,7 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
-  try{
+  try {
     // Find user by email
     let user = await User.findOne({ email });
 
@@ -61,42 +59,39 @@ router.post("/login", async (req, res) => {
     const isMatch = await user.matchPassword(password);
 
     if (!isMatch)
-         return res.status(400).json({ message: "Invalid Credentials" });
-
-      // Create JWT Payload
+      return res.status(400).json({ message: "Invalid Credentials" });
     const payload = { user: { id: user._id, role: user.role } };
 
     //Sign and return JWT
     jwt.sign(
-        payload,
-         process.env.JWT_SECRET,
-         {expiresIn: "40h"}, 
-         (err, token) => {
-      if (err) throw err;
+      payload,
+      process.env.JWT_SECRET,
+      { expiresIn: "40h" },
+      (err, token) => {
+        if (err) throw err;
 
-      res.json({
-  _id: user._id,
-  name: user.name,
-  email: user.email,
-  role: user.role,
-  token,
-});
-      
-     }
-);
+        res.json({
+          _id: user._id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+          token,
+        });
 
-} catch (error) {
+      }
+    );
+
+  } catch (error) {
     console.error(error);
     res.status(500).send("Server Error");
-
-}
+  }
 });
 
 // @route GET /api/users/profile
 // @desc Get logged-in user's profile (Protected Route)
 // @access Private
-router.get("/profile",protect, async (req, res) => {
-    res.json(req.user);
+router.get("/profile", protect, async (req, res) => {
+  res.json(req.user);
 });
 
 module.exports = router;

@@ -11,7 +11,6 @@ router.post("/subscribe", async (req, res) => {
     if (!email) {
         return res.status(400).json({ message: "Email is required" });
     }
-
     try {
         // Check if the email is already subscribed
         let subscriber = await Subscriber.findOne({ email });

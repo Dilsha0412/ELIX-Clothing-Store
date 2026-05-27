@@ -1,8 +1,6 @@
 const express = require("express");
 const Product = require("../models/Product");
 const { protect, admin } = require("../middleware/authMiddleware");
-
-
 const router = express.Router();
 
 // @route POST /api/products
@@ -52,7 +50,7 @@ router.post("/", protect, admin, async (req, res) => {
       dimensions,
       weight,
       sku,
-      user: req.user._id, // Reference to the admin user who created it
+      user: req.user._id,
     });
 
     const createdProduct = await product.save();
@@ -68,7 +66,7 @@ router.post("/", protect, admin, async (req, res) => {
 // @access Private/Admin
 router.put("/:id", protect, admin, async (req, res) => {
   try {
-     const {
+    const {
       name,
       description,
       price,
@@ -114,7 +112,6 @@ router.put("/:id", protect, admin, async (req, res) => {
       product.dimensions = dimensions || product.dimensions;
       product.weight = weight || product.weight;
       product.sku = sku || product.sku;
-
       const updatedProduct = await product.save();
       res.json(updatedProduct);
     } else {
@@ -124,7 +121,6 @@ router.put("/:id", protect, admin, async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).send("Server Error");
-
   }
 });
 
@@ -296,8 +292,8 @@ router.get("/similar/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const product = await Product.findById(id);
-    
-    if(!product) {
+
+    if (!product) {
       return res.status(404).json({ message: "Product Not Found" });
     }
 
@@ -309,11 +305,11 @@ router.get("/similar/:id", async (req, res) => {
 
     res.json(similarProducts);
 
-}
-catch (error) {
-  console.error(error);
-  res.status(500).send("Server Error");
-}
+  }
+  catch (error) {
+    console.error(error);
+    res.status(500).send("Server Error");
+  }
 });
 
 module.exports = router;

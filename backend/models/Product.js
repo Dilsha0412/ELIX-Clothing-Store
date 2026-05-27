@@ -1,27 +1,26 @@
 const mongoose = require("mongoose");
-
 const productSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
-  price: {
-    type: Number,
-    required: true,
-  },
-  discountPrice: {
-    type: Number,
-  },
-  countInStock: {
-    type: Number,
-    required: true,
-  },
-  countInStock: {
+    name: {
+        type: String,
+        required: true,
+        trim: true,
+    },
+    description: {
+        type: String,
+        required: true,
+    },
+    price: {
+        type: Number,
+        required: true,
+    },
+    discountPrice: {
+        type: Number,
+    },
+    countInStock: {
+        type: Number,
+        required: true,
+    },
+    countInStock: {
         type: Number,
         required: true,
         default: 0,
@@ -106,7 +105,7 @@ const productSchema = new mongoose.Schema({
     },
     weight: Number,
 },
-{ timestamps: true }
+    { timestamps: true }
 );
 
 module.exports = mongoose.model("Product", productSchema);
