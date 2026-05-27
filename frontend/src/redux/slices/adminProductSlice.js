@@ -4,12 +4,11 @@ import axios from "axios";
 const API_URL = `${import.meta.env.VITE_BACKEND_URL}`;
 const USER_TOKEN = `Bearer ${localStorage.getItem("userToken")}`;
 
-// 1. තනි භාණ්ඩයක විස්තර ID එක මඟින් ලබා ගැනීමට අලුතින් එක් කළ Thunk එක (EditProductPage එකට අත්‍යවශ්‍යයි)
 export const fetchProductDetails = createAsyncThunk(
     "adminProducts/fetchProductDetails",
     async (id, { rejectWithValue }) => {
         try {
-            const response = await axios.get(`${API_URL}/api/products/${id}`); // backend route එක පරික්ෂා කරගන්න
+            const response = await axios.get(`${API_URL}/api/products/${id}`);
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response?.data || error.message);
@@ -95,7 +94,7 @@ const adminProductSlice = createSlice({
     name: "adminProducts",
     initialState: {
         products: [],
-        selectedProduct: null, // 2. EditProductPage එකේදී selectedProduct එක read කරන්න මෙතන null ලෙස තැබුවා
+        selectedProduct: null,
         loading: false,
         error: null,
     },
@@ -115,14 +114,13 @@ const adminProductSlice = createSlice({
                 state.error = action.payload || action.error.message;
             })
 
-            // 3. fetchProductDetails සඳහා Reducers කොටස එක් කිරීම
             .addCase(fetchProductDetails.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })
             .addCase(fetchProductDetails.fulfilled, (state, action) => {
                 state.loading = false;
-                state.selectedProduct = action.payload; // ලැබෙන දත්ත selectedProduct එකට දැමීම
+                state.selectedProduct = action.payload;
             })
             .addCase(fetchProductDetails.rejected, (state, action) => {
                 state.loading = false;
@@ -133,7 +131,7 @@ const adminProductSlice = createSlice({
             .addCase(createProduct.fulfilled, (state, action) => {
                 state.products.push(action.payload);
             })
-            
+
             // Update Product
             .addCase(updateProduct.fulfilled, (state, action) => {
                 const index = state.products.findIndex(
@@ -142,9 +140,9 @@ const adminProductSlice = createSlice({
                 if (index !== -1) {
                     state.products[index] = action.payload;
                 }
-                state.selectedProduct = action.payload; // සකස් කල පසු දැනට තෝරාගෙන ඇති product එකත් update කිරීම
+                state.selectedProduct = action.payload;
             })
-            
+
             // Delete Product
             .addCase(deleteProduct.fulfilled, (state, action) => {
                 state.products = state.products.filter(

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
-
 import slide1Img from "../../assets/a-male-model-wearing-a-black-suit.webp";
 import slide2Img from "../../assets/8551370_blue.webp";
 import slide3Img from "../../assets/blackbrown.webp";
@@ -36,7 +35,6 @@ const Hero = () => {
       alt: "Latest Autumn Collection",
       content: (
         <div className="absolute inset-0 w-full h-full grid grid-cols-1 md:grid-cols-2">
-          {/* Left Side: Clean Image positioned from top */}
           <div className="relative w-full h-full overflow-hidden">
             <img
               src={slide2Img}
@@ -45,11 +43,9 @@ const Hero = () => {
             />
           </div>
 
-          {/* Right Side: Promotion / Bank Cards in Steel/Slate Blue to match the girl's sky-blue outfit */}
           <div className="relative w-full h-full bg-[#5c86a6] text-white flex flex-col justify-center items-center p-8 md:p-12 overflow-y-auto">
-            {/* Elegant background ornament or subtle grid */}
             <div className="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:16px_16px]"></div>
-            
+
             <div className="relative z-10 max-w-lg w-full text-center flex flex-col items-center">
               <span className="text-[10px] md:text-xs font-bold tracking-[0.4em] text-amber-200 uppercase mb-3">
                 Partnership Discounts
@@ -58,7 +54,6 @@ const Hero = () => {
                 25% OFF
               </h2>
 
-              {/* Grid of Bank Offers */}
               <div className="grid grid-cols-2 gap-5 md:gap-6 w-full">
                 {/* Card 1 */}
                 <div className="bg-white text-neutral-900 rounded-2xl py-6 px-5 md:py-8 md:px-6 flex flex-col items-center justify-between shadow-xl border border-neutral-100 hover:scale-[1.03] transition-transform duration-300">
@@ -154,9 +149,8 @@ const Hero = () => {
         {slides.map((slide, index) => (
           <div
             key={index}
-            className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out ${
-              index === currentSlide ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
-            }`}
+            className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out ${index === currentSlide ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
+              }`}
           >
             {/* Slide Image */}
             {!slide.isSplit && (
@@ -180,7 +174,7 @@ const Hero = () => {
       >
         <FiChevronLeft className="h-5 w-5 md:h-6 md:w-6" />
       </button>
-      
+
       <button
         onClick={handleNext}
         className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white text-neutral-800 rounded-full p-2.5 md:p-3 shadow-md hover:shadow-lg hover:scale-110 active:scale-95 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto"
@@ -195,9 +189,8 @@ const Hero = () => {
           <button
             key={index}
             onClick={() => setCurrentSlide(index)}
-            className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
-              index === currentSlide ? "bg-neutral-900 w-6" : "bg-neutral-400 hover:bg-neutral-600"
-            }`}
+            className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${index === currentSlide ? "bg-neutral-900 w-6" : "bg-neutral-400 hover:bg-neutral-600"
+              }`}
             aria-label={`Go to slide ${index + 1}`}
           />
         ))}

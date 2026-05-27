@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchAdminProducts } from '../redux/slices/adminProductSlice'; 
+import { fetchAdminProducts } from '../redux/slices/adminProductSlice';
 import { fetchAllOrders } from '../redux/slices/adminOrderSlice';
 
 const AdminHomePage = () => {
   const dispatch = useDispatch();
-
   const {
     products,
     loading: productsLoading,
@@ -29,7 +28,7 @@ const AdminHomePage = () => {
   return (
     <div className="max-w-7xl mx-auto p-6">
       <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
-      
+
       {productsLoading || ordersLoading ? (
         <p className="text-center py-10">Loading...</p>
       ) : productsError ? (

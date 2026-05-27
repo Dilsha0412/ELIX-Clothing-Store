@@ -6,18 +6,16 @@ import { clearCart } from '../redux/slices/cartSlice';
 const OrderConfirmationPage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { checkout } = useSelector((state) => state.checkout); 
-    
-    //Clear the cart when the order is confirmed
+    const { checkout } = useSelector((state) => state.checkout);
+
     useEffect(() => {
         if (checkout && checkout._id) {
             dispatch(clearCart());
             localStorage.removeItem("cart");
-        }else {
+        } else {
             navigate("/my-orders");
         }
     }, [checkout, dispatch, navigate]);
-
 
     const calculateEstimatedDelivery = (createdAt) => {
         const orderDate = new Date(createdAt);
@@ -84,23 +82,23 @@ const OrderConfirmationPage = () => {
                         <div>
                             <h4 className='text-lg font-semibold mb-2'>Payment</h4>
                             <p className='text-gray-600'>PayPal</p>
-                  </div>
+                        </div>
 
-                  {/* Delivery Info */}
-                  <div>
-                    <h4 className='text-lg font-semibold mb-2'>Delivery</h4>
-                    <p className='text-gray-600'>
-                        {checkout.shippingAddress.address}
-                    </p>
-                    <p className='text-gray-600'>
-                        {checkout.shippingAddress.city}, {" "}
-                        {checkout.shippingAddress.country}
-                    </p>
-                     </div>
+                        {/* Delivery Info */}
+                        <div>
+                            <h4 className='text-lg font-semibold mb-2'>Delivery</h4>
+                            <p className='text-gray-600'>
+                                {checkout.shippingAddress.address}
+                            </p>
+                            <p className='text-gray-600'>
+                                {checkout.shippingAddress.city}, {" "}
+                                {checkout.shippingAddress.country}
+                            </p>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        )}
-    </div>
+            )}
+        </div>
     );
 };
 

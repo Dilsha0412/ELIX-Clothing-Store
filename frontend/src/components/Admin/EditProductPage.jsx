@@ -5,7 +5,6 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-// 1. නිවැරදිව Redux slices වලින් actions import කිරීම (folder structure එකට අනුව)
 import { fetchProductDetails, updateProduct } from "../../redux/slices/adminProductSlice";
 
 const EditProductPage = () => {
@@ -14,7 +13,6 @@ const EditProductPage = () => {
   const dispatch = useDispatch();
   const { selectedProduct, loading, error } = useSelector((state) => state.adminProducts);
 
-  // 2. config file එක වෙනුවට environment variable එක කෙලින්ම variable එකකට ගැනීම
   const API_URL = import.meta.env.VITE_BACKEND_URL;
 
   // Product Data State
@@ -56,7 +54,6 @@ const EditProductPage = () => {
     }));
   };
 
-  // Image Upload Handle කිරීම
   const handleImage = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -67,8 +64,7 @@ const EditProductPage = () => {
 
     try {
       setUploading(true);
-      
-      // 3. config එකෙන් ආපු API_URL වෙනුවට ඉහත සාදාගත් variable එක භාවිතා කිරීම
+
       const { data } = await axios.post(`${API_URL}/api/upload`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
@@ -87,13 +83,12 @@ const EditProductPage = () => {
     }
   };
 
-  // Form එක Submit කිරීම
+  // Form Submit
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(productData);
 
-    // 4. USER_TOKEN එක config එකෙන් ගන්නවා වෙනුවට කෙලින්ම localStorage එකෙන් ලබා ගැනීම (Auth flow වල පොදු ක්‍රමය)
-    const token = localStorage.getItem("userToken"); 
+    const token = localStorage.getItem("userToken");
 
     dispatch(updateProduct({ id, productData, token }));
     toast.success("Product updated successfully!");
@@ -106,7 +101,7 @@ const EditProductPage = () => {
   return (
     <div className="max-w-5xl mx-auto p-6 shadow-md rounded-md bg-white my-8">
       <h2 className="text-3xl font-bold mb-6">Edit Product</h2>
-      
+
       <form onSubmit={handleSubmit}>
         {/* Product Name */}
         <div className="mb-6">

@@ -50,7 +50,7 @@ export const fetchProductDetails = createAsyncThunk(
   }
 );
 
-// Async thunk to update a product (requires admin auth token)
+// Async thunk to update a product
 export const updateProduct = createAsyncThunk(
   "products/updateProduct",
   async ({ id, productData }) => {
@@ -83,7 +83,7 @@ const productsSlice = createSlice({
   name: "products",
   initialState: {
     products: [],
-    selectedProduct: null, // Store the details of the single Product
+    selectedProduct: null,
     similarProducts: [],
     loading: false,
     error: null,

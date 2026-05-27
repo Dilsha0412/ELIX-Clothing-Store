@@ -204,7 +204,7 @@ const cartSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload?.message || "Failed to merge cart";
             });
-    } 
+    }
 });
 
 export const { clearCart } = cartSlice.actions;

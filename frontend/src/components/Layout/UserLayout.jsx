@@ -6,17 +6,12 @@ import { Outlet } from 'react-router-dom';
 const UserLayout = () => {
   return (
     <>
-    <Header/>
-
-    {/*Main content*/}
-    <main>
-
-      <Outlet/>
-
-    </main>
-    
-    <Footer/>
-
+      <Header />
+      {/*Main content*/}
+      <main>
+        <Outlet />
+      </main>
+      <Footer />
     </>
   );
 };

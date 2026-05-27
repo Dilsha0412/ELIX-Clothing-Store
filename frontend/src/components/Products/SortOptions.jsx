@@ -3,22 +3,21 @@ import { useSearchParams } from 'react-router-dom';
 
 const SortOptions = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-
   const handleSortChange = (e) => {
     const sortBy = e.target.value;
-    
+
     const newParams = new URLSearchParams(searchParams);
     if (sortBy) {
       newParams.set("sortBy", sortBy);
     } else {
-      newParams.delete("sortBy"); 
+      newParams.delete("sortBy");
     }
     setSearchParams(newParams);
   };
-    
+
   return (
     <div className='mb-4 flex items-center justify-end'>
-      <select 
+      <select
         id='sort'
         onChange={handleSortChange}
         value={searchParams.get("sortBy") || ""}

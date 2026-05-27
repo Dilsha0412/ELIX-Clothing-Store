@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
-import React, { useState, useEffect } from "react"; 
-import { Link, useNavigate, useLocation } from "react-router-dom"; 
-import loginImg from "../assets/login.webp"; 
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import loginImg from "../assets/login.webp";
 import { loginUser } from "../redux/slices/authSlice";
 import { mergeCart } from '../redux/slices/cartSlice';
 
@@ -11,10 +11,8 @@ const Login = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
-    const { user, guestId,loading } = useSelector((state) => state.auth);
+    const { user, guestId, loading } = useSelector((state) => state.auth);
     const { cart } = useSelector((state) => state.cart);
-
-    // Get redirect parameter and check if it's checkout or something
     const redirect = new URLSearchParams(location.search).get("redirect") || "/";
     const isCheckoutRedirect = redirect.includes("checkout");
 
@@ -29,9 +27,9 @@ const Login = () => {
 
             if (cart && cart.products && cart.products.length > 0 && guestId) {
                 dispatch(mergeCart({ guestId, user }))
-                    .unwrap() 
+                    .unwrap()
                     .then(() => {
-                        navigate(isCheckoutRedirect ? "/checkout" : redirect); 
+                        navigate(isCheckoutRedirect ? "/checkout" : redirect);
                     })
                     .catch((err) => {
                         console.error("Cart merge failed, navigating anyway:", err);
@@ -47,12 +45,12 @@ const Login = () => {
         e.preventDefault();
         try {
             const result = await dispatch(loginUser({ email, password })).unwrap();
-            
+
             if (result && result.token) {
                 localStorage.setItem("token", result.token);
                 localStorage.setItem("userToken", result.token);
             }
-            
+
         } catch (error) {
             alert(error?.message || error || "Invalid Credentials! Please try again.");
         }
@@ -61,7 +59,7 @@ const Login = () => {
     return (
         <div className="flex">
             <div className="w-full md:w-1/2 flex flex-col justify-center items-center p-8 md:p-12">
-                <form 
+                <form
                     onSubmit={handleSubmit}
                     className="w-full max-w-md bg-white p-8 rounded-lg border shadow-sm"
                 >
@@ -72,10 +70,10 @@ const Login = () => {
                     <p className="text-center mb-6">
                         Enter your username and password to Login
                     </p>
-                    
+
                     <div className="mb-4">
                         <label className="block text-sm font-semibold mb-2">Email</label>
-                        <input 
+                        <input
                             type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
@@ -84,10 +82,10 @@ const Login = () => {
                             required
                         />
                     </div>
-                    
+
                     <div className="mb-4">
                         <label className="block text-sm font-semibold mb-2">Password</label>
-                        <input 
+                        <input
                             type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
@@ -96,14 +94,14 @@ const Login = () => {
                             required
                         />
                     </div>
-                    
-                    <button 
+
+                    <button
                         type="submit"
                         className="w-full bg-black text-white p-2 rounded-lg font-semibold hover:bg-gray-800 transition"
                     >
                         {loading ? "Loading..." : "Sign In"}
                     </button>
-                    
+
                     <p className="mt-6 text-center text-sm">
                         Don't have an account?{" "}
                         <Link to={`/register?redirect=${encodeURIComponent(redirect)}`} className="text-blue-500">

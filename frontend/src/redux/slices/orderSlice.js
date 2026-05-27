@@ -36,7 +36,7 @@ export const fetchOrderDetails = createAsyncThunk(
             );
             return response.data;
         } catch (error) {
-            return rejectWithValue(error.response.data); // Fixed missing return keyword
+            return rejectWithValue(error.response.data);
         }
     }
 );
@@ -65,7 +65,7 @@ const orderSlice = createSlice({
             })
             .addCase(fetchUserOrders.rejected, (state, action) => {
                 state.loading = false;
-                state.error = action.payload.message; // Corrected typo from ".messafe" to ".message"
+                state.error = action.payload.message;
             })
 
             // Fetch order details

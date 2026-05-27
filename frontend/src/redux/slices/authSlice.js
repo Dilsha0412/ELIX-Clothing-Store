@@ -14,7 +14,6 @@ const getInitialUser = () => {
 };
 
 const userFromStorage = getInitialUser();
-
 const initialGuestId =
   localStorage.getItem("guestId") || `guest_${new Date().getTime()}`;
 localStorage.setItem("guestId", initialGuestId);
@@ -60,7 +59,7 @@ export const registerUser = createAsyncThunk(
       localStorage.setItem("userInfo", JSON.stringify(response.data));
       localStorage.setItem("userToken", response.data.token);
 
-      return response.data; 
+      return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || { message: "Registration failed" });
     }
@@ -74,10 +73,10 @@ const authSlice = createSlice({
   reducers: {
     logout: (state) => {
       state.user = null;
-      state.guestId = `guest_${new Date().getTime()}`; 
+      state.guestId = `guest_${new Date().getTime()}`;
       localStorage.removeItem("userInfo");
       localStorage.removeItem("userToken");
-      localStorage.setItem("guestId", state.guestId); 
+      localStorage.setItem("guestId", state.guestId);
     },
     generateNewGuestId: (state) => {
       state.guestId = `guest_${new Date().getTime()}`;
@@ -93,7 +92,7 @@ const authSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload; 
+        state.user = action.payload;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;

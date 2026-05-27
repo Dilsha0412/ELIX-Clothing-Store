@@ -4,7 +4,6 @@ import ProductGrid from "./ProductGrid";
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { FiChevronLeft, FiChevronRight, FiHeart, FiEye } from 'react-icons/fi';
-
 import { fetchProductDetails, fetchSimilarProducts } from "../../redux/slices/productsSlice";
 import { addToCart } from "../../redux/slices/cartSlice";
 import QuickAddModal from "./QuickAddModal";
@@ -12,12 +11,12 @@ import QuickAddModal from "./QuickAddModal";
 const ProductDetails = ({ productId }) => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  
+
   const { selectedProduct, loading, error, similarProducts } = useSelector(
     (state) => state.products
   );
   const { user, guestId } = useSelector((state) => state.auth);
-  
+
   const [mainImage, setMainImage] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
@@ -28,49 +27,49 @@ const ProductDetails = ({ productId }) => {
   const scrollRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
-  const [scrollLeft, setScrollLeft] = useState(0); 
+  const [scrollLeft, setScrollLeft] = useState(0);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
 
   const handleMouseDown = (e) => {
-      setIsDragging(true);
-      setStartX(e.pageX - scrollRef.current.offsetLeft);
-      setScrollLeft(scrollRef.current.scrollLeft);
+    setIsDragging(true);
+    setStartX(e.pageX - scrollRef.current.offsetLeft);
+    setScrollLeft(scrollRef.current.scrollLeft);
   };
 
   const handleMouseMove = (e) => {
-      if (!isDragging) return;
-      const x = e.pageX - scrollRef.current.offsetLeft;
-      const walk = x - startX;
-      scrollRef.current.scrollLeft = scrollLeft - walk;
+    if (!isDragging) return;
+    const x = e.pageX - scrollRef.current.offsetLeft;
+    const walk = x - startX;
+    scrollRef.current.scrollLeft = scrollLeft - walk;
   };
 
-  const handleMouseUpOrLeave = () => { 
-      setIsDragging(false);
+  const handleMouseUpOrLeave = () => {
+    setIsDragging(false);
   };
 
   const scroll = (direction) => {
-      const scrollAmount = direction === "left" ? -300 : 300;
-      scrollRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
+    const scrollAmount = direction === "left" ? -300 : 300;
+    scrollRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
   };
 
   const updateScrollButtons = () => {
-      const container = scrollRef.current;
-      if (container) {
-          const leftScroll = container.scrollLeft;
-          const rightScrollable = container.scrollWidth > Math.ceil(leftScroll + container.clientWidth);
-          setCanScrollLeft(leftScroll > 0);
-          setCanScrollRight(rightScrollable); 
-      }
+    const container = scrollRef.current;
+    if (container) {
+      const leftScroll = container.scrollLeft;
+      const rightScrollable = container.scrollWidth > Math.ceil(leftScroll + container.clientWidth);
+      setCanScrollLeft(leftScroll > 0);
+      setCanScrollRight(rightScrollable);
+    }
   };
-      
+
   useEffect(() => {
-      const container = scrollRef.current;
-      if (container) {
-          container.addEventListener("scroll", updateScrollButtons);
-          updateScrollButtons();
-          return () => container.removeEventListener("scroll", updateScrollButtons);
-      }
+    const container = scrollRef.current;
+    if (container) {
+      container.addEventListener("scroll", updateScrollButtons);
+      updateScrollButtons();
+      return () => container.removeEventListener("scroll", updateScrollButtons);
+    }
   }, [similarProducts]);
 
   const productFetchId = productId || id;
@@ -124,7 +123,7 @@ const ProductDetails = ({ productId }) => {
       .finally(() => {
         setIsButtonDisabled(false);
       });
-  };  
+  };
 
   if (loading) {
     return <p className="text-center py-10">Loading...</p>;
@@ -139,243 +138,235 @@ const ProductDetails = ({ productId }) => {
       {selectedProduct && (
         <>
           <div className="p-6">
-          {/* Product Details Card */}
-          <div className="max-w-6xl mx-auto bg-white p-8 rounded-lg shadow-sm mb-12">
-            <div className="flex flex-col md:flex-row gap-6 md:gap-10 items-stretch">
-            
-            {/* Left Desktop Thumbnails */}
-            <div className="hidden md:flex flex-col space-y-4 shrink-0">
-              {selectedProduct?.images?.map((image, index) => (
-                <img
-                  key={index}
-                  src={image.url}
-                  alt={image.altText || `Thumbnail ${index}`}
-                  className={`w-20 h-20 object-cover rounded-lg cursor-pointer border-2 ${
-                    mainImage === image.url ? "border-black" : "border-gray-200"
-                  }`}
-                  onClick={() => setMainImage(image.url)}
-                />
-              ))}
-            </div>
-
-            {/* Middle Main Image */}
-            <div className="flex-1 flex flex-col">
-              <div className="flex-1 mb-4 md:mb-0 flex">
-                {mainImage && (
-                  <img
-                    src={mainImage}
-                    alt="Main Product"
-                    className="w-full md:h-full h-[400px] object-cover rounded-lg shadow-sm"
-                  />
-                )}
-              </div>
-              
-              {/* Mobile Thumbnails */}
-              <div className="md:hidden flex overflow-x-auto space-x-4 mb-4">
-                {selectedProduct?.images?.map((image, index) => (
-                  <img
-                    key={index}
-                    src={image.url}
-                    alt={image.altText || `Thumbnail ${index}`}
-                    className={`w-20 h-20 object-cover rounded-lg border-2 ${
-                      mainImage === image.url ? "border-black" : "border-transparent"
-                    }`}
-                    onClick={() => setMainImage(image.url)}
-                  />
-                ))}
-              </div>
-            </div>
-
-            {/* Right Info Section */}
-            <div className="flex-1">
-              <h1 className="text-2xl md:text-3xl font-semibold mb-2">
-                {selectedProduct.name}
-              </h1>
-
-              <div className="mb-2">
-                <p className="text-lg text-gray-400 line-through">
-                  ${selectedProduct.originalPrice}
-                </p>
-                <p className="text-2xl font-bold text-gray-900">
-                  ${selectedProduct.price}
-                </p>
-              </div>
-
-              <p className="text-gray-600 mb-4 leading-relaxed">
-                {selectedProduct.description}
-              </p>
-
-              {/* Color Selection */}
-              <div className="mb-4">
-                <p className="text-gray-700 font-medium">Color:</p>
-                <div className="flex gap-3 mt-2">
-                  {selectedProduct?.colors?.map((color) => (
-                    <button
-                      key={color}
-                      onClick={() => setSelectedColor(color)}
-                      className={`w-8 h-8 rounded-full border-2 transition-transform hover:scale-110 ${
-                        selectedColor === color ? "border-black" : "border-gray-300"
-                      }`}
-                      style={{ backgroundColor: color.toLowerCase() }}
+            {/* Product Details Card */}
+            <div className="max-w-6xl mx-auto bg-white p-8 rounded-lg shadow-sm mb-12">
+              <div className="flex flex-col md:flex-row gap-6 md:gap-10 items-stretch">
+                <div className="hidden md:flex flex-col space-y-4 shrink-0">
+                  {selectedProduct?.images?.map((image, index) => (
+                    <img
+                      key={index}
+                      src={image.url}
+                      alt={image.altText || `Thumbnail ${index}`}
+                      className={`w-20 h-20 object-cover rounded-lg cursor-pointer border-2 ${mainImage === image.url ? "border-black" : "border-gray-200"
+                        }`}
+                      onClick={() => setMainImage(image.url)}
                     />
                   ))}
                 </div>
-              </div>
 
-              {/* Size Selection */}
-              <div className="mb-4">
-                <p className="text-gray-700 font-medium">Size:</p>
-                <div className="flex gap-2 mt-2">
-                  {selectedProduct?.sizes?.map((size) => (
-                    <button
-                      key={size}
-                      onClick={() => setSelectedSize(size)}
-                      className={`px-4 py-2 border rounded-md transition-colors ${
-                        selectedSize === size
-                          ? "bg-black text-white border-black"
-                          : "bg-white text-black border-gray-300 hover:bg-gray-100"
+                {/* Middle Main Image */}
+                <div className="flex-1 flex flex-col">
+                  <div className="flex-1 mb-4 md:mb-0 flex">
+                    {mainImage && (
+                      <img
+                        src={mainImage}
+                        alt="Main Product"
+                        className="w-full md:h-full h-[400px] object-cover rounded-lg shadow-sm"
+                      />
+                    )}
+                  </div>
+
+                  {/* Mobile Thumbnails */}
+                  <div className="md:hidden flex overflow-x-auto space-x-4 mb-4">
+                    {selectedProduct?.images?.map((image, index) => (
+                      <img
+                        key={index}
+                        src={image.url}
+                        alt={image.altText || `Thumbnail ${index}`}
+                        className={`w-20 h-20 object-cover rounded-lg border-2 ${mainImage === image.url ? "border-black" : "border-transparent"
+                          }`}
+                        onClick={() => setMainImage(image.url)}
+                      />
+                    ))}
+                  </div>
+                </div>
+
+                {/* Right Info Section */}
+                <div className="flex-1">
+                  <h1 className="text-2xl md:text-3xl font-semibold mb-2">
+                    {selectedProduct.name}
+                  </h1>
+
+                  <div className="mb-2">
+                    <p className="text-lg text-gray-400 line-through">
+                      ${selectedProduct.originalPrice}
+                    </p>
+                    <p className="text-2xl font-bold text-gray-900">
+                      ${selectedProduct.price}
+                    </p>
+                  </div>
+
+                  <p className="text-gray-600 mb-4 leading-relaxed">
+                    {selectedProduct.description}
+                  </p>
+
+                  {/* Color Selection */}
+                  <div className="mb-4">
+                    <p className="text-gray-700 font-medium">Color:</p>
+                    <div className="flex gap-3 mt-2">
+                      {selectedProduct?.colors?.map((color) => (
+                        <button
+                          key={color}
+                          onClick={() => setSelectedColor(color)}
+                          className={`w-8 h-8 rounded-full border-2 transition-transform hover:scale-110 ${selectedColor === color ? "border-black" : "border-gray-300"
+                            }`}
+                          style={{ backgroundColor: color.toLowerCase() }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Size Selection */}
+                  <div className="mb-4">
+                    <p className="text-gray-700 font-medium">Size:</p>
+                    <div className="flex gap-2 mt-2">
+                      {selectedProduct?.sizes?.map((size) => (
+                        <button
+                          key={size}
+                          onClick={() => setSelectedSize(size)}
+                          className={`px-4 py-2 border rounded-md transition-colors ${selectedSize === size
+                              ? "bg-black text-white border-black"
+                              : "bg-white text-black border-gray-300 hover:bg-gray-100"
+                            }`}
+                        >
+                          {size}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Quantity Selector */}
+                  <div className="mb-4">
+                    <p className="text-gray-700 font-medium">Quantity:</p>
+                    <div className="flex items-center space-x-4 mt-2">
+                      <button
+                        onClick={() => handleQuantityChange("minus")}
+                        className="px-3 py-1 bg-gray-100 rounded-md text-xl hover:bg-gray-200 transition"
+                      >
+                        -
+                      </button>
+                      <span className="text-lg font-medium w-4 text-center">{quantity}</span>
+                      <button
+                        onClick={() => handleQuantityChange("plus")}
+                        className="px-3 py-1 bg-gray-100 rounded-md text-xl hover:bg-gray-200 transition"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Add to Cart Button */}
+                  <button
+                    onClick={handleAddToCart}
+                    disabled={isButtonDisabled}
+                    className={`bg-black text-white py-2 px-6 rounded-lg w-full mb-4 font-semibold transition shadow-md ${isButtonDisabled
+                        ? "cursor-not-allowed opacity-50"
+                        : "hover:bg-gray-800"
                       }`}
-                    >
-                      {size}
-                    </button>
-                  ))}
+                  >
+                    {isButtonDisabled ? "Adding..." : "ADD TO CART"}
+                  </button>
+
+                  {/* Characteristics Table */}
+                  <div className="border-t pt-4">
+                    <h3 className="text-lg font-bold mb-2 text-gray-900">
+                      Characteristics
+                    </h3>
+                    <table className="w-full text-left text-sm text-gray-600">
+                      <tbody>
+                        <tr className="border-b">
+                          <td className="py-2 font-semibold text-gray-800">Brand</td>
+                          <td className="py-2 text-gray-600">{selectedProduct.brand}</td>
+                        </tr>
+                        <tr className="border-b">
+                          <td className="py-2 font-semibold text-gray-800">Material</td>
+                          <td className="py-2 text-gray-600">{selectedProduct.material}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
-
-              {/* Quantity Selector */}
-              <div className="mb-4">
-                <p className="text-gray-700 font-medium">Quantity:</p>
-                <div className="flex items-center space-x-4 mt-2">
-                  <button
-                    onClick={() => handleQuantityChange("minus")}
-                    className="px-3 py-1 bg-gray-100 rounded-md text-xl hover:bg-gray-200 transition"
-                  >
-                    -
-                  </button>
-                  <span className="text-lg font-medium w-4 text-center">{quantity}</span>
-                  <button
-                    onClick={() => handleQuantityChange("plus")}
-                    className="px-3 py-1 bg-gray-100 rounded-md text-xl hover:bg-gray-200 transition"
-                  >
-                    +
-                  </button>
-                </div>
-              </div>
-
-              {/* Add to Cart Button */}
-              <button 
-                onClick={handleAddToCart} 
-                disabled={isButtonDisabled} 
-                className={`bg-black text-white py-2 px-6 rounded-lg w-full mb-4 font-semibold transition shadow-md ${
-                  isButtonDisabled 
-                    ? "cursor-not-allowed opacity-50" 
-                    : "hover:bg-gray-800"
-                }`}
-              >
-                {isButtonDisabled ? "Adding..." : "ADD TO CART"}
-              </button>
-
-              {/* Characteristics Table */}
-              <div className="border-t pt-4">
-                <h3 className="text-lg font-bold mb-2 text-gray-900">
-                  Characteristics
-                </h3>
-                <table className="w-full text-left text-sm text-gray-600">
-                  <tbody>
-                    <tr className="border-b">
-                      <td className="py-2 font-semibold text-gray-800">Brand</td>
-                      <td className="py-2 text-gray-600">{selectedProduct.brand}</td>
-                    </tr>
-                    <tr className="border-b">
-                      <td className="py-2 font-semibold text-gray-800">Material</td>
-                      <td className="py-2 text-gray-600">{selectedProduct.material}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>            
-            </div>       
-          </div>
-          </div> {/* Close Product Details Card */}
+            </div> {/* Close Product Details Card */}
           </div> {/* Close top padding wrapper */}
-          
+
           {/* Similar Products Section - Moved outside for full-width layout matching New Arrivals */}
           <div className="mb-16 w-full px-4 sm:px-8 lg:px-16 max-w-[1600px] mx-auto">
             <div className='flex items-center justify-center mb-8 relative'>
-                <h2 className='text-lg md:text-xl font-bold uppercase tracking-widest text-center'>
-                  You May Also Like
-                </h2>
+              <h2 className='text-lg md:text-xl font-bold uppercase tracking-widest text-center'>
+                You May Also Like
+              </h2>
             </div>
 
             {/* Scrollable Content Container */}
             <div className="relative group">
-                {/* Floating Left Scroll Button */}
-                {canScrollLeft && (
-                    <button 
-                        onClick={() => scroll("left")}
-                        className="absolute left-2 top-[225px] -translate-y-1/2 bg-white text-black p-3 rounded-full shadow-lg border border-gray-200 hover:bg-gray-100 hover:scale-110 active:scale-95 opacity-0 group-hover:opacity-100 transition-all duration-300 z-20 pointer-events-none group-hover:pointer-events-auto"
-                    >
-                        <FiChevronLeft className='text-xl'/>
-                    </button>
-                )}
-
-                {/* Scrollable Content */}
-                <div 
-                    ref={scrollRef}
-                    className={`overflow-x-scroll flex space-x-6 relative no-scrollbar ${
-                        isDragging ? "cursor-grabbing" : "cursor-grab"
-                    } pb-4`}
-                    onMouseDown={handleMouseDown}
-                    onMouseMove={handleMouseMove}
-                    onMouseUp={handleMouseUpOrLeave}
-                    onMouseLeave={handleMouseUpOrLeave}
+              {/* Floating Left Scroll Button */}
+              {canScrollLeft && (
+                <button
+                  onClick={() => scroll("left")}
+                  className="absolute left-2 top-[225px] -translate-y-1/2 bg-white text-black p-3 rounded-full shadow-lg border border-gray-200 hover:bg-gray-100 hover:scale-110 active:scale-95 opacity-0 group-hover:opacity-100 transition-all duration-300 z-20 pointer-events-none group-hover:pointer-events-auto"
                 >
-                    {similarProducts?.map((product) => (
-                        <div key={product._id} className='min-w-full sm:min-w-[calc(50%-12px)] lg:min-w-[calc(25%-18px)] w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] shrink-0 relative select-none group/card'>
-                            <div className='relative overflow-hidden bg-gray-100 rounded-lg'>
-                                <Link to={`/product/${product._id}`} className='block'>
-                                    <img
-                                        src={product.images?.[0]?.url || 'https://via.placeholder.com/500'}
-                                        alt={product.images?.[0]?.altText || product.name}
-                                        className='w-full h-[450px] object-cover pointer-events-none transition-transform duration-500 group-hover/card:scale-105'
-                                        draggable={false}
-                                    />
-                                </Link>
+                  <FiChevronLeft className='text-xl' />
+                </button>
+              )}
 
-                                {/* Quick Add Bar */}
-                                <button 
-                                    onClick={() => setSelectedQuickAddProduct(product)}
-                                    className='absolute bottom-0 left-0 right-0 bg-neutral-900 text-white font-bold py-3 text-sm tracking-widest uppercase opacity-0 translate-y-full group-hover/card:opacity-100 group-hover/card:translate-y-0 transition-all duration-300'
-                                >
-                                    Quick Add
-                                </button>
-                            </div>
-                            
-                            {/* Product Info below image */}
-                            <div className='mt-4 text-center'>
-                                <Link to={`/product/${product._id}`} className='block'>
-                                    <h4 className='text-xs font-semibold uppercase tracking-wider text-gray-800 mb-1'>{product.name}</h4>
-                                    <p className='font-bold text-sm text-gray-900'>${Number(product.price).toLocaleString('en-US', {minimumFractionDigits: 2})}</p>
-                                </Link>
-                            </div>
-                        </div>
-                    ))}
-                </div>
+              {/* Scrollable Content */}
+              <div
+                ref={scrollRef}
+                className={`overflow-x-scroll flex space-x-6 relative no-scrollbar ${isDragging ? "cursor-grabbing" : "cursor-grab"
+                  } pb-4`}
+                onMouseDown={handleMouseDown}
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUpOrLeave}
+                onMouseLeave={handleMouseUpOrLeave}
+              >
+                {similarProducts?.map((product) => (
+                  <div key={product._id} className='min-w-full sm:min-w-[calc(50%-12px)] lg:min-w-[calc(25%-18px)] w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] shrink-0 relative select-none group/card'>
+                    <div className='relative overflow-hidden bg-gray-100 rounded-lg'>
+                      <Link to={`/product/${product._id}`} className='block'>
+                        <img
+                          src={product.images?.[0]?.url || 'https://via.placeholder.com/500'}
+                          alt={product.images?.[0]?.altText || product.name}
+                          className='w-full h-[450px] object-cover pointer-events-none transition-transform duration-500 group-hover/card:scale-105'
+                          draggable={false}
+                        />
+                      </Link>
 
-                {/* Floating Right Scroll Button */}
-                {canScrollRight && (
-                    <button 
-                        onClick={() => scroll("right")}
-                        className="absolute right-2 top-[225px] -translate-y-1/2 bg-white text-black p-3 rounded-full shadow-lg border border-gray-200 hover:bg-gray-100 hover:scale-110 active:scale-95 opacity-0 group-hover:opacity-100 transition-all duration-300 z-20 pointer-events-none group-hover:pointer-events-auto"
-                    >
-                        <FiChevronRight className='text-xl'/>
-                    </button>
-                )}
+                      {/* Quick Add Bar */}
+                      <button
+                        onClick={() => setSelectedQuickAddProduct(product)}
+                        className='absolute bottom-0 left-0 right-0 bg-neutral-900 text-white font-bold py-3 text-sm tracking-widest uppercase opacity-0 translate-y-full group-hover/card:opacity-100 group-hover/card:translate-y-0 transition-all duration-300'
+                      >
+                        Quick Add
+                      </button>
+                    </div>
+
+                    {/* Product Info below image */}
+                    <div className='mt-4 text-center'>
+                      <Link to={`/product/${product._id}`} className='block'>
+                        <h4 className='text-xs font-semibold uppercase tracking-wider text-gray-800 mb-1'>{product.name}</h4>
+                        <p className='font-bold text-sm text-gray-900'>${Number(product.price).toLocaleString('en-US', { minimumFractionDigits: 2 })}</p>
+                      </Link>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Floating Right Scroll Button */}
+              {canScrollRight && (
+                <button
+                  onClick={() => scroll("right")}
+                  className="absolute right-2 top-[225px] -translate-y-1/2 bg-white text-black p-3 rounded-full shadow-lg border border-gray-200 hover:bg-gray-100 hover:scale-110 active:scale-95 opacity-0 group-hover:opacity-100 transition-all duration-300 z-20 pointer-events-none group-hover:pointer-events-auto"
+                >
+                  <FiChevronRight className='text-xl' />
+                </button>
+              )}
             </div>
             {selectedQuickAddProduct && (
-                <QuickAddModal 
-                    product={selectedQuickAddProduct} 
-                    onClose={() => setSelectedQuickAddProduct(null)} 
-                />
+              <QuickAddModal
+                product={selectedQuickAddProduct}
+                onClose={() => setSelectedQuickAddProduct(null)}
+              />
             )}
           </div>
         </>
