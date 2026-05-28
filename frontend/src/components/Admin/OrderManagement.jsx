@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { updateOrderStatus, fetchAllOrders } from '../../redux/slices/adminOrderSlice';
@@ -9,6 +9,7 @@ const navigate = useNavigate();
 
 const { user } = useSelector((state) => state.auth);
 const { orders, loading, error } = useSelector((state) => state.adminOrders);
+const [openDropdownId, setOpenDropdownId] = useState(null);
 
 useEffect(() => {
   if (!user || user.role !== "admin") {
@@ -58,19 +59,49 @@ useEffect(() => {
                   </td>
                   <td className="py-4 px-6 text-sm font-medium text-neutral-800">{order.user?.name || "Unknown"}</td>
                   <td className="py-4 px-6 text-sm font-semibold text-neutral-900">${order.totalPrice.toFixed(2)}</td>
-                  <td className="py-4 px-6 text-sm">
+                  <td className="py-4 px-6 text-sm relative">
+                    <div className="relative inline-block text-left">
+                      <button
+                        type="button"
+                        onClick={() => setOpenDropdownId(openDropdownId === order._id ? null : order._id)}
+                        className="inline-flex justify-between items-center w-36 border border-neutral-200 px-3 py-1.5 text-xs text-neutral-800 font-semibold bg-white hover:border-black transition rounded-none cursor-pointer"
+                      >
+                        <span>{order.status}</span>
+                        <svg className="ml-2 h-3.5 w-3.5 text-neutral-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </button>
 
-                    {/* Status Dropdown */}
-                    <select
-                      value={order.status}
-                      onChange={(e) => handleStatusChange(order._id, e.target.value)}
-                      className="border border-neutral-200 bg-white text-neutral-800 text-xs font-semibold p-2 rounded-none focus:border-black outline-none cursor-pointer"
-                    >
-                      <option value="Processing">Processing</option>
-                      <option value="Shipped">Shipped</option>
-                      <option value="Delivered">Delivered</option>
-                      <option value="Cancelled">Cancelled</option>
-                    </select>
+                      {openDropdownId === order._id && (
+                        <>
+                          <div 
+                            className="fixed inset-0 z-30" 
+                            onClick={() => setOpenDropdownId(null)}
+                          />
+                          <div className="absolute left-0 mt-1 w-36 bg-white border border-neutral-200 shadow-md z-40 rounded-none">
+                            <div className="py-1">
+                              {["Processing", "Shipped", "Delivered", "Cancelled"].map((status) => (
+                                <button
+                                  key={status}
+                                  type="button"
+                                  onClick={() => {
+                                    handleStatusChange(order._id, status);
+                                    setOpenDropdownId(null);
+                                  }}
+                                  className={`w-full text-left px-4 py-2 text-xs font-semibold uppercase tracking-wider block transition ${
+                                    order.status === status 
+                                      ? "bg-black text-white" 
+                                      : "text-neutral-700 hover:bg-neutral-100 hover:text-black"
+                                  }`}
+                                >
+                                  {status}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        </>
+                      )}
+                    </div>
                   </td>
                   
                   <td className="py-4 px-6 text-center">

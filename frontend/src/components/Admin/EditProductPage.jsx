@@ -34,6 +34,7 @@ const EditProductPage = () => {
   const [sizesInput, setSizesInput] = useState("");
   const [colorsInput, setColorsInput] = useState("");
   const [uploading, setUploading] = useState(false);
+  const [isGenderOpen, setIsGenderOpen] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -291,18 +292,50 @@ const EditProductPage = () => {
 
         {/* Gender & Collections */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-          <div>
+          <div className="relative">
             <label className="block text-xs font-bold uppercase tracking-wider text-neutral-500 mb-2">Gender</label>
-            <select
-              name="gender"
-              value={productData.gender}
-              onChange={handleChange}
-              className="w-full border border-neutral-300 rounded-none p-3 text-sm focus:outline-none focus:border-black transition bg-white cursor-pointer"
-            >
-              <option value="Men">Men</option>
-              <option value="Women">Women</option>
-              <option value="Unisex">Unisex</option>
-            </select>
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setIsGenderOpen(!isGenderOpen)}
+                className="w-full inline-flex justify-between items-center border border-neutral-300 p-3 text-sm focus:border-black transition bg-white rounded-none cursor-pointer text-left"
+              >
+                <span>{productData.gender}</span>
+                <svg className="ml-2 h-4 w-4 text-neutral-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              {isGenderOpen && (
+                <>
+                  <div 
+                    className="fixed inset-0 z-30" 
+                    onClick={() => setIsGenderOpen(false)}
+                  />
+                  <div className="absolute left-0 mt-1 w-full bg-white border border-neutral-300 shadow-md z-40 rounded-none">
+                    <div className="py-1">
+                      {["Men", "Women", "Unisex"].map((g) => (
+                        <button
+                          key={g}
+                          type="button"
+                          onClick={() => {
+                            setProductData({ ...productData, gender: g });
+                            setIsGenderOpen(false);
+                          }}
+                          className={`w-full text-left px-4 py-2.5 text-xs font-semibold uppercase tracking-wider block transition ${
+                            productData.gender === g 
+                              ? "bg-black text-white" 
+                              : "text-neutral-700 hover:bg-neutral-100 hover:text-black"
+                          }`}
+                        >
+                          {g}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
           </div>
           <div>
             <label className="block text-xs font-bold uppercase tracking-wider text-neutral-500 mb-2">Collection</label>

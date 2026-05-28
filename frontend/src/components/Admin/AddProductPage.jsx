@@ -32,6 +32,7 @@ const AddProductPage = () => {
   const [sizesInput, setSizesInput] = useState("");
   const [colorsInput, setColorsInput] = useState("");
   const [uploading, setUploading] = useState(false);
+  const [isGenderOpen, setIsGenderOpen] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -122,33 +123,36 @@ const AddProductPage = () => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto p-6 shadow-md rounded-md bg-white my-8">
-      <h2 className="text-3xl font-bold mb-6">Create New Product</h2>
+    <div className="max-w-5xl mx-auto p-6 shadow-none border border-neutral-200 bg-white my-8 rounded-none">
+      <div className="mb-6">
+        <h2 className="text-3xl font-black uppercase tracking-wider text-black mb-1">Create New Product</h2>
+        <p className="text-xs text-neutral-500 tracking-wide font-medium">Add standard information and media for a new catalog item</p>
+      </div>
 
       <form onSubmit={handleSubmit}>
         {/* Product Name */}
         <div className="mb-6">
-          <label className="block font-semibold mb-2">Product Name</label>
+          <label className="block text-xs font-bold uppercase tracking-wider text-neutral-500 mb-2">Product Name</label>
           <input
             type="text"
             name="name"
             value={productData.name}
             onChange={handleChange}
             placeholder="Enter product name"
-            className="w-full border border-gray-300 rounded-md p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full border border-neutral-300 rounded-none p-3 text-sm focus:outline-none focus:border-black transition bg-white"
             required
           />
         </div>
 
         {/* Description */}
         <div className="mb-6">
-          <label className="block font-semibold mb-2">Description</label>
+          <label className="block text-xs font-bold uppercase tracking-wider text-neutral-500 mb-2">Description</label>
           <textarea
             name="description"
             value={productData.description}
             onChange={handleChange}
             placeholder="Enter product description"
-            className="w-full border border-gray-300 rounded-md p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full border border-neutral-300 rounded-none p-3 text-sm focus:outline-none focus:border-black transition bg-white"
             rows={4}
             required
           />
@@ -157,7 +161,7 @@ const AddProductPage = () => {
         {/* Price & Discount Price */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           <div>
-            <label className="block font-semibold mb-2">Price ($)</label>
+            <label className="block text-xs font-bold uppercase tracking-wider text-neutral-500 mb-2">Price ($)</label>
             <input
               type="number"
               name="price"
@@ -166,12 +170,12 @@ const AddProductPage = () => {
               placeholder="0.00"
               min="0"
               step="0.01"
-              className="w-full border border-gray-300 rounded-md p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-neutral-300 rounded-none p-3 text-sm focus:outline-none focus:border-black transition bg-white"
               required
             />
           </div>
           <div>
-            <label className="block font-semibold mb-2">Discount Price ($)</label>
+            <label className="block text-xs font-bold uppercase tracking-wider text-neutral-500 mb-2">Discount Price ($)</label>
             <input
               type="number"
               name="discountPrice"
@@ -180,7 +184,7 @@ const AddProductPage = () => {
               placeholder="0.00 (Optional)"
               min="0"
               step="0.01"
-              className="w-full border border-gray-300 rounded-md p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-neutral-300 rounded-none p-3 text-sm focus:outline-none focus:border-black transition bg-white"
             />
           </div>
         </div>
@@ -188,7 +192,7 @@ const AddProductPage = () => {
         {/* Count in Stock & SKU */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           <div>
-            <label className="block font-semibold mb-2">Count in Stock</label>
+            <label className="block text-xs font-bold uppercase tracking-wider text-neutral-500 mb-2">Count in Stock</label>
             <input
               type="number"
               name="countInStock"
@@ -196,19 +200,19 @@ const AddProductPage = () => {
               onChange={handleChange}
               placeholder="Enter stock quantity"
               min="0"
-              className="w-full border border-gray-300 rounded-md p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-neutral-300 rounded-none p-3 text-sm focus:outline-none focus:border-black transition bg-white"
               required
             />
           </div>
           <div>
-            <label className="block font-semibold mb-2">SKU</label>
+            <label className="block text-xs font-bold uppercase tracking-wider text-neutral-500 mb-2">SKU</label>
             <input
               type="text"
               name="sku"
               value={productData.sku}
               onChange={handleChange}
               placeholder="Enter product SKU (unique)"
-              className="w-full border border-gray-300 rounded-md p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-neutral-300 rounded-none p-3 text-sm focus:outline-none focus:border-black transition bg-white"
               required
             />
           </div>
@@ -217,65 +221,97 @@ const AddProductPage = () => {
         {/* Category, Brand, Material */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
           <div>
-            <label className="block font-semibold mb-2">Category</label>
+            <label className="block text-xs font-bold uppercase tracking-wider text-neutral-500 mb-2">Category</label>
             <input
               type="text"
               name="category"
               value={productData.category}
               onChange={handleChange}
               placeholder="e.g. Shirts, Pants"
-              className="w-full border border-gray-300 rounded-md p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-neutral-300 rounded-none p-3 text-sm focus:outline-none focus:border-black transition bg-white"
               required
             />
           </div>
           <div>
-            <label className="block font-semibold mb-2">Brand</label>
+            <label className="block text-xs font-bold uppercase tracking-wider text-neutral-500 mb-2">Brand</label>
             <input
               type="text"
               name="brand"
               value={productData.brand}
               onChange={handleChange}
               placeholder="e.g. BrandName"
-              className="w-full border border-gray-300 rounded-md p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-neutral-300 rounded-none p-3 text-sm focus:outline-none focus:border-black transition bg-white"
             />
           </div>
           <div>
-            <label className="block font-semibold mb-2">Material</label>
+            <label className="block text-xs font-bold uppercase tracking-wider text-neutral-500 mb-2">Material</label>
             <input
               type="text"
               name="material"
               value={productData.material}
               onChange={handleChange}
               placeholder="e.g. Cotton, Polyester"
-              className="w-full border border-gray-300 rounded-md p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-neutral-300 rounded-none p-3 text-sm focus:outline-none focus:border-black transition bg-white"
             />
           </div>
         </div>
 
         {/* Gender & Collections */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-          <div>
-            <label className="block font-semibold mb-2">Gender</label>
-            <select
-              name="gender"
-              value={productData.gender}
-              onChange={handleChange}
-              className="w-full border border-gray-300 rounded-md p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
-            >
-              <option value="Men">Men</option>
-              <option value="Women">Women</option>
-              <option value="Unisex">Unisex</option>
-            </select>
+          <div className="relative">
+            <label className="block text-xs font-bold uppercase tracking-wider text-neutral-500 mb-2">Gender</label>
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setIsGenderOpen(!isGenderOpen)}
+                className="w-full inline-flex justify-between items-center border border-neutral-300 p-3 text-sm focus:border-black transition bg-white rounded-none cursor-pointer text-left"
+              >
+                <span>{productData.gender}</span>
+                <svg className="ml-2 h-4 w-4 text-neutral-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              {isGenderOpen && (
+                <>
+                  <div 
+                    className="fixed inset-0 z-30" 
+                    onClick={() => setIsGenderOpen(false)}
+                  />
+                  <div className="absolute left-0 mt-1 w-full bg-white border border-neutral-300 shadow-md z-40 rounded-none">
+                    <div className="py-1">
+                      {["Men", "Women", "Unisex"].map((g) => (
+                        <button
+                          key={g}
+                          type="button"
+                          onClick={() => {
+                            setProductData({ ...productData, gender: g });
+                            setIsGenderOpen(false);
+                          }}
+                          className={`w-full text-left px-4 py-2.5 text-xs font-semibold uppercase tracking-wider block transition ${
+                            productData.gender === g 
+                              ? "bg-black text-white" 
+                              : "text-neutral-700 hover:bg-neutral-100 hover:text-black"
+                          }`}
+                        >
+                          {g}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
           </div>
           <div>
-            <label className="block font-semibold mb-2">Collection</label>
+            <label className="block text-xs font-bold uppercase tracking-wider text-neutral-500 mb-2">Collection</label>
             <input
               type="text"
               name="collections"
               value={productData.collections}
               onChange={handleChange}
               placeholder="e.g. Summer Collection"
-              className="w-full border border-gray-300 rounded-md p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-neutral-300 rounded-none p-3 text-sm focus:outline-none focus:border-black transition bg-white"
               required
             />
           </div>
@@ -284,24 +320,24 @@ const AddProductPage = () => {
         {/* Sizes & Colors */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           <div>
-            <label className="block font-semibold mb-2">Sizes (comma-separated)</label>
+            <label className="block text-xs font-bold uppercase tracking-wider text-neutral-500 mb-2">Sizes (comma-separated)</label>
             <input
               type="text"
               value={sizesInput}
               onChange={(e) => setSizesInput(e.target.value)}
               placeholder="e.g. S, M, L, XL"
-              className="w-full border border-gray-300 rounded-md p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-neutral-300 rounded-none p-3 text-sm focus:outline-none focus:border-black transition bg-white"
               required
             />
           </div>
           <div>
-            <label className="block font-semibold mb-2">Colors (comma-separated)</label>
+            <label className="block text-xs font-bold uppercase tracking-wider text-neutral-500 mb-2">Colors (comma-separated)</label>
             <input
               type="text"
               value={colorsInput}
               onChange={(e) => setColorsInput(e.target.value)}
               placeholder="e.g. Red, Blue, Black"
-              className="w-full border border-gray-300 rounded-md p-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-neutral-300 rounded-none p-3 text-sm focus:outline-none focus:border-black transition bg-white"
               required
             />
           </div>
@@ -315,9 +351,9 @@ const AddProductPage = () => {
               name="isFeatured"
               checked={productData.isFeatured}
               onChange={handleChange}
-              className="w-5 h-5 border-gray-300 rounded focus:ring-blue-500"
+              className="w-5 h-5 border-neutral-300 rounded-none focus:ring-0 focus:border-black text-black"
             />
-            <span className="font-semibold text-gray-700">Is Featured</span>
+            <span className="text-xs font-bold uppercase tracking-wider text-neutral-700">Is Featured</span>
           </label>
           <label className="flex items-center space-x-3 cursor-pointer">
             <input
@@ -325,24 +361,24 @@ const AddProductPage = () => {
               name="isPublished"
               checked={productData.isPublished}
               onChange={handleChange}
-              className="w-5 h-5 border-gray-300 rounded focus:ring-blue-500"
+              className="w-5 h-5 border-neutral-300 rounded-none focus:ring-0 focus:border-black text-black"
             />
-            <span className="font-semibold text-gray-700">Is Published</span>
+            <span className="text-xs font-bold uppercase tracking-wider text-neutral-700">Is Published</span>
           </label>
         </div>
 
         {/* Image Upload */}
         <div className="mb-6">
-          <label className="block font-semibold mb-2">Upload Images (Select one or more)</label>
+          <label className="block text-xs font-bold uppercase tracking-wider text-neutral-500 mb-2">Upload Images (Select one or more)</label>
           <input
             type="file"
             multiple
             accept="image/*"
             onChange={handleImageUpload}
-            className="mb-4 block w-full text-sm text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200 cursor-pointer"
+            className="mb-4 block w-full text-sm text-neutral-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-none file:border file:border-neutral-200 file:text-xs file:font-bold file:uppercase file:bg-neutral-50 file:text-neutral-700 hover:file:bg-neutral-100 cursor-pointer"
           />
 
-          {uploading && <p className="text-blue-500 mb-4 animate-pulse">Uploading images to Cloudinary...</p>}
+          {uploading && <p className="text-black mb-4 animate-pulse text-xs font-bold uppercase tracking-wider">Uploading images...</p>}
 
           <div className="flex flex-wrap gap-4">
             {productData.images.map((img, index) => (
@@ -350,12 +386,12 @@ const AddProductPage = () => {
                 <img
                   src={img.url}
                   alt={`product-img-${index}`}
-                  className="w-full h-full object-cover rounded shadow border"
+                  className="w-full h-full object-cover rounded-none shadow-sm border border-neutral-200"
                 />
                 <button
                   type="button"
                   onClick={() => handleRemoveImage(index)}
-                  className="absolute -top-2 -right-2 bg-red-500 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold hover:bg-red-600 transition shadow cursor-pointer"
+                  className="absolute -top-2 -right-2 bg-black text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold hover:bg-neutral-800 transition shadow cursor-pointer"
                 >
                   ✕
                 </button>
@@ -369,14 +405,14 @@ const AddProductPage = () => {
           <button
             type="button"
             onClick={() => navigate("/admin/products")}
-            className="flex-1 bg-gray-200 text-gray-800 font-bold py-3 px-4 rounded-md hover:bg-gray-300 transition duration-300 cursor-pointer text-center"
+            className="flex-1 border border-neutral-300 text-neutral-700 bg-white font-bold py-3 px-4 rounded-none hover:bg-neutral-50 hover:border-black transition duration-300 cursor-pointer text-center text-xs uppercase tracking-widest"
           >
             Cancel
           </button>
           <button
             type="submit"
             disabled={uploading}
-            className="flex-[2] bg-green-600 text-white font-bold py-3 px-4 rounded-md hover:bg-green-700 transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer text-center"
+            className="flex-[2] bg-black text-white font-bold py-3 px-4 rounded-none hover:bg-neutral-800 transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer text-center text-xs uppercase tracking-widest"
           >
             Create Product
           </button>

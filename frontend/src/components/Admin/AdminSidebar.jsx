@@ -17,10 +17,10 @@ const AdminSidebar = () => {
     navigate("/");
    };
   return (
-    <div className='p-6 flex flex-col h-full justify-between'>
+    <div className='p-6 flex flex-col h-full justify-between bg-black text-white'>
       <div>
         <div className='mb-8 text-center md:text-left'>
-          <Link to="/admin" className="text-3xl font-black tracking-widest text-black hover:opacity-80 transition block mb-1">
+          <Link to="/admin" className="text-3xl font-black tracking-widest text-white hover:opacity-80 transition block mb-1">
             ELIX
           </Link>
           <span className='text-[10px] font-bold tracking-[0.2em] text-neutral-400 uppercase block'>
@@ -33,8 +33,8 @@ const AdminSidebar = () => {
             to="/admin/users"
             className={({ isActive }) =>
               isActive
-                ? "bg-neutral-100 text-black border-l-2 border-black py-3 px-4 flex items-center space-x-3 text-xs font-bold uppercase tracking-wider transition-all duration-200"
-                : "text-neutral-500 hover:bg-neutral-50 hover:text-black py-3 px-4 flex items-center space-x-3 text-xs font-semibold uppercase tracking-wider transition-all duration-200"
+                ? "bg-neutral-900 text-white border-l-2 border-white py-3 px-4 flex items-center space-x-3 text-xs font-bold uppercase tracking-wider transition-all duration-200"
+                : "text-neutral-400 hover:bg-neutral-900 hover:text-white py-3 px-4 flex items-center space-x-3 text-xs font-semibold uppercase tracking-wider transition-all duration-200"
             }
           >
             <FaUsers className="text-sm" />
@@ -45,8 +45,8 @@ const AdminSidebar = () => {
             to="/admin/products"
             className={({ isActive }) =>
               isActive
-                ? "bg-neutral-100 text-black border-l-2 border-black py-3 px-4 flex items-center space-x-3 text-xs font-bold uppercase tracking-wider transition-all duration-200"
-                : "text-neutral-500 hover:bg-neutral-50 hover:text-black py-3 px-4 flex items-center space-x-3 text-xs font-semibold uppercase tracking-wider transition-all duration-200"
+                ? "bg-neutral-900 text-white border-l-2 border-white py-3 px-4 flex items-center space-x-3 text-xs font-bold uppercase tracking-wider transition-all duration-200"
+                : "text-neutral-400 hover:bg-neutral-900 hover:text-white py-3 px-4 flex items-center space-x-3 text-xs font-semibold uppercase tracking-wider transition-all duration-200"
             }
           >
             <FaBoxOpen className="text-sm" />
@@ -57,8 +57,8 @@ const AdminSidebar = () => {
             to="/admin/orders"
             className={({ isActive }) =>
               isActive
-                ? "bg-neutral-100 text-black border-l-2 border-black py-3 px-4 flex items-center space-x-3 text-xs font-bold uppercase tracking-wider transition-all duration-200"
-                : "text-neutral-500 hover:bg-neutral-50 hover:text-black py-3 px-4 flex items-center space-x-3 text-xs font-semibold uppercase tracking-wider transition-all duration-200"
+                ? "bg-neutral-900 text-white border-l-2 border-white py-3 px-4 flex items-center space-x-3 text-xs font-bold uppercase tracking-wider transition-all duration-200"
+                : "text-neutral-400 hover:bg-neutral-900 hover:text-white py-3 px-4 flex items-center space-x-3 text-xs font-semibold uppercase tracking-wider transition-all duration-200"
             }
           >
             <FaClipboardList className="text-sm" />
@@ -69,8 +69,8 @@ const AdminSidebar = () => {
             to="/"
             className={({ isActive }) =>
               isActive
-                ? "bg-neutral-100 text-black border-l-2 border-black py-3 px-4 flex items-center space-x-3 text-xs font-bold uppercase tracking-wider transition-all duration-200"
-                : "text-neutral-500 hover:bg-neutral-50 hover:text-black py-3 px-4 flex items-center space-x-3 text-xs font-semibold uppercase tracking-wider transition-all duration-200"
+                ? "bg-neutral-900 text-white border-l-2 border-white py-3 px-4 flex items-center space-x-3 text-xs font-bold uppercase tracking-wider transition-all duration-200"
+                : "text-neutral-400 hover:bg-neutral-900 hover:text-white py-3 px-4 flex items-center space-x-3 text-xs font-semibold uppercase tracking-wider transition-all duration-200"
             }
           >
             <FaStore className="text-sm" />
@@ -79,10 +79,10 @@ const AdminSidebar = () => {
         </nav>
       </div>
 
-      <div className='mt-8 pt-6 border-t border-neutral-100'>
+      <div className='mt-8 pt-6 border-t border-neutral-900'>
         <button
           onClick={handleLogout}
-          className='w-full bg-black hover:bg-neutral-800 text-white py-3 px-4 flex items-center justify-center space-x-2 text-xs font-bold uppercase tracking-widest transition-all duration-300 cursor-pointer shadow-sm hover:shadow'
+          className='w-full bg-red-600 hover:bg-red-700 text-white py-3 px-4 flex items-center justify-center space-x-2 text-xs font-bold uppercase tracking-widest transition-all duration-300 cursor-pointer shadow-sm hover:shadow rounded-none border-none'
         >
           <FaSignOutAlt className="text-sm" />
           <span>Logout</span>

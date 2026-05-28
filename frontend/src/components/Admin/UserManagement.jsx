@@ -10,6 +10,8 @@ const UserManagement = () => {
 
   const { user } = useSelector((state) => state.auth);
   const { users, loading, error } = useSelector((state) => state.admin);
+  const [openDropdownId, setOpenDropdownId] = useState(null);
+  const [isFormRoleOpen, setIsFormRoleOpen] = useState(false);
 
   // Security Check
   useEffect(() => {
@@ -139,17 +141,61 @@ const UserManagement = () => {
 
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6">
             {/* Role Field */}
-            <div className="w-full sm:w-64">
+            <div className="w-full sm:w-64 relative">
               <label className="block text-xs font-bold uppercase tracking-wider text-neutral-500 mb-2">Role</label>
-              <select
-                name="role"
-                value={formData.role}
-                onChange={handleChange}
-                className="w-full p-3 border border-neutral-300 rounded-none text-sm focus:border-black focus:ring-0 focus:outline-none transition bg-white cursor-pointer"
-              >
-                <option value="customer">Customer</option>
-                <option value="admin">Admin</option>
-              </select>
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={() => setIsFormRoleOpen(!isFormRoleOpen)}
+                  className="w-full inline-flex justify-between items-center border border-neutral-300 p-3 text-sm focus:border-black transition bg-white rounded-none cursor-pointer text-left"
+                >
+                  <span className="capitalize">{formData.role}</span>
+                  <svg className="ml-2 h-4 w-4 text-neutral-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+
+                {isFormRoleOpen && (
+                  <>
+                    <div 
+                      className="fixed inset-0 z-30" 
+                      onClick={() => setIsFormRoleOpen(false)}
+                    />
+                    <div className="absolute left-0 mt-1 w-full bg-white border border-neutral-300 shadow-md z-40 rounded-none">
+                      <div className="py-1">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setFormData({ ...formData, role: "customer" });
+                            setIsFormRoleOpen(false);
+                          }}
+                          className={`w-full text-left px-4 py-2.5 text-xs font-semibold uppercase tracking-wider block transition ${
+                            formData.role === "customer" 
+                              ? "bg-black text-white" 
+                              : "text-neutral-700 hover:bg-neutral-100 hover:text-black"
+                          }`}
+                        >
+                          Customer
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setFormData({ ...formData, role: "admin" });
+                            setIsFormRoleOpen(false);
+                          }}
+                          className={`w-full text-left px-4 py-2.5 text-xs font-semibold uppercase tracking-wider block transition ${
+                            formData.role === "admin" 
+                              ? "bg-black text-white" 
+                              : "text-neutral-700 hover:bg-neutral-100 hover:text-black"
+                          }`}
+                        >
+                          Admin
+                        </button>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
 
             {/* Submit Button */}
@@ -183,14 +229,60 @@ const UserManagement = () => {
                   </td>
                   <td className="py-4 px-6 text-sm text-neutral-600">{u.email}</td>
                   <td className="py-4 px-6 text-sm">
-                    <select
-                      value={u.role}
-                      onChange={(e) => handleRoleChange(u._id, e.target.value)}
-                      className="p-1.5 border border-neutral-200 rounded-none bg-white text-neutral-800 text-xs font-medium focus:border-black cursor-pointer"
-                    >
-                      <option value="customer">Customer</option>
-                      <option value="admin">Admin</option>
-                    </select>
+                    <div className="relative inline-block text-left">
+                      <button
+                        type="button"
+                        onClick={() => setOpenDropdownId(openDropdownId === u._id ? null : u._id)}
+                        className="inline-flex justify-between items-center w-32 border border-neutral-200 px-3 py-1.5 text-xs text-neutral-800 font-semibold bg-white hover:border-black transition rounded-none cursor-pointer"
+                      >
+                        <span className="capitalize">{u.role}</span>
+                        <svg className="ml-2 h-3.5 w-3.5 text-neutral-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </button>
+
+                      {openDropdownId === u._id && (
+                        <>
+                          {/* Overlay */}
+                          <div 
+                            className="fixed inset-0 z-30" 
+                            onClick={() => setOpenDropdownId(null)}
+                          />
+                          <div className="absolute left-0 mt-1 w-32 bg-white border border-neutral-200 shadow-md z-40 rounded-none">
+                            <div className="py-1">
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  handleRoleChange(u._id, "customer");
+                                  setOpenDropdownId(null);
+                                }}
+                                className={`w-full text-left px-4 py-2 text-xs font-semibold uppercase tracking-wider block transition ${
+                                  u.role === "customer" 
+                                    ? "bg-black text-white" 
+                                    : "text-neutral-700 hover:bg-neutral-100 hover:text-black"
+                                }`}
+                              >
+                                Customer
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  handleRoleChange(u._id, "admin");
+                                  setOpenDropdownId(null);
+                                }}
+                                className={`w-full text-left px-4 py-2 text-xs font-semibold uppercase tracking-wider block transition ${
+                                  u.role === "admin" 
+                                    ? "bg-black text-white" 
+                                    : "text-neutral-700 hover:bg-neutral-100 hover:text-black"
+                                }`}
+                              >
+                                Admin
+                              </button>
+                            </div>
+                          </div>
+                        </>
+                      )}
+                    </div>
                   </td>
                   <td className="py-4 px-6 text-center">
                     <button
