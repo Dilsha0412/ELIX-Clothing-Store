@@ -139,7 +139,7 @@ const ProductDetails = ({ productId }) => {
         <>
           <div className="p-6">
             {/* Product Details Card */}
-            <div className="max-w-6xl mx-auto bg-white p-8 rounded-lg shadow-sm mb-12">
+            <div className="max-w-6xl mx-auto bg-white p-8 rounded-none border border-neutral-200 mb-12 shadow-none">
               <div className="flex flex-col md:flex-row gap-6 md:gap-10 items-stretch">
                 <div className="hidden md:flex flex-col space-y-4 shrink-0">
                   {selectedProduct?.images?.map((image, index) => (
@@ -147,7 +147,7 @@ const ProductDetails = ({ productId }) => {
                       key={index}
                       src={image.url}
                       alt={image.altText || `Thumbnail ${index}`}
-                      className={`w-20 h-20 object-cover rounded-lg cursor-pointer border-2 ${mainImage === image.url ? "border-black" : "border-gray-200"
+                      className={`w-20 h-20 object-cover rounded-none cursor-pointer border ${mainImage === image.url ? "border-black" : "border-neutral-200"
                         }`}
                       onClick={() => setMainImage(image.url)}
                     />
@@ -161,7 +161,7 @@ const ProductDetails = ({ productId }) => {
                       <img
                         src={mainImage}
                         alt="Main Product"
-                        className="w-full md:h-full h-[400px] object-cover rounded-lg shadow-sm"
+                        className="w-full md:h-full h-[400px] object-cover rounded-none border border-neutral-200 shadow-none"
                       />
                     )}
                   </div>
@@ -173,7 +173,7 @@ const ProductDetails = ({ productId }) => {
                         key={index}
                         src={image.url}
                         alt={image.altText || `Thumbnail ${index}`}
-                        className={`w-20 h-20 object-cover rounded-lg border-2 ${mainImage === image.url ? "border-black" : "border-transparent"
+                        className={`w-20 h-20 object-cover rounded-none border ${mainImage === image.url ? "border-black" : "border-transparent"
                           }`}
                         onClick={() => setMainImage(image.url)}
                       />
@@ -183,51 +183,56 @@ const ProductDetails = ({ productId }) => {
 
                 {/* Right Info Section */}
                 <div className="flex-1">
-                  <h1 className="text-2xl md:text-3xl font-semibold mb-2">
+                  <h1 className="text-2xl md:text-3xl font-bold uppercase tracking-wider text-gray-900 mb-2">
                     {selectedProduct.name}
                   </h1>
 
                   <div className="mb-2">
-                    <p className="text-lg text-gray-400 line-through">
-                      ${selectedProduct.originalPrice}
-                    </p>
+                    {selectedProduct.originalPrice && Number(selectedProduct.originalPrice) > Number(selectedProduct.price) && (
+                      <p className="text-lg text-gray-400 line-through">
+                        ${Number(selectedProduct.originalPrice).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                      </p>
+                    )}
                     <p className="text-2xl font-bold text-gray-900">
-                      ${selectedProduct.price}
+                      ${Number(selectedProduct.price).toLocaleString('en-US', { minimumFractionDigits: 2 })}
                     </p>
                   </div>
 
-                  <p className="text-gray-600 mb-4 leading-relaxed">
+                  <p className="text-gray-600 mb-6 leading-relaxed">
                     {selectedProduct.description}
                   </p>
 
                   {/* Color Selection */}
-                  <div className="mb-4">
-                    <p className="text-gray-700 font-medium">Color:</p>
+                  <div className="mb-6">
+                    <p className="text-xs font-bold uppercase tracking-wider text-neutral-500">Color:</p>
                     <div className="flex gap-3 mt-2">
                       {selectedProduct?.colors?.map((color) => (
                         <button
                           key={color}
                           onClick={() => setSelectedColor(color)}
-                          className={`w-8 h-8 rounded-full border-2 transition-transform hover:scale-110 ${selectedColor === color ? "border-black" : "border-gray-300"
-                            }`}
+                          className={`w-8 h-8 rounded-full border border-neutral-300 cursor-pointer transition-all duration-200 hover:scale-110 ${
+                            selectedColor === color ? "ring-2 ring-black ring-offset-2 scale-110" : ""
+                          }`}
                           style={{ backgroundColor: color.toLowerCase() }}
+                          title={color}
                         />
                       ))}
                     </div>
                   </div>
 
                   {/* Size Selection */}
-                  <div className="mb-4">
-                    <p className="text-gray-700 font-medium">Size:</p>
+                  <div className="mb-6">
+                    <p className="text-xs font-bold uppercase tracking-wider text-neutral-500">Size:</p>
                     <div className="flex gap-2 mt-2">
                       {selectedProduct?.sizes?.map((size) => (
                         <button
                           key={size}
                           onClick={() => setSelectedSize(size)}
-                          className={`px-4 py-2 border rounded-md transition-colors ${selectedSize === size
+                          className={`px-4 py-2 text-xs font-bold uppercase tracking-wider border rounded-none transition-all duration-200 ${
+                            selectedSize === size
                               ? "bg-black text-white border-black"
-                              : "bg-white text-black border-gray-300 hover:bg-gray-100"
-                            }`}
+                              : "bg-white text-black border-neutral-200 hover:bg-neutral-50 hover:border-black"
+                          }`}
                         >
                           {size}
                         </button>
@@ -236,19 +241,21 @@ const ProductDetails = ({ productId }) => {
                   </div>
 
                   {/* Quantity Selector */}
-                  <div className="mb-4">
-                    <p className="text-gray-700 font-medium">Quantity:</p>
-                    <div className="flex items-center space-x-4 mt-2">
+                  <div className="mb-6">
+                    <p className="text-xs font-bold uppercase tracking-wider text-neutral-500 mb-2">Quantity:</p>
+                    <div className="flex items-center mt-2">
                       <button
+                        type="button"
                         onClick={() => handleQuantityChange("minus")}
-                        className="px-3 py-1 bg-gray-100 rounded-md text-xl hover:bg-gray-200 transition"
+                        className="px-4 py-2 bg-white border border-neutral-200 text-sm font-bold hover:bg-black hover:text-white rounded-none transition duration-200 cursor-pointer"
                       >
                         -
                       </button>
-                      <span className="text-lg font-medium w-4 text-center">{quantity}</span>
+                      <span className="text-sm font-bold w-12 text-center select-none">{quantity}</span>
                       <button
+                        type="button"
                         onClick={() => handleQuantityChange("plus")}
-                        className="px-3 py-1 bg-gray-100 rounded-md text-xl hover:bg-gray-200 transition"
+                        className="px-4 py-2 bg-white border border-neutral-200 text-sm font-bold hover:bg-black hover:text-white rounded-none transition duration-200 cursor-pointer"
                       >
                         +
                       </button>
@@ -259,10 +266,9 @@ const ProductDetails = ({ productId }) => {
                   <button
                     onClick={handleAddToCart}
                     disabled={isButtonDisabled}
-                    className={`bg-black text-white py-2 px-6 rounded-lg w-full mb-4 font-semibold transition shadow-md ${isButtonDisabled
-                        ? "cursor-not-allowed opacity-50"
-                        : "hover:bg-gray-800"
-                      }`}
+                    className={`bg-black hover:bg-neutral-800 text-white font-bold py-4 px-6 text-xs uppercase tracking-widest rounded-none transition duration-300 w-full mb-6 cursor-pointer ${
+                      isButtonDisabled ? "cursor-not-allowed opacity-50" : ""
+                    }`}
                   >
                     {isButtonDisabled ? "Adding..." : "ADD TO CART"}
                   </button>
@@ -322,7 +328,7 @@ const ProductDetails = ({ productId }) => {
               >
                 {similarProducts?.map((product) => (
                   <div key={product._id} className='min-w-full sm:min-w-[calc(50%-12px)] lg:min-w-[calc(25%-18px)] w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] shrink-0 relative select-none group/card'>
-                    <div className='relative overflow-hidden bg-gray-100 rounded-lg'>
+                    <div className='relative overflow-hidden bg-gray-100 rounded-none border border-neutral-200'>
                       <Link to={`/product/${product._id}`} className='block'>
                         <img
                           src={product.images?.[0]?.url || 'https://via.placeholder.com/500'}
@@ -335,7 +341,7 @@ const ProductDetails = ({ productId }) => {
                       {/* Quick Add Bar */}
                       <button
                         onClick={() => setSelectedQuickAddProduct(product)}
-                        className='absolute bottom-0 left-0 right-0 bg-neutral-900 text-white font-bold py-3 text-sm tracking-widest uppercase opacity-0 translate-y-full group-hover/card:opacity-100 group-hover/card:translate-y-0 transition-all duration-300'
+                        className='absolute bottom-0 left-0 right-0 bg-black text-white font-bold py-3 text-xs tracking-widest uppercase opacity-0 translate-y-full group-hover/card:opacity-100 group-hover/card:translate-y-0 transition-all duration-300 rounded-none cursor-pointer'
                       >
                         Quick Add
                       </button>

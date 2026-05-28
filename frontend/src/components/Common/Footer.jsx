@@ -38,13 +38,13 @@ const Footer = () => {
           <input
             type='email'
             placeholder='Enter your email'
-            className='p-3 w-full text-sm bg-neutral-900 text-white border border-neutral-800 rounded-l-md focus:outline-none focus:border-gray-500 transition-all placeholder-gray-500'
+            className='p-3 w-full text-sm bg-neutral-900 text-white border border-neutral-800 rounded-none focus:outline-none focus:border-gray-500 transition-all placeholder-gray-500'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
           <button type='submit'
-            className='bg-white text-black px-6 py-3 text-sm font-semibold rounded-r-md hover:bg-gray-200 transition-all'>
+            className='bg-white text-black px-6 py-3 text-sm font-semibold rounded-none hover:bg-gray-200 transition-all cursor-pointer'>
             Subscribe
           </button>
         </form>

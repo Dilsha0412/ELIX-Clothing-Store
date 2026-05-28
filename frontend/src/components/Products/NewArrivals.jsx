@@ -74,16 +74,16 @@ const NewArrivals = () => {
     }, [newArrivals]);
 
     return (
-        <section className='py-16 w-full px-4 sm:px-8 lg:px-16 max-w-[1600px] mx-auto'>
+        <section className='py-16 w-full px-4 sm:px-8 lg:px-16 max-w-[1600px] mx-auto bg-white'>
             <div className='text-center mb-10 relative'>
                 {/* Title with lines */}
                 <div className='flex items-center justify-center mb-4'>
                     <div className='h-[1px] bg-black flex-1 mx-4'></div>
-                    <h2 className='text-2xl md:text-3xl font-black uppercase tracking-widest'>New Arrivals</h2>
+                    <h2 className='text-2xl md:text-3xl font-black uppercase tracking-widest text-black'>New Arrivals</h2>
                     <div className='h-[1px] bg-black flex-1 mx-4'></div>
                 </div>
 
-                <Link to="/collections/all" className='text-sm text-gray-600 border-b border-gray-600 pb-0.5 mb-8 inline-block'>
+                <Link to="/collections/all" className='text-xs font-bold uppercase tracking-widest text-black border-b border-black pb-0.5 mb-8 hover:text-neutral-500 hover:border-neutral-500 transition-colors inline-block'>
                     View All
                 </Link>
             </div>
@@ -92,7 +92,7 @@ const NewArrivals = () => {
                 {canScrollLeft && (
                     <button
                         onClick={() => scroll("left")}
-                        className="absolute left-2 top-[225px] -translate-y-1/2 text-neutral-700 hover:text-black hover:scale-125 active:scale-95 opacity-0 group-hover:opacity-100 transition-all duration-300 z-20 pointer-events-none group-hover:pointer-events-auto p-2"
+                        className="absolute left-2 top-[225px] -translate-y-1/2 text-neutral-700 hover:text-black hover:scale-125 active:scale-95 opacity-0 group-hover:opacity-100 transition-all duration-300 z-20 pointer-events-none group-hover:pointer-events-auto p-2 cursor-pointer"
                     >
                         <FiChevronLeft className='text-3xl' />
                     </button>
@@ -109,7 +109,7 @@ const NewArrivals = () => {
                 >
                     {newArrivals?.map((product) => (
                         <div key={product._id} className='min-w-full sm:min-w-[calc(50%-12px)] lg:min-w-[calc(25%-18px)] w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] shrink-0 relative select-none group/card'>
-                            <div className='relative overflow-hidden bg-gray-100'>
+                            <div className='relative overflow-hidden bg-gray-100 border border-neutral-200 rounded-none'>
                                 <Link to={`/product/${product._id}`} className='block'>
                                     <img
                                         src={product.images?.[0]?.url || 'https://via.placeholder.com/500'}
@@ -120,14 +120,14 @@ const NewArrivals = () => {
                                 </Link>
 
                                 {/* Badges */}
-                                <div className='absolute top-2 left-2 bg-white px-2 py-0.5 text-xs font-semibold'>
+                                <div className='absolute top-2 left-2 bg-black text-white px-2.5 py-1 text-[9px] font-bold uppercase tracking-widest rounded-none shadow-sm'>
                                     New
                                 </div>
 
                                 {/* Quick Add Bar */}
                                 <button
                                     onClick={() => setSelectedQuickAddProduct(product)}
-                                    className='absolute bottom-0 left-0 right-0 bg-neutral-900 text-white font-bold py-3 text-sm tracking-widest uppercase opacity-0 translate-y-full group-hover/card:opacity-100 group-hover/card:translate-y-0 transition-all duration-300'
+                                    className='absolute bottom-0 left-0 right-0 bg-black text-white font-bold py-3 text-xs tracking-widest uppercase opacity-0 translate-y-full group-hover/card:opacity-100 group-hover/card:translate-y-0 transition-all duration-300 rounded-none cursor-pointer'
                                 >
                                     Quick Add
                                 </button>

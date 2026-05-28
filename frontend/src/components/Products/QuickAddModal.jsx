@@ -57,15 +57,15 @@ const QuickAddModal = ({ product, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in">
-      <div className="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl relative overflow-hidden transition-all transform scale-100 flex flex-col gap-5 max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in">
+      <div className="bg-white rounded-none border border-neutral-200 max-w-md w-full p-6 shadow-none relative overflow-hidden transition-all transform scale-100 flex flex-col gap-5 max-h-[90vh] overflow-y-auto">
         
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-100 text-gray-500 hover:text-black transition duration-200"
+          className="absolute top-4 right-4 p-2 rounded-none border border-neutral-100 hover:border-black hover:bg-black hover:text-white text-gray-500 transition duration-200 cursor-pointer"
         >
-          <FiX className="text-xl" />
+          <FiX className="text-sm" />
         </button>
 
         {/* Product Summary */}
@@ -73,10 +73,10 @@ const QuickAddModal = ({ product, onClose }) => {
           <img
             src={product.images?.[0]?.url || "https://via.placeholder.com/150"}
             alt={product.images?.[0]?.altText || product.name}
-            className="w-20 h-20 object-cover rounded-xl"
+            className="w-20 h-20 object-cover rounded-none border border-neutral-100"
           />
           <div>
-            <h3 className="font-semibold text-gray-800 line-clamp-2">{product.name}</h3>
+            <h3 className="text-xs font-bold uppercase tracking-wider text-neutral-800 line-clamp-2">{product.name}</h3>
             <p className="font-bold text-neutral-900 mt-1">
               ${Number(product.price).toLocaleString("en-US", { minimumFractionDigits: 2 })}
             </p>
@@ -86,16 +86,16 @@ const QuickAddModal = ({ product, onClose }) => {
         {/* Color Selection */}
         {product.colors?.length > 0 && (
           <div>
-            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+            <p className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest mb-2">
               Select Color:
             </p>
-            <div className="flex gap-2.5 flex-wrap">
+            <div className="flex gap-3 flex-wrap mt-1">
               {product.colors.map((color) => (
                 <button
                   key={color}
                   onClick={() => setSelectedColor(color)}
-                  className={`w-8 h-8 rounded-full border-2 transition-all duration-200 hover:scale-110 ${
-                    selectedColor === color ? "border-black scale-105 shadow-sm" : "border-gray-200"
+                  className={`w-8 h-8 rounded-full border border-neutral-300 cursor-pointer transition-all duration-200 hover:scale-110 ${
+                    selectedColor === color ? "ring-2 ring-black ring-offset-2 scale-110" : ""
                   }`}
                   style={{ backgroundColor: color.toLowerCase() }}
                   title={color}
@@ -108,18 +108,18 @@ const QuickAddModal = ({ product, onClose }) => {
         {/* Size Selection */}
         {product.sizes?.length > 0 && (
           <div>
-            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+            <p className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest mb-2">
               Select Size:
             </p>
-            <div className="flex gap-2 flex-wrap">
+            <div className="flex gap-2 flex-wrap mt-1">
               {product.sizes.map((size) => (
                 <button
                   key={size}
                   onClick={() => setSelectedSize(size)}
-                  className={`px-3 py-1.5 min-w-[40px] text-sm font-medium border rounded-lg transition-all duration-200 ${
+                  className={`px-4 py-2 text-xs font-bold uppercase tracking-wider border rounded-none transition-all duration-200 cursor-pointer ${
                     selectedSize === size
-                      ? "bg-black text-white border-black shadow-sm"
-                      : "bg-white text-gray-700 border-gray-200 hover:bg-gray-50"
+                      ? "bg-black text-white border-black"
+                      : "bg-white text-black border-neutral-200 hover:bg-neutral-50 hover:border-black"
                   }`}
                 >
                   {size}
@@ -131,20 +131,20 @@ const QuickAddModal = ({ product, onClose }) => {
 
         {/* Quantity Selector */}
         <div>
-          <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+          <p className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest mb-2">
             Quantity:
           </p>
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center mt-1">
             <button
               onClick={() => handleQuantityChange("minus")}
-              className="w-8 h-8 flex items-center justify-center bg-gray-100 rounded-lg text-lg font-bold hover:bg-gray-200 transition active:scale-95"
+              className="px-3 py-1.5 bg-white border border-neutral-200 text-xs font-bold hover:bg-black hover:text-white rounded-none transition duration-200 cursor-pointer"
             >
               -
             </button>
-            <span className="text-base font-semibold w-6 text-center select-none">{quantity}</span>
+            <span className="text-xs font-bold w-10 text-center select-none">{quantity}</span>
             <button
               onClick={() => handleQuantityChange("plus")}
-              className="w-8 h-8 flex items-center justify-center bg-gray-100 rounded-lg text-lg font-bold hover:bg-gray-200 transition active:scale-95"
+              className="px-3 py-1.5 bg-white border border-neutral-200 text-xs font-bold hover:bg-black hover:text-white rounded-none transition duration-200 cursor-pointer"
             >
               +
             </button>
@@ -155,10 +155,8 @@ const QuickAddModal = ({ product, onClose }) => {
         <button
           onClick={handleAddToCart}
           disabled={isAddingToCart}
-          className={`w-full bg-black text-white py-3.5 rounded-xl font-bold tracking-wider uppercase text-xs transition shadow-md ${
-            isAddingToCart
-              ? "opacity-50 cursor-not-allowed"
-              : "hover:bg-neutral-800 active:scale-[0.98]"
+          className={`w-full bg-black hover:bg-neutral-800 text-white font-bold py-3.5 px-6 text-xs uppercase tracking-widest rounded-none transition duration-300 cursor-pointer ${
+            isAddingToCart ? "opacity-50 cursor-not-allowed" : ""
           }`}
         >
           {isAddingToCart ? "Adding..." : "Add to Cart"}
