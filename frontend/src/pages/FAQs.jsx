@@ -31,34 +31,34 @@ const FAQs = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto px-6 py-16">
+    <div className="max-w-4xl mx-auto px-6 py-16 bg-white">
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4 tracking-tight">Frequently Asked Questions</h1>
-        <p className="text-lg text-gray-600 max-w-md mx-auto">
+        <h1 className="text-3xl font-black uppercase tracking-wider text-black mb-4">Frequently Asked Questions</h1>
+        <p className="text-xs text-neutral-500 tracking-wide font-medium max-w-xl mx-auto leading-relaxed">
           Need quick answers? Browse our most common questions about orders, shipping, and returns.
         </p>
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-4 max-w-3xl mx-auto">
         {faqData.map((faq, index) => {
           const isOpen = activeIndex === index;
           return (
-            <div key={index} className="border border-gray-200 rounded-xl overflow-hidden bg-white shadow-sm transition-all duration-200">
+            <div key={index} className="border border-neutral-200 rounded-none overflow-hidden bg-white shadow-none transition-all duration-300 hover:border-black">
               <button
                 onClick={() => toggleAccordion(index)}
-                className="w-full flex items-center justify-between p-5 text-left font-medium text-gray-800 hover:bg-gray-50 focus:outline-none transition-colors"
+                className="w-full flex items-center justify-between p-5 text-left font-bold uppercase tracking-wider text-xs text-black hover:bg-neutral-50 focus:outline-none transition-colors duration-300"
               >
                 <span>{faq.question}</span>
-                <span className={`transform transition-transform duration-200 text-xl font-light ${isOpen ? 'rotate-45 text-red-500' : 'text-gray-400'}`}>
+                <span className={`transform transition-transform duration-300 text-lg font-light ${isOpen ? 'rotate-45 text-black' : 'text-neutral-400'}`}>
                   ＋
                 </span>
               </button>
               <div
                 className={`transition-all duration-300 ease-in-out overflow-hidden ${
-                  isOpen ? 'max-h-40 border-t border-gray-100' : 'max-h-0'
+                  isOpen ? 'max-h-96 border-t border-neutral-100' : 'max-h-0'
                 }`}
               >
-                <div className="p-5 text-gray-600 text-sm leading-relaxed bg-gray-50">
+                <div className="p-5 text-neutral-500 text-xs tracking-wider leading-relaxed bg-white">
                   {faq.answer}
                 </div>
               </div>
@@ -71,3 +71,4 @@ const FAQs = () => {
 };
 
 export default FAQs;
+

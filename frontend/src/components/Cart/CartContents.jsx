@@ -40,38 +40,45 @@ const CartContents = ({ cart, userId, guestId }) => {
       {cart?.products?.map((product, index) => (
         <div
           key={index}
-          className='flex items-start justify-between py-4 border-b '
+          className='flex items-start justify-between py-6 border-b border-neutral-200'
         >
           <div className='flex items-start'>
             <img src={product.image}
               alt={product.name}
-              className='w-20 h-24 object-cover'
+              className='w-20 h-24 object-cover rounded-none border border-neutral-100'
             />
-            <div>
-              <h3>{product.name}</h3>
-              <p className='text-sm text-gray-500'>
-                size: {product.size} | color: {product.color} |
-              </p>
-              <div className='flex items-center mt-2'>
-                <button onClick={() => handleAddToCart(product.productId, -1, product.quantity, product.size, product.color)}
-                  className='border rounded px-2 py-1 text-xl font-medium'>
+            <div className='ml-4 flex flex-col justify-between h-24'>
+              <div>
+                <h3 className='text-xs font-bold uppercase tracking-wider text-black'>{product.name}</h3>
+                <p className='text-[10px] uppercase tracking-wide text-neutral-400 font-medium mt-1'>
+                  size: {product.size} | color: {product.color}
+                </p>
+              </div>
+              <div className='flex items-center mt-auto'>
+                <button 
+                  onClick={() => handleAddToCart(product.productId, -1, product.quantity, product.size, product.color)}
+                  className='border border-neutral-300 w-8 h-8 flex items-center justify-center text-sm rounded-none hover:border-black hover:bg-neutral-50 transition-colors cursor-pointer'
+                >
                   -
                 </button>
-                <span className='mx-4'>{product.quantity}</span>
+                <span className='mx-4 text-xs font-bold text-black'>{product.quantity}</span>
 
-                <button onClick={() => handleAddToCart(product.productId, 1, product.quantity, product.size, product.color)}
-                  className='border rounded px-2 py-1 text-xl font-medium'>
+                <button 
+                  onClick={() => handleAddToCart(product.productId, 1, product.quantity, product.size, product.color)}
+                  className='border border-neutral-300 w-8 h-8 flex items-center justify-center text-sm rounded-none hover:border-black hover:bg-neutral-50 transition-colors cursor-pointer'
+                >
                   +
                 </button>
-
               </div>
             </div>
           </div>
-          <div>
-            <p>$ {product.price.toLocaleString()}</p>
-            <button onClick={() => handleRemoveFromCart(product.productId, product.size, product.color)}
+          <div className='text-right flex flex-col justify-between h-24'>
+            <p className='text-xs font-black text-black'>$ {product.price.toLocaleString()}</p>
+            <button 
+              onClick={() => handleRemoveFromCart(product.productId, product.size, product.color)}
+              className="mt-auto self-end focus:outline-none"
             >
-              <RiDeleteBin3Line className='h-6 w-6 mt-2 text-red-600' />
+              <RiDeleteBin3Line className='h-5 w-5 text-neutral-400 hover:text-black transition-colors cursor-pointer' />
             </button>
           </div>
         </div>
@@ -80,4 +87,4 @@ const CartContents = ({ cart, userId, guestId }) => {
   )
 }
 
-export default CartContents;
+export default CartContents;

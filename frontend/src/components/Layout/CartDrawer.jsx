@@ -22,40 +22,39 @@ const CartDrawer = ({ drawerOpen, toggleCartDrawer }) => {
 
     return (
         <div
-            className={`fixed top-0 right-0 w-3/4 sm:w-1/2 md:w-[30rem] h-full bg-white shadow-lg transform 
-        transition-transform duration-300 flex flex-col z-50 ${drawerOpen ? 'translate-x-0' : 'translate-x-full'
+            className={`fixed top-0 right-0 w-3/4 sm:w-1/2 md:w-[30rem] h-full bg-white shadow-xl transform 
+        transition-transform duration-300 flex flex-col z-50 rounded-none ${drawerOpen ? 'translate-x-0' : 'translate-x-full'
                 }`}
         >
             {/* close button */}
             <div className='flex justify-end p-4'>
-                <button onClick={toggleCartDrawer}>
-                    <IoMdClose className='h-6 w-6 text-gray-600' />
+                <button onClick={toggleCartDrawer} className="focus:outline-none">
+                    <IoMdClose className='h-6 w-6 text-black hover:opacity-70 transition-opacity cursor-pointer' />
                 </button>
             </div>
 
             {/* Cart Contents with scrollable area */}
-            <div className='flex-grow p-4 overflow-y-auto'>
-                <h2 className='text-xl font-semibold mb-4'>Your Cart</h2>
+            <div className='flex-grow px-6 py-4 overflow-y-auto'>
+                <h2 className='text-lg font-black uppercase tracking-wider text-black mb-6'>Your Cart</h2>
                 {cart && cart?.products?.length > 0 ? (
                     <CartContents cart={cart} userId={userId} guestId={guestId} />
                 ) : (
-                    <p>Your cart is empty.</p>
+                    <p className="text-xs text-neutral-400 tracking-wider uppercase font-medium">Your cart is empty.</p>
                 )}
             </div>
 
             {/* Checkout Button */}
-            <div className='p-4 bg-white sticky bottom-0'>
+            <div className='p-6 bg-white border-t border-neutral-100 sticky bottom-0'>
                 {cart && cart?.products?.length > 0 && (
                     <>
                         <button
                             onClick={handleCheckout}
-                            className='w-full bg-black text-white py-3 rounded-lg font-semibold hover:bg-gray-800
-              transition'
+                            className='w-full bg-black text-white py-4 rounded-none font-bold text-xs uppercase tracking-widest hover:bg-neutral-800 transition duration-300 cursor-pointer'
                         >
                             Checkout
                         </button>
-                        <p className='text-sm tracking-tighter text-gray-500 mt-2 text-center'>
-                            Shipping,taxes,and discount codes calculated at checkout.
+                        <p className='text-[10px] tracking-wider text-neutral-400 mt-3 text-center uppercase font-medium'>
+                            Shipping, taxes, and discount codes calculated at checkout.
                         </p>
                     </>
                 )}
@@ -64,4 +63,4 @@ const CartDrawer = ({ drawerOpen, toggleCartDrawer }) => {
     )
 }
 
-export default CartDrawer;
+export default CartDrawer;
