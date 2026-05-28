@@ -26,7 +26,15 @@ useEffect(() => {
 
   return (
     <div className="max-w-7xl mx-auto p-6">
-      <h2 className="text-2xl font-bold mb-6">Product Management</h2>
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-2xl font-bold">Product Management</h2>
+        <Link
+          to="/admin/products/create"
+          className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition font-semibold"
+        >
+          Add Product
+        </Link>
+      </div>
 
       {/* Product List Table Section */}
       <div className="overflow-x-auto shadow-md sm:rounded-lg bg-white">
