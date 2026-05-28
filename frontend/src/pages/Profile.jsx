@@ -24,17 +24,17 @@ const Profile = () => {
     };
 
     return (
-        <div className='min-h-screen flex flex-col'>
-            <div className='flex-grow container mx-auto p-4 md:p-6'>
-                <div className='flex flex-col md:flex-row md:space-x-6 space-y-6 md:space-y-0'>
+        <div className='min-h-screen flex flex-col bg-white'>
+            <div className='flex-grow container mx-auto px-4 py-8 md:py-12'>
+                <div className='flex flex-col md:flex-row md:space-x-8 space-y-8 md:space-y-0'>
 
                     {/*Left Section*/}
-                    <div className='w-full md:w-1/3 lg:w-1/4 shadow-md rounded-lg p-6'>
-                        <h1 className='text-2xl md:text-3xl font-bold mb-4 '>{user?.name}</h1>
-                        <p className='text-lg text-gray-600 mb-4'>{user?.email}</p>
+                    <div className='w-full md:w-1/3 lg:w-1/4 border border-neutral-200 bg-white p-8 rounded-none'>
+                        <h1 className='text-2xl font-black uppercase tracking-wider text-neutral-900 mb-1'>{user?.name}</h1>
+                        <p className='text-xs text-neutral-500 tracking-wide font-medium mb-6'>{user?.email}</p>
                         <button
                             onClick={handleLogout}
-                            className='w-full bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600'>
+                            className='w-full bg-black hover:bg-neutral-800 text-white py-3 px-4 text-xs font-bold uppercase tracking-widest rounded-none transition duration-300 cursor-pointer shadow-sm hover:shadow text-center'>
                             Logout
                         </button>
                     </div>

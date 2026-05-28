@@ -38,7 +38,7 @@ useEffect(() => {
       </div>
 
       {/* Orders List Table Section */}
-      <div className="overflow-x-auto border border-neutral-200 rounded-none bg-white">
+      <div className="overflow-x-auto border border-neutral-200 rounded-none bg-white min-h-[380px]">
         <table className="min-w-full text-left text-neutral-600">
           <thead className="bg-neutral-50 text-[10px] font-bold uppercase tracking-widest text-neutral-400 border-b border-neutral-200">
             <tr>

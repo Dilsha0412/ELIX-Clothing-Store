@@ -60,4 +60,4 @@ const GenderCollectionSection = () => {
     )
 }
 
-export default GenderCollectionSection;
+export default GenderCollectionSection;

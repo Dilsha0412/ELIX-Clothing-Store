@@ -62,9 +62,9 @@ const CollectionPage = () => {
             </div>
 
             {/* Product Display Area */}
-            <div className="flex-grow p-4">
+            <div className="flex-grow p-6">
 
-                <h2 className="text-2xl font-bold mb-6 uppercase">
+                <h2 className="text-2xl font-black uppercase tracking-wider text-black mb-6">
                     {collection ? `${collection} Collection` : "All Collection"}
                 </h2>
                 
