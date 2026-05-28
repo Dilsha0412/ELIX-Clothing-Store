@@ -142,6 +142,10 @@ const Hero = () => {
     setCurrentSlide((prev) => (prev + 1) % slides.length);
   };
 
+  const arrowColorClass = currentSlide === 0
+    ? "text-neutral-800 hover:text-black hover:scale-125"
+    : "text-white hover:text-neutral-200 hover:scale-125";
+
   return (
     <section className="relative w-full h-[400px] md:h-[600px] lg:h-[750px] overflow-hidden bg-neutral-100 group">
       {/* Slides Container */}
@@ -169,18 +173,18 @@ const Hero = () => {
       {/* Navigation Arrows */}
       <button
         onClick={handlePrev}
-        className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white text-neutral-800 rounded-full p-2.5 md:p-3 shadow-md hover:shadow-lg hover:scale-110 active:scale-95 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto"
+        className={`absolute left-4 top-1/2 -translate-y-1/2 z-20 ${arrowColorClass} active:scale-95 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto p-2`}
         aria-label="Previous slide"
       >
-        <FiChevronLeft className="h-5 w-5 md:h-6 md:w-6" />
+        <FiChevronLeft className="h-8 w-8 md:h-12 md:w-12 transition-colors duration-300" />
       </button>
 
       <button
         onClick={handleNext}
-        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white text-neutral-800 rounded-full p-2.5 md:p-3 shadow-md hover:shadow-lg hover:scale-110 active:scale-95 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto"
+        className={`absolute right-4 top-1/2 -translate-y-1/2 z-20 ${arrowColorClass} active:scale-95 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto p-2`}
         aria-label="Next slide"
       >
-        <FiChevronRight className="h-5 w-5 md:h-6 md:w-6" />
+        <FiChevronRight className="h-8 w-8 md:h-12 md:w-12 transition-colors duration-300" />
       </button>
 
       {/* Slide Indicators / Dots */}

@@ -36,7 +36,7 @@ const GenderCollectionSection = () => {
                 {/*Mens collection*/}
                 <div className='relative flex-1 group overflow-hidden rounded-lg shadow-lg'>
                     <img
-                        src={mensCollection}
+                        src="https://res.cloudinary.com/dzyha1lps/image/upload/v1779998467/0_0011_YARAmarch264354_rjyf87.webp"
                         alt="Men's Collection"
                         className='w-full h-[700px] object-cover object-top transition-transform duration-700 group-hover:scale-105'
                     />
