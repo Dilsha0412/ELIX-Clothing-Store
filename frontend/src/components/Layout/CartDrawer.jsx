@@ -34,12 +34,25 @@ const CartDrawer = ({ drawerOpen, toggleCartDrawer }) => {
             </div>
 
             {/* Cart Contents with scrollable area */}
-            <div className='flex-grow px-6 py-4 overflow-y-auto'>
+            <div className='flex-grow px-6 py-4 overflow-y-auto flex flex-col'>
                 <h2 className='text-lg font-black uppercase tracking-wider text-black mb-6'>Your Cart</h2>
                 {cart && cart?.products?.length > 0 ? (
                     <CartContents cart={cart} userId={userId} guestId={guestId} />
                 ) : (
-                    <p className="text-xs text-neutral-400 tracking-wider uppercase font-medium">Your cart is empty.</p>
+                    <div className="flex flex-col items-center justify-center flex-grow text-center py-12">
+                        <p className="text-sm text-black mb-4 font-medium tracking-wide">
+                            Add your favorite items to your cart.
+                        </p>
+                        <button
+                            onClick={() => {
+                                toggleCartDrawer();
+                                navigate("/collections/all");
+                            }}
+                            className="bg-black text-white px-8 py-3.5 rounded-none font-bold text-xs uppercase tracking-widest hover:bg-neutral-800 transition duration-300 cursor-pointer w-full max-w-[280px]"
+                        >
+                            Shop Now
+                        </button>
+                    </div>
                 )}
             </div>
 
