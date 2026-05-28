@@ -34,7 +34,7 @@ const Profile = () => {
                         <p className='text-xs text-neutral-500 tracking-wide font-medium mb-6'>{user?.email}</p>
                         <button
                             onClick={handleLogout}
-                            className='w-full bg-black hover:bg-neutral-800 text-white py-3 px-4 text-xs font-bold uppercase tracking-widest rounded-none transition duration-300 cursor-pointer shadow-sm hover:shadow text-center'>
+                            className='w-full bg-red-600 hover:bg-red-700 text-white py-3 px-4 text-xs font-bold uppercase tracking-widest rounded-none transition duration-300 cursor-pointer shadow-sm hover:shadow text-center'>
                             Logout
                         </button>
                     </div>

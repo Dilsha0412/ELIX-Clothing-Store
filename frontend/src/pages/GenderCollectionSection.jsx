@@ -7,15 +7,15 @@ import { FiArrowUpRight } from 'react-icons/fi'
 
 const GenderCollectionSection = () => {
     return (
-        <section className='py-16 px-4 md:px-8 lg:px-12 bg-white'>
-            <div className='w-full flex flex-col md:flex-row gap-8 max-w-7xl mx-auto'>
+        <section className='py-16 w-full px-4 sm:px-8 lg:px-16 max-w-[1600px] mx-auto bg-white'>
+            <div className='w-full flex flex-col md:flex-row gap-6'>
 
                 {/*Womens collection*/}
                 <div className='relative flex-1 group overflow-hidden rounded-none border border-neutral-200 bg-white'>
                     <img
                         src={womensCollection}
                         alt="Women's Collection"
-                        className='w-full h-[700px] object-cover object-[center_30%] transition-transform duration-700 group-hover:scale-105'
+                        className='w-full h-[800px] object-cover object-[center_30%] transition-transform duration-700 group-hover:scale-105'
                     />
                     <Link
                         to="/collections/all?gender=Women"
@@ -38,7 +38,7 @@ const GenderCollectionSection = () => {
                     <img
                         src="https://res.cloudinary.com/dzyha1lps/image/upload/v1779998467/0_0011_YARAmarch264354_rjyf87.webp"
                         alt="Men's Collection"
-                        className='w-full h-[700px] object-cover object-top transition-transform duration-700 group-hover:scale-105'
+                        className='w-full h-[800px] object-cover object-top transition-transform duration-700 group-hover:scale-105'
                     />
                     <Link
                         to="/collections/all?gender=Men"
@@ -60,4 +60,6 @@ const GenderCollectionSection = () => {
     )
 }
 
-export default GenderCollectionSection;
+export default GenderCollectionSection;
+
+
