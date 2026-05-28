@@ -25,43 +25,46 @@ useEffect(() => {
   if(error) return <p >Error: {error}</p>;
 
   return (
-    <div className="max-w-7xl mx-auto p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold">Product Management</h2>
+    <div className="max-w-7xl mx-auto p-6 md:p-8">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+        <div>
+          <h2 className="text-3xl font-black uppercase tracking-wider text-black mb-1">Product Management</h2>
+          <p className="text-xs text-neutral-500 tracking-wide font-medium">Manage and update your retail catalog items</p>
+        </div>
         <Link
           to="/admin/products/create"
-          className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition font-semibold"
+          className="bg-black hover:bg-neutral-800 text-white px-5 py-3 text-xs font-bold uppercase tracking-widest rounded-none transition duration-300 shadow-sm hover:shadow"
         >
           Add Product
         </Link>
       </div>
 
       {/* Product List Table Section */}
-      <div className="overflow-x-auto shadow-md sm:rounded-lg bg-white">
-        <table className="min-w-full text-left text-gray-500">
-          <thead className="bg-gray-100 text-xs uppercase text-gray-700">
+      <div className="overflow-x-auto border border-neutral-200 rounded-none bg-white">
+        <table className="min-w-full text-left text-neutral-600">
+          <thead className="bg-neutral-50 text-[10px] font-bold uppercase tracking-widest text-neutral-400 border-b border-neutral-200">
             <tr>
-              <th className="py-3 px-4">Name</th>
-              <th className="py-3 px-4">Price</th>
-              <th className="py-3 px-4">SKU</th>
-              <th className="py-3 px-4 text-center">Actions</th>
+              <th className="py-4 px-6">Name</th>
+              <th className="py-4 px-6">Price</th>
+              <th className="py-4 px-6">SKU</th>
+              <th className="py-4 px-6 text-center">Actions</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="divide-y divide-neutral-100">
             {products && products.length > 0 ? (
               products.map((product) => (
-                <tr key={product._id} className="border-b hover:bg-gray-50">
-                  <td className="p-4 font-medium text-gray-900 whitespace-nowrap">
+                <tr key={product._id} className="hover:bg-neutral-50/50 transition-colors">
+                  <td className="py-4 px-6 font-semibold text-neutral-900 whitespace-nowrap text-sm">
                     {product.name}
                   </td>
-                  <td className="p-4">${product.price}</td>
-                  <td className="p-4">{product.sku}</td>
-                  <td className="p-4 text-center">
+                  <td className="py-4 px-6 text-sm font-medium text-neutral-700">${product.price.toFixed(2)}</td>
+                  <td className="py-4 px-6 text-sm text-neutral-500 font-mono">{product.sku}</td>
+                  <td className="py-4 px-6 text-center">
 
                     {/* Edit Button */}
                     <Link
                       to={`/admin/products/${product._id}/edit`}
-                      className="bg-yellow-500 text-white px-2 py-1 rounded mr-2 hover:bg-yellow-600 transition"
+                      className="inline-block border border-black bg-black text-white px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest rounded-none hover:bg-neutral-800 transition duration-300 mr-2"
                     >
                       Edit
                     </Link>
@@ -69,7 +72,7 @@ useEffect(() => {
                     {/* Delete Button */}
                     <button
                       onClick={() => handleDelete(product._id)}
-                      className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 transition cursor-pointer"
+                      className="border border-neutral-300 bg-white text-neutral-500 px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest rounded-none hover:text-red-600 hover:border-red-600 transition duration-300 cursor-pointer"
                     >
                       Delete
                     </button>
@@ -78,8 +81,8 @@ useEffect(() => {
               ))
             ) : (
               <tr>
-                <td colSpan={4} className="p-4 text-center text-gray-500">
-                  No Products found.
+                <td colSpan={4} className="py-8 px-6 text-center text-sm text-neutral-400">
+                  No products found.
                 </td>
               </tr>
             )}

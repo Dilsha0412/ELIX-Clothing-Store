@@ -17,69 +17,75 @@ const AdminSidebar = () => {
     navigate("/");
    };
   return (
-    <div className='p-6'>
-      <div className='mb-6'>
-        <Link to="/admin" className="text-2xl font-medium">
-        ELIX
-        </Link>
-      </div>
-      <h2 className='text-xl font-medium mb-6 text-center'>Admin Dashboard</h2>
+    <div className='p-6 flex flex-col h-full justify-between'>
+      <div>
+        <div className='mb-8 text-center md:text-left'>
+          <Link to="/admin" className="text-3xl font-black tracking-widest text-black hover:opacity-80 transition block mb-1">
+            ELIX
+          </Link>
+          <span className='text-[10px] font-bold tracking-[0.2em] text-neutral-400 uppercase block'>
+            Admin Dashboard
+          </span>
+        </div>
 
-      <nav className='flex flex-col space-y-2'>
-        <NavLink
-         to="/admin/users"
-         className={({ isActive }) =>
-          isActive
-           ? "bg-gray-700 text-white py-3 px-4 rounded flex items-center space-x-2"
-           : "text-gray-300 hover:bg-gray-700 hover:text-white py-3 px-4 rounded flex items-center  space-x-2"
-        }
-       >
-          <FaUsers/>
-          <span>Users</span>
+        <nav className='flex flex-col space-y-1.5'>
+          <NavLink
+            to="/admin/users"
+            className={({ isActive }) =>
+              isActive
+                ? "bg-neutral-100 text-black border-l-2 border-black py-3 px-4 flex items-center space-x-3 text-xs font-bold uppercase tracking-wider transition-all duration-200"
+                : "text-neutral-500 hover:bg-neutral-50 hover:text-black py-3 px-4 flex items-center space-x-3 text-xs font-semibold uppercase tracking-wider transition-all duration-200"
+            }
+          >
+            <FaUsers className="text-sm" />
+            <span>Users</span>
           </NavLink>
 
           <NavLink
-          to="/admin/products"
-          className={({ isActive }) =>
-            isActive
-              ? "bg-gray-700 text-white py-2 px-4 rounded flex items-center space-x-2"
-              : "text-gray-300 hover:bg-gray-700 hover:text-white py-3 px-4 rounded flex items-center space-x-2"
-          }
+            to="/admin/products"
+            className={({ isActive }) =>
+              isActive
+                ? "bg-neutral-100 text-black border-l-2 border-black py-3 px-4 flex items-center space-x-3 text-xs font-bold uppercase tracking-wider transition-all duration-200"
+                : "text-neutral-500 hover:bg-neutral-50 hover:text-black py-3 px-4 flex items-center space-x-3 text-xs font-semibold uppercase tracking-wider transition-all duration-200"
+            }
+          >
+            <FaBoxOpen className="text-sm" />
+            <span>Products</span>
+          </NavLink>
+
+          <NavLink
+            to="/admin/orders"
+            className={({ isActive }) =>
+              isActive
+                ? "bg-neutral-100 text-black border-l-2 border-black py-3 px-4 flex items-center space-x-3 text-xs font-bold uppercase tracking-wider transition-all duration-200"
+                : "text-neutral-500 hover:bg-neutral-50 hover:text-black py-3 px-4 flex items-center space-x-3 text-xs font-semibold uppercase tracking-wider transition-all duration-200"
+            }
+          >
+            <FaClipboardList className="text-sm" />
+            <span>Orders</span>
+          </NavLink>
+
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              isActive
+                ? "bg-neutral-100 text-black border-l-2 border-black py-3 px-4 flex items-center space-x-3 text-xs font-bold uppercase tracking-wider transition-all duration-200"
+                : "text-neutral-500 hover:bg-neutral-50 hover:text-black py-3 px-4 flex items-center space-x-3 text-xs font-semibold uppercase tracking-wider transition-all duration-200"
+            }
+          >
+            <FaStore className="text-sm" />
+            <span>Shop</span>
+          </NavLink>
+        </nav>
+      </div>
+
+      <div className='mt-8 pt-6 border-t border-neutral-100'>
+        <button
+          onClick={handleLogout}
+          className='w-full bg-black hover:bg-neutral-800 text-white py-3 px-4 flex items-center justify-center space-x-2 text-xs font-bold uppercase tracking-widest transition-all duration-300 cursor-pointer shadow-sm hover:shadow'
         >
-          <FaBoxOpen />
-          <span>Products</span>
-        </NavLink>
-
-         <NavLink
-         to="/admin/orders"
-         className={({ isActive }) =>
-          isActive
-           ? "bg-gray-700 text-white py-3 px-4 rounded flex items-center space-x-2"
-           : "text-gray-300 hover:bg-gray-700 hover:text-white py-3 px-4 rounded flex items-center  space-x-2"
-        }
-       >
-          <FaClipboardList/>
-          <span>Orders</span>
-          </NavLink>
-
-           <NavLink
-         to="/"
-         className={({ isActive }) =>
-          isActive
-           ? "bg-gray-700 text-white py-3 px-4 rounded flex items-center space-x-2"
-           : "text-gray-300 hover:bg-gray-700 hover:text-white py-3 px-4 rounded flex items-center  space-x-2"
-        }
-       >
-          <FaStore/>
-          <span>Shop</span>
-          </NavLink>
-
-      </nav>
-      <div className='mt-6'>
-        <button onClick={handleLogout}
-        className='w-full bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded flex items-center justify-center space-x-2'>
-        <FaSignOutAlt/>
-        <span>Logout</span>
+          <FaSignOutAlt className="text-sm" />
+          <span>Logout</span>
         </button>
       </div>
     </div>
