@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { fetchUsers, addUser, updateUser, deleteUser } from '../../redux/slices/adminSlice'; 
+import { toast } from 'sonner';
 
 const UserManagement = () => {
   const dispatch = useDispatch();
@@ -67,9 +68,14 @@ const UserManagement = () => {
   };
 
   // Delete User
-  const handleDeleteUser = (userId) => {
+  const handleDeleteUser = async (userId) => {
     if (window.confirm("Are you sure you want to delete this user?")) {
-      dispatch(deleteUser(userId)); 
+      try {
+        await dispatch(deleteUser(userId)).unwrap();
+        toast.success("User deleted successfully!");
+      } catch (err) {
+        toast.error(err || "Failed to delete user.");
+      }
     }
   };
 

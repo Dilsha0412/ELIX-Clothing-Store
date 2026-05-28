@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAdminProducts, deleteProduct } from '../../redux/slices/adminProductSlice';
+import { toast } from 'sonner';
 
 
 const ProductManagement = () => {
@@ -15,9 +16,14 @@ useEffect(() => {
 }, [dispatch]);
 
   // Delete Product
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete the Product?")) {
-      dispatch(deleteProduct(id));      
+      try {
+        await dispatch(deleteProduct(id)).unwrap();
+        toast.success("Product deleted successfully!");
+      } catch (err) {
+        toast.error(err || "Failed to delete product.");
+      }
     }
   };
 
