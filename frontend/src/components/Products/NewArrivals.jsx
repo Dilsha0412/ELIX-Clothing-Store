@@ -92,9 +92,9 @@ const NewArrivals = () => {
                 {canScrollLeft && (
                     <button
                         onClick={() => scroll("left")}
-                        className="absolute left-2 top-[225px] -translate-y-1/2 bg-white text-black p-3 rounded-full shadow-lg border border-gray-200 hover:bg-gray-100 hover:scale-110 active:scale-95 opacity-0 group-hover:opacity-100 transition-all duration-300 z-20 pointer-events-none group-hover:pointer-events-auto"
+                        className="absolute left-2 top-[225px] -translate-y-1/2 text-neutral-700 hover:text-black hover:scale-125 active:scale-95 opacity-0 group-hover:opacity-100 transition-all duration-300 z-20 pointer-events-none group-hover:pointer-events-auto p-2"
                     >
-                        <FiChevronLeft className='text-xl' />
+                        <FiChevronLeft className='text-3xl' />
                     </button>
                 )}
 
@@ -148,9 +148,9 @@ const NewArrivals = () => {
                 {canScrollRight && (
                     <button
                         onClick={() => scroll("right")}
-                        className="absolute right-2 top-[225px] -translate-y-1/2 bg-white text-black p-3 rounded-full shadow-lg border border-gray-200 hover:bg-gray-100 hover:scale-110 active:scale-95 opacity-0 group-hover:opacity-100 transition-all duration-300 z-20 pointer-events-none group-hover:pointer-events-auto"
+                        className="absolute right-2 top-[225px] -translate-y-1/2 text-neutral-700 hover:text-black hover:scale-125 active:scale-95 opacity-0 group-hover:opacity-100 transition-all duration-300 z-20 pointer-events-none group-hover:pointer-events-auto p-2"
                     >
-                        <FiChevronRight className='text-xl' />
+                        <FiChevronRight className='text-3xl' />
                     </button>
                 )}
             </div>
