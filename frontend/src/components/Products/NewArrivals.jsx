@@ -74,7 +74,7 @@ const NewArrivals = () => {
     }, [newArrivals]);
 
     return (
-        <section className='py-16 w-full px-4 sm:px-8 lg:px-16 max-w-[1600px] mx-auto bg-white'>
+        <section className='py-16 w-full px-4 sm:px-6 lg:px-8 max-w-[1750px] mx-auto bg-white'>
             <div className='text-center mb-10 relative'>
                 {/* Title with lines */}
                 <div className='flex items-center justify-center mb-4'>

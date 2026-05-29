@@ -3,8 +3,8 @@ import { HiOutlineCreditCard, HiShoppingBag } from 'react-icons/hi'
 import { HiArrowPathRoundedSquare } from 'react-icons/hi2';
 
 const FeaturedSection = () => {
-  return <section className='py-16 px-4 bg-white border-t border-neutral-100'>
-    <div className='container mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 text-center max-w-7xl'>
+  return <section className='py-16 w-full px-4 sm:px-6 lg:px-8 max-w-[1750px] mx-auto bg-white border-t border-neutral-100'>
+    <div className='grid grid-cols-1 md:grid-cols-3 gap-10 text-center w-full'>
 
         {/*Feature 1*/}
         <div className='flex flex-col items-center p-6 bg-white border border-neutral-100 rounded-none shadow-none transition-all duration-300 group'>

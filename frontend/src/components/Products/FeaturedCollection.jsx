@@ -4,8 +4,8 @@ import featured from "../../assets/Custom-Logo-Wholesales-New-Style-High-Quality
 
 const FeaturedCollection = () => {
   return (
-    <section className='pt-16 pb-8 px-4 lg:px-6 bg-white'>
-      <div className='container mx-auto flex flex-col-reverse lg:flex-row items-stretch bg-[#F8F8F8] rounded-none border border-neutral-200 overflow-hidden shadow-none transition-all duration-300 group max-w-7xl'>
+    <section className='pt-16 pb-8 w-full px-4 sm:px-6 lg:px-8 max-w-[1750px] mx-auto bg-white'>
+      <div className='w-full flex flex-col-reverse lg:flex-row items-stretch bg-[#F8F8F8] rounded-none border border-neutral-200 overflow-hidden shadow-none transition-all duration-300 group'>
 
         {/* Left Content */}
         <div className='lg:w-1/2 p-8 sm:p-12 lg:p-16 flex flex-col justify-center text-center lg:text-left'>

@@ -7,7 +7,7 @@ import { FiArrowUpRight } from 'react-icons/fi'
 
 const GenderCollectionSection = () => {
     return (
-        <section className='py-16 w-full px-4 sm:px-8 lg:px-16 max-w-[1600px] mx-auto bg-white'>
+        <section className='py-16 w-full px-4 sm:px-6 lg:px-8 max-w-[1750px] mx-auto bg-white'>
             <div className='w-full flex flex-col md:flex-row gap-6'>
 
                 {/*Womens collection*/}
