@@ -16,7 +16,7 @@ export const fetchUsers = createAsyncThunk(
             );
             return response.data;
         } catch (error) {
-            return rejectWithValue(error.response.data);
+            return rejectWithValue(error.response?.data || { message: error.message });
         }
     }
 );
@@ -37,7 +37,7 @@ export const addUser = createAsyncThunk(
             );
             return response.data;
         } catch (error) {
-            return rejectWithValue(error.response.data);
+            return rejectWithValue(error.response?.data || { message: error.message });
         }
     }
 );
@@ -58,7 +58,7 @@ export const updateUser = createAsyncThunk(
             );
             return response.data;
         } catch (error) {
-            return rejectWithValue(error.response.data);
+            return rejectWithValue(error.response?.data || { message: error.message });
         }
     }
 );
@@ -78,7 +78,7 @@ export const deleteUser = createAsyncThunk(
             );
             return id;
         } catch (error) {
-            return rejectWithValue(error.response.data);
+            return rejectWithValue(error.response?.data || { message: error.message });
         }
     }
 );
@@ -102,7 +102,7 @@ const adminSlice = createSlice({
             })
             .addCase(fetchUsers.rejected, (state, action) => {
                 state.loading = false;
-                state.error = action.error.message;
+                state.error = action.payload?.message || action.payload || action.error?.message || "Failed to fetch users";
             })
 
             .addCase(updateUser.fulfilled, (state, action) => {
@@ -128,7 +128,7 @@ const adminSlice = createSlice({
             })
             .addCase(addUser.rejected, (state, action) => {
                 state.loading = false;
-                state.error = action.payload.message;
+                state.error = action.payload?.message || action.payload || action.error?.message || "Failed to add user";
             });
     },
 });

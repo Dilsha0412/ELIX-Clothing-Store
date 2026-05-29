@@ -2,7 +2,6 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const API_URL = `${import.meta.env.VITE_BACKEND_URL}`;
-const USER_TOKEN = `Bearer ${localStorage.getItem("userToken")}`;
 
 export const fetchProductDetails = createAsyncThunk(
     "adminProducts/fetchProductDetails",
@@ -16,24 +15,22 @@ export const fetchProductDetails = createAsyncThunk(
     }
 );
 
-// async thunk to fetch admin products
 export const fetchAdminProducts = createAsyncThunk(
     "adminProducts/fetchProducts",
     async (_, { rejectWithValue }) => {
         try {
             const response = await axios.get(`${API_URL}/api/admin/products`, {
                 headers: {
-                    Authorization: USER_TOKEN,
+                    Authorization: `Bearer ${localStorage.getItem("userToken")}`,
                 },
             });
             return response.data;
         } catch (error) {
-            return rejectWithValue(error.response?.data || error.message);
+            return rejectWithValue(error.response?.data || { message: error.message });
         }
     }
 );
 
-// async function to create a new product
 export const createProduct = createAsyncThunk(
     "adminProducts/createProduct",
     async (productData, { rejectWithValue }) => {
@@ -43,18 +40,17 @@ export const createProduct = createAsyncThunk(
                 productData,
                 {
                     headers: {
-                        Authorization: USER_TOKEN,
+                        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
                     },
                 }
             );
             return response.data;
         } catch (error) {
-            return rejectWithValue(error.response?.data || error.message);
+            return rejectWithValue(error.response?.data || { message: error.message });
         }
     }
 );
 
-// async thunk to update an existing product
 export const updateProduct = createAsyncThunk(
     "adminProducts/updateProduct",
     async ({ id, productData }, { rejectWithValue }) => {
@@ -64,28 +60,27 @@ export const updateProduct = createAsyncThunk(
                 productData,
                 {
                     headers: {
-                        Authorization: USER_TOKEN,
+                        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
                     },
                 }
             );
             return response.data;
         } catch (error) {
-            return rejectWithValue(error.response?.data || error.message);
+            return rejectWithValue(error.response?.data || { message: error.message });
         }
     }
 );
 
-// async thunk to delete a product
 export const deleteProduct = createAsyncThunk(
     "adminProducts/deleteProduct",
     async (id, { rejectWithValue }) => {
         try {
             await axios.delete(`${API_URL}/api/products/${id}`, {
-                headers: { Authorization: USER_TOKEN },
+                headers: { Authorization: `Bearer ${localStorage.getItem("userToken")}` },
             });
             return id;
         } catch (error) {
-            return rejectWithValue(error.response?.data || error.message);
+            return rejectWithValue(error.response?.data || { message: error.message });
         }
     }
 );
@@ -111,7 +106,7 @@ const adminProductSlice = createSlice({
             })
             .addCase(fetchAdminProducts.rejected, (state, action) => {
                 state.loading = false;
-                state.error = action.payload || action.error.message;
+                state.error = action.payload?.message || action.payload || action.error?.message || "Failed to fetch products";
             })
 
             .addCase(fetchProductDetails.pending, (state) => {
@@ -124,7 +119,7 @@ const adminProductSlice = createSlice({
             })
             .addCase(fetchProductDetails.rejected, (state, action) => {
                 state.loading = false;
-                state.error = action.payload || action.error.message;
+                state.error = action.payload?.message || action.payload || action.error?.message || "Failed to fetch product details";
             })
 
             // Create Product

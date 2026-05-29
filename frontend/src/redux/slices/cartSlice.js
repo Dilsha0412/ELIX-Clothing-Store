@@ -26,7 +26,7 @@ export const fetchCart = createAsyncThunk(
             return response.data;
         } catch (error) {
             console.error(error);
-            return rejectWithValue(error.response.data);
+            return rejectWithValue(error.response?.data || { message: error.message });
         }
     }
 );
@@ -49,7 +49,7 @@ export const addToCart = createAsyncThunk(
             );
             return response.data;
         } catch (error) {
-            return rejectWithValue(error.response.data);
+            return rejectWithValue(error.response?.data || { message: error.message });
         }
     }
 );
@@ -72,7 +72,7 @@ export const updateCartItemQuantity = createAsyncThunk(
             );
             return response.data;
         } catch (error) {
-            return rejectWithValue(error.response.data);
+            return rejectWithValue(error.response?.data || { message: error.message });
         }
     }
 );
@@ -89,7 +89,7 @@ export const removeFromCart = createAsyncThunk(
             });
             return response.data;
         } catch (error) {
-            return rejectWithValue(error.response.data);
+            return rejectWithValue(error.response?.data || { message: error.message });
         }
     }
 );
@@ -110,7 +110,7 @@ export const mergeCart = createAsyncThunk(
             );
             return response.data;
         } catch (error) {
-            return rejectWithValue(error.response.data);
+            return rejectWithValue(error.response?.data || { message: error.message });
         }
     }
 );
@@ -142,7 +142,7 @@ const cartSlice = createSlice({
             })
             .addCase(fetchCart.rejected, (state, action) => {
                 state.loading = false;
-                state.error = action.error.message || "Failed to fetch cart";
+                state.error = action.payload?.message || action.payload || action.error?.message || "Failed to fetch cart";
             })
 
             // addToCart Lifecycle
@@ -157,7 +157,7 @@ const cartSlice = createSlice({
             })
             .addCase(addToCart.rejected, (state, action) => {
                 state.loading = false;
-                state.error = action.payload?.message || "Failed to add to cart";
+                state.error = action.payload?.message || action.payload || action.error?.message || "Failed to add to cart";
             })
 
             // updateCartItemQuantity Lifecycle
@@ -172,7 +172,7 @@ const cartSlice = createSlice({
             })
             .addCase(updateCartItemQuantity.rejected, (state, action) => {
                 state.loading = false;
-                state.error = action.payload?.message || "Failed to update item quantity";
+                state.error = action.payload?.message || action.payload || action.error?.message || "Failed to update item quantity";
             })
 
             // removeFromCart Lifecycle
@@ -187,7 +187,7 @@ const cartSlice = createSlice({
             })
             .addCase(removeFromCart.rejected, (state, action) => {
                 state.loading = false;
-                state.error = action.payload?.message || "Failed to remove item";
+                state.error = action.payload?.message || action.payload || action.error?.message || "Failed to remove item";
             })
 
             // mergeCart Lifecycle
@@ -202,7 +202,7 @@ const cartSlice = createSlice({
             })
             .addCase(mergeCart.rejected, (state, action) => {
                 state.loading = false;
-                state.error = action.payload?.message || "Failed to merge cart";
+                state.error = action.payload?.message || action.payload || action.error?.message || "Failed to merge cart";
             });
     }
 });

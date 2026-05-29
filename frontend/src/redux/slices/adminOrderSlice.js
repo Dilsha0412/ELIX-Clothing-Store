@@ -16,7 +16,7 @@ export const fetchAllOrders = createAsyncThunk(
             );
             return response.data;
         } catch (error) {
-            return rejectWithValue(error.response.data);
+            return rejectWithValue(error.response?.data || { message: error.message });
         }
     }
 );
@@ -37,7 +37,7 @@ export const updateOrderStatus = createAsyncThunk(
             );
             return response.data;
         } catch (error) {
-            return rejectWithValue(error.response.data);
+            return rejectWithValue(error.response?.data || { message: error.message });
         }
     }
 );
@@ -57,7 +57,7 @@ export const deleteOrder = createAsyncThunk(
             );
             return id;
         } catch (error) {
-            return rejectWithValue(error.response.data);
+            return rejectWithValue(error.response?.data || { message: error.message });
         }
     }
 );
@@ -92,7 +92,7 @@ const adminOrderSlice = createSlice({
             })
             .addCase(fetchAllOrders.rejected, (state, action) => {
                 state.loading = false;
-                state.error = action.payload.message;
+                state.error = action.payload?.message || action.payload || action.error?.message || "Failed to fetch orders";
             })
 
             // Update Order Status
