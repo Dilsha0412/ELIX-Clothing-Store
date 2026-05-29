@@ -97,27 +97,29 @@ const Checkout = () => {
   }
 
   return (
-    <div className='grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-7xl mx-auto py-10 px-6 tracking-tighter'>
+    <div className='grid grid-cols-1 lg:grid-cols-2 gap-10 max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8 tracking-tighter bg-white'>
 
-      {/* Left Section */}
-      <div className='bg-white rounded-lg p-6'>
-        <h2 className='text-2xl uppercase mb-6'>Checkout</h2>
+      {/* Left Section - Form */}
+      <div className='bg-white rounded-none border border-neutral-200 p-6 md:p-8 shadow-none'>
+        <h2 className='text-3xl font-black uppercase tracking-wider text-black mb-1'>Checkout</h2>
+        <p className="text-xs text-neutral-500 tracking-wide font-medium mb-8">Complete your purchase details to place the order</p>
+        
         <form onSubmit={handleCreateCheckout}>
-          <h3 className='text-lg mb-4'>Contact Details</h3>
-          <div className='mb-4'>
-            <label className='block text-gray-700'>Email</label>
+          <h3 className='text-xs font-bold uppercase tracking-widest text-neutral-800 border-b border-neutral-200 pb-3 mb-6'>Contact Details</h3>
+          <div className='mb-6'>
+            <label className='block text-[10px] font-bold uppercase tracking-widest text-neutral-500 mb-2'>Email</label>
             <input
               type="email"
               value={user ? user.email : ""}
-              className='w-full p-2 border rounded'
+              className='w-full p-3 text-sm border border-neutral-200 rounded-none bg-neutral-50 text-neutral-400 focus:outline-none focus:ring-0 cursor-not-allowed'
               disabled
               />
           </div>
             
-          <h3 className='text-lg mb-4'>Delivery</h3>
-          <div className='mb-4 grid grid-cols-2 gap-4'>
+          <h3 className='text-xs font-bold uppercase tracking-widest text-neutral-800 border-b border-neutral-200 pb-3 mb-6 mt-8'>Delivery Address</h3>
+          <div className='mb-6 grid grid-cols-1 sm:grid-cols-2 gap-4'>
             <div>
-              <label className='block text-gray-700'>First Name</label>
+              <label className='block text-[10px] font-bold uppercase tracking-widest text-neutral-500 mb-2'>First Name</label>
               <input
                 type="text"
                 value={shippingAddress.firstName} 
@@ -127,13 +129,13 @@ const Checkout = () => {
                     firstName: e.target.value
                   })
                 }
-                className='w-full p-2 border rounded'
+                className='w-full p-3 text-sm border border-neutral-300 rounded-none focus:outline-none focus:border-black focus:ring-0 bg-white transition-all'
                 required
                 />
               </div>
 
                <div>
-              <label className='block text-gray-700'>Last Name</label>
+              <label className='block text-[10px] font-bold uppercase tracking-widest text-neutral-500 mb-2'>Last Name</label>
               <input
                 type="text"
                 value={shippingAddress.lastName}
@@ -143,13 +145,13 @@ const Checkout = () => {
                     lastName: e.target.value
                   })
                 }
-                className='w-full p-2 border rounded'
+                className='w-full p-3 text-sm border border-neutral-300 rounded-none focus:outline-none focus:border-black focus:ring-0 bg-white transition-all'
                 required
                 />
               </div>
             </div>
-            <div className='mb-4'>
-              <label className='block text-gray-700'>Address</label>
+            <div className='mb-6'>
+              <label className='block text-[10px] font-bold uppercase tracking-widest text-neutral-500 mb-2'>Address</label>
               <input
                 type="text"
                 value={shippingAddress.address}
@@ -159,13 +161,13 @@ const Checkout = () => {
                     address: e.target.value
                   })
                 }
-                className='w-full p-2 border rounded'
+                className='w-full p-3 text-sm border border-neutral-300 rounded-none focus:outline-none focus:border-black focus:ring-0 bg-white transition-all'
                 required
                 />
               </div>
-              <div className='mb-4 grid grid-cols-2 gap-4'>
+              <div className='mb-6 grid grid-cols-1 sm:grid-cols-2 gap-4'>
                 <div>
-              <label className='block text-gray-700'>City</label>
+              <label className='block text-[10px] font-bold uppercase tracking-widest text-neutral-500 mb-2'>City</label>
               <input
                 type="text"
                 value={shippingAddress.city}
@@ -175,13 +177,13 @@ const Checkout = () => {
                     city: e.target.value
                   })
                 }
-                className='w-full p-2 border rounded'
+                className='w-full p-3 text-sm border border-neutral-300 rounded-none focus:outline-none focus:border-black focus:ring-0 bg-white transition-all'
                 required
                 />
               </div>
 
                <div>
-              <label className='block text-gray-700'>Postal Code</label>
+              <label className='block text-[10px] font-bold uppercase tracking-widest text-neutral-500 mb-2'>Postal Code</label>
               <input
                 type="text"
                 value={shippingAddress.postalCode}
@@ -191,14 +193,14 @@ const Checkout = () => {
                     postalCode: e.target.value
                   })
                 }
-                className='w-full p-2 border rounded'
+                className='w-full p-3 text-sm border border-neutral-300 rounded-none focus:outline-none focus:border-black focus:ring-0 bg-white transition-all'
                 required
                 />
               </div>
               </div>
 
-              <div className='mb-4'>
-              <label className='block text-gray-700'>Country</label>
+              <div className='mb-6'>
+              <label className='block text-[10px] font-bold uppercase tracking-widest text-neutral-500 mb-2'>Country</label>
               <input
                 type="text"
                 value={shippingAddress.country}
@@ -208,13 +210,13 @@ const Checkout = () => {
                     country: e.target.value
                   })
                 }
-                className='w-full p-2 border rounded'
+                className='w-full p-3 text-sm border border-neutral-300 rounded-none focus:outline-none focus:border-black focus:ring-0 bg-white transition-all'
                 required
                 />
               </div>
 
-              <div className='mb-4'>
-              <label className='block text-gray-700'>Phone</label>
+              <div className='mb-6'>
+              <label className='block text-[10px] font-bold uppercase tracking-widest text-neutral-500 mb-2'>Phone</label>
               <input
                 type="tel"
                 value={shippingAddress.phone}
@@ -224,22 +226,22 @@ const Checkout = () => {
                     phone: e.target.value
                   })
                 }
-                className='w-full p-2 border rounded'
+                className='w-full p-3 text-sm border border-neutral-300 rounded-none focus:outline-none focus:border-black focus:ring-0 bg-white transition-all'
                 required
                 />
               </div>
 
-              <div className='mt-6'>
+              <div className='mt-8'>
                 {!checkoutId ? (
                   <button
                    type='submit'
-                   className='w-full bg-black text-white py-3 rounded'
+                   className='w-full bg-black hover:bg-neutral-800 text-white font-bold py-4 px-6 text-xs uppercase tracking-widest rounded-none transition duration-300 cursor-pointer shadow-sm'
                    >
                     Continue to Payment
                   </button>
                 ):(
-                  <div>
-                    <h3 className='text-lg mb-4'>Pay with Paypal</h3>
+                  <div className="mt-6 border-t border-neutral-200 pt-6">
+                    <h3 className='text-xs font-bold uppercase tracking-widest text-neutral-800 mb-4'>Pay with Paypal</h3>
                     <PayPalButton
                       amount={Number(cart.totalPrice).toFixed(2)} 
                       onSuccess={handlePaymentSuccess} 
@@ -251,46 +253,46 @@ const Checkout = () => {
           </form>
       </div>
 
-     {/* Right Section */}
-     <div className='bg-gray-50 rounded-lg p-6'>
-        <h3 className='text-lg mb-4'>Order Summary</h3>
-        <div className='border-t py-4 mb-4'>
+     {/* Right Section - Summary */}
+     <div className='bg-neutral-50 rounded-none border border-neutral-200 p-6 md:p-8 shadow-none h-fit'>
+        <h3 className='text-xs font-bold uppercase tracking-widest text-neutral-800 border-b border-neutral-200 pb-3 mb-6'>Order Summary</h3>
+        <div className='divide-y divide-neutral-200 py-2 mb-6'>
           {cart.products.map((product, index) => (
             <div 
             key={index}
-            className='flex items-start justify-between py-2 border-b'
+            className='flex items-start justify-between py-4'
             >
               <div className='flex items-start'>
                 <img
                   src={product.image}
                   alt={product.name}
-                  className='w-20 h-24 object-cover mr-4'
+                  className='w-20 h-24 object-cover rounded-none border border-neutral-200 mr-4'
                 />
                 <div>
-                  <h3 className='text-md'>{product.name}</h3>
-                  <p className='text-gray-500 text-sm'>Size: {product.size}</p>
-                  <p className='text-gray-500 text-sm'>Color: {product.color}</p>
-                  <p className='text-gray-500 text-sm'>Qty: {product.quantity}</p>
+                  <h3 className='text-xs font-bold uppercase tracking-wider text-neutral-800 mb-2'>{product.name}</h3>
+                  <p className='text-[10px] font-semibold text-neutral-400 uppercase tracking-wide mb-1'>Size: {product.size}</p>
+                  <p className='text-[10px] font-semibold text-neutral-400 uppercase tracking-wide mb-1'>Color: {product.color}</p>
+                  <p className='text-[10px] font-semibold text-neutral-400 uppercase tracking-wide'>Qty: {product.quantity}</p>
                 </div>
               </div>
-              <p className='text-xl'>${(product.price * product.quantity)?.toLocaleString()}</p>
+              <p className='text-sm font-bold text-neutral-800'>${(product.price * product.quantity)?.toLocaleString('en-US', { minimumFractionDigits: 2 })}</p>
             </div>
           ))}
         </div> 
 
-        <div className='flex justify-between items-center text-lg mb-4'>
+        <div className='flex justify-between items-center text-xs font-bold uppercase tracking-wider text-neutral-500 mb-4'>
           <p>Subtotal</p>
-          <p>${cart.totalPrice?.toLocaleString()}</p>
+          <p className="text-neutral-800">${cart.totalPrice?.toLocaleString('en-US', { minimumFractionDigits: 2 })}</p>
         </div>
 
-        <div className='flex justify-between items-center text-lg'>
+        <div className='flex justify-between items-center text-xs font-bold uppercase tracking-wider text-neutral-500 mb-4'>
           <p>Shipping</p>
-          <p>Free</p> 
+          <p className="text-neutral-800">Free</p> 
         </div>
 
-        <div className='flex justify-between items-center text-lg mt-4 border-t pt-4'>
+        <div className='flex justify-between items-center text-sm font-black uppercase tracking-widest text-neutral-800 mt-4 border-t border-neutral-200 pt-4'>
           <p>Total</p>
-          <p>${cart.totalPrice?.toLocaleString()}</p>
+          <p className="text-lg">${cart.totalPrice?.toLocaleString('en-US', { minimumFractionDigits: 2 })}</p>
         </div>
 
       </div>  

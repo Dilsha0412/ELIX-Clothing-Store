@@ -156,12 +156,12 @@ const ProductDetails = ({ productId }) => {
 
                 {/* Middle Main Image */}
                 <div className="flex-1 flex flex-col">
-                  <div className="flex-1 mb-4 md:mb-0 flex">
+                  <div className="flex-1 mb-4 md:mb-0 flex overflow-hidden group rounded-none border border-neutral-200 shadow-none">
                     {mainImage && (
                       <img
                         src={mainImage}
                         alt="Main Product"
-                        className="w-full md:h-full h-[400px] object-cover rounded-none border border-neutral-200 shadow-none"
+                        className="w-full md:h-full h-[400px] object-cover rounded-none transition-transform duration-500 group-hover:scale-105 cursor-zoom-in"
                       />
                     )}
                   </div>
