@@ -43,7 +43,7 @@ const ContactUs = () => {
               <span className="text-xl leading-none">📍</span>
               <div>
                 <h4 className="font-bold text-black uppercase tracking-wider text-xs">Our Location</h4>
-                <p className="text-neutral-400 text-xs mt-1 leading-relaxed">123 Fashion Blvd, Suite 400, New York, NY 10001</p>
+                <p className="text-neutral-400 text-xs mt-1 leading-relaxed">No 32,Dalugama,Kelaniya</p>
               </div>
             </div>
 
@@ -51,7 +51,7 @@ const ContactUs = () => {
               <span className="text-xl leading-none">📞</span>
               <div>
                 <h4 className="font-bold text-black uppercase tracking-wider text-xs">Phone Number</h4>
-                <p className="text-neutral-400 text-xs mt-1 leading-relaxed">077-5227202</p>
+                <p className="text-neutral-400 text-xs mt-1 leading-relaxed">+94 775227202</p>
               </div>
             </div>
 
@@ -76,7 +76,7 @@ const ContactUs = () => {
                 value={formData.name}
                 onChange={handleChange}
                 required
-                placeholder="John Doe"
+                placeholder="Enter Your Name"
                 className="w-full p-3 text-sm border border-neutral-300 rounded-none focus:outline-none focus:border-black focus:ring-0 bg-white transition-all"
               />
             </div>
@@ -89,7 +89,7 @@ const ContactUs = () => {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                placeholder="john@example.com"
+                placeholder="youremail@example.com"
                 className="w-full p-3 text-sm border border-neutral-300 rounded-none focus:outline-none focus:border-black focus:ring-0 bg-white transition-all"
               />
             </div>

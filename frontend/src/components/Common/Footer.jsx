@@ -108,7 +108,7 @@ const Footer = () => {
         <h3 className='text-white text-sm font-bold uppercase tracking-widest mb-6'>Follow Us</h3>
         <div className='flex items-center space-x-4 mb-6'>
           <a
-            href="https://www.facebook.com"
+            // href="https://www.facebook.com"
             target='_blank'
             rel='noopener noreferrer'
             className='text-gray-400 hover:text-white transition-colors'
@@ -116,7 +116,7 @@ const Footer = () => {
             <TbBrandMeta className='h-5 w-5' />
           </a>
           <a
-            href="https://www.instagram.com"
+            // href="https://www.instagram.com"
             target='_blank'
             rel='noopener noreferrer'
             className='text-gray-400 hover:text-white transition-colors'
@@ -124,7 +124,7 @@ const Footer = () => {
             <IoLogoInstagram className='h-5 w-5' />
           </a>
           <a
-            href="https://www.twitter.com"
+            // href="https://www.twitter.com"
             target='_blank'
             rel='noopener noreferrer'
             className='text-gray-400 hover:text-white transition-colors'
