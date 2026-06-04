@@ -1,34 +1,25 @@
-import React from 'react'
-import { TbBrandMeta } from "react-icons/tb";
-import { IoLogoInstagram } from "react-icons/io";
-import { RiTwitterXLine } from "react-icons/ri";
+import React from 'react';
 
 const Topbar = () => {
-    return (
-        <div className='bg-[#ea2e0e] text-white'>
-            <div className='container mx-auto flex justify-between items-cente py-3 px-4'>
-                <div className='hidden md:flex items-center space-x-4'>
-                    <a href="#" className='hover:text-gray-300'>
-                        <TbBrandMeta className='h-5 w-5' />
-                    </a>
-                    <a href="#" className='hover:text-gray-300'>
-                        <IoLogoInstagram className='h-5 w-5' />
-                    </a>
-                    <a href="#" className='hover:text-gray-300'>
-                        <RiTwitterXLine className='h-4 w-4' />
-                    </a>
-                </div>
-                <div className='text-sm text-center flex-1'>
-                    <span>We ship worldwide - Fast and reliable shipping!</span>
-                </div>
-                <div className='text-sm hidden md:block'>
-                    <a href='tel:+1234567890' className='hover:text-gray-300'>
-                        Contact us: +1 (234) 567-890</a>
-                </div>
-            </div>
+  const text = "15% on Your First Order — Clothing inspired by Happy Vibes — Free Shipping Worldwide — ";
+  const repeatedText = Array(10).fill(text).join(" ");
 
+  return (
+    <div className='bg-[#ea2e0e] text-white py-2 overflow-hidden select-none border-b border-[#ea2e0e] group-marquee'>
+      <div className='flex whitespace-nowrap min-w-full'>
+        <div className='animate-marquee flex shrink-0 pr-4'>
+          <span className='text-[10px] sm:text-xs font-bold uppercase tracking-widest text-white'>
+            {repeatedText}
+          </span>
         </div>
-    )
-}
+        <div className='animate-marquee flex shrink-0 pr-4' aria-hidden='true'>
+          <span className='text-[10px] sm:text-xs font-bold uppercase tracking-widest text-white'>
+            {repeatedText}
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default Topbar;
