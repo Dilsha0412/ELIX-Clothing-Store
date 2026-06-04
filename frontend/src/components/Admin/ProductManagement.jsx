@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAdminProducts, deleteProduct } from '../../redux/slices/adminProductSlice';
+import { FiSearch } from 'react-icons/fi';
 import { toast } from 'sonner';
 
 
@@ -10,10 +11,20 @@ const dispatch = useDispatch();
 const { products, loading, error } = useSelector(
   (state) => state.adminProducts
 );
+const [searchTerm, setSearchTerm] = useState("");
 
 useEffect(() => {
   dispatch(fetchAdminProducts());
 }, [dispatch]);
+
+  // Filter products by Name or SKU
+  const filteredProducts = products ? products.filter((product) => {
+    const term = searchTerm.toLowerCase();
+    return (
+      product.name?.toLowerCase().includes(term) ||
+      product.sku?.toLowerCase().includes(term)
+    );
+  }) : [];
 
   // Delete Product
   const handleDelete = async (id) => {
@@ -45,6 +56,20 @@ useEffect(() => {
         </Link>
       </div>
 
+      {/* Search Bar */}
+      <div className="mb-6 relative max-w-md">
+        <input
+          type="text"
+          placeholder="Search products by name or SKU..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="w-full border border-neutral-300 bg-white pl-10 pr-4 py-2.5 text-sm rounded-none focus:outline-none focus:border-black transition duration-300 placeholder:text-neutral-400"
+        />
+        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+          <FiSearch className="h-4 w-4 text-neutral-400" />
+        </div>
+      </div>
+
       {/* Product List Table Section */}
       <div className="overflow-x-auto border border-neutral-200 rounded-none bg-white">
         <table className="min-w-full text-left text-neutral-600">
@@ -57,8 +82,8 @@ useEffect(() => {
             </tr>
           </thead>
           <tbody className="divide-y divide-neutral-100">
-            {products && products.length > 0 ? (
-              products.map((product) => (
+            {filteredProducts && filteredProducts.length > 0 ? (
+              filteredProducts.map((product) => (
                 <tr key={product._id} className="hover:bg-neutral-50/50 transition-colors">
                   <td className="py-4 px-6 font-semibold text-neutral-900 whitespace-nowrap text-sm">
                     {product.name}
