@@ -25,10 +25,10 @@ const Navbar = () => {
 
     return (
         <>
-            <nav className='w-full max-w-none mx-auto flex items-center justify-between py-5 px-6 md:px-12 lg:px-24 bg-black'>
+            <nav className='w-full max-w-none mx-auto flex items-center justify-between py-5 px-6 md:px-12 lg:px-24 bg-white'>
 
                 <div>
-                    <Link to="/" className='text-2xl sm:text-3xl font-semibold tracking-wider font-sans text-white uppercase transition-opacity hover:opacity-85'>
+                    <Link to="/" className='text-2xl sm:text-3xl font-semibold tracking-wider font-sans text-black uppercase transition-opacity hover:opacity-85'>
                         ELIX
                     </Link>
                 </div>
@@ -36,31 +36,31 @@ const Navbar = () => {
                 <div className='hidden md:flex space-x-1 lg:space-x-2 items-center'>
                     <Link
                         to="/"
-                        className='text-white bg-transparent hover:bg-white hover:text-black px-4 py-2.5 font-semibold text-sm tracking-wide uppercase transition-all duration-200'>
+                        className='px-4 py-2.5 font-semibold text-sm tracking-wide uppercase transition-all duration-200 text-neutral-600 hover:text-black'>
                         Home
                     </Link>
 
                     <Link
                         to="/collections/all?gender=Men"
-                        className='text-white bg-transparent hover:bg-white hover:text-black px-4 py-2.5 font-semibold text-sm tracking-wide uppercase transition-all duration-200'>
+                        className='px-4 py-2.5 font-semibold text-sm tracking-wide uppercase transition-all duration-200 text-neutral-600 hover:text-black'>
                         Men
                     </Link>
 
                     <Link
                         to="/collections/all?gender=Women"
-                        className='text-white bg-transparent hover:bg-white hover:text-black px-4 py-2.5 font-semibold text-sm tracking-wide uppercase transition-all duration-200'>
+                        className='px-4 py-2.5 font-semibold text-sm tracking-wide uppercase transition-all duration-200 text-neutral-600 hover:text-black'>
                         Women
                     </Link>
 
                     <Link
                         to="/collections/all?category=Top Wear"
-                        className='text-white bg-transparent hover:bg-white hover:text-black px-4 py-2.5 font-semibold text-sm tracking-wide uppercase transition-all duration-200'>
+                        className='px-4 py-2.5 font-semibold text-sm tracking-wide uppercase transition-all duration-200 text-neutral-600 hover:text-black'>
                         Top Wear
                     </Link>
 
                     <Link
                         to="/collections/all?category=Bottom Wear"
-                        className='text-white bg-transparent hover:bg-white hover:text-black px-4 py-2.5 font-semibold text-sm tracking-wide uppercase transition-all duration-200'>
+                        className='px-4 py-2.5 font-semibold text-sm tracking-wide uppercase transition-all duration-200 text-neutral-600 hover:text-black'>
                         Bottom Wear
                     </Link>
                 </div>
@@ -68,7 +68,7 @@ const Navbar = () => {
                 <div className='flex items-center space-x-4 lg:space-x-6'>
                     {user && user.role === "admin" && (<Link
                         to="/admin"
-                        className='block bg-white text-black px-3 py-1 rounded-none text-xs font-bold uppercase tracking-widest hover:bg-neutral-200 transition-colors'
+                        className='block bg-black text-white px-3 py-1 rounded-none text-xs font-bold uppercase tracking-widest hover:bg-neutral-800 transition-colors'
                     >
                         Admin
                     </Link>)}
@@ -79,17 +79,17 @@ const Navbar = () => {
                     </div>
 
                     {/* 2. User Profile Icon */}
-                    <Link to="/profile" className='hover:text-gray-300 transition-colors flex items-center justify-center' title="Profile">
-                        <FiUser className='h-4 w-4 text-white' />
+                    <Link to="/profile" className='text-neutral-700 hover:text-black transition-colors flex items-center justify-center' title="Profile">
+                        <FiUser className='h-4 w-4 text-black' />
                     </Link>
 
                     {/* 3. Shopping Cart Icon */}
                     <button
                         onClick={toggleCartDrawer}
-                        className='relative hover:text-gray-300 transition-colors flex items-center justify-center'
+                        className='relative text-neutral-700 hover:text-black transition-colors flex items-center justify-center'
                         title="Cart"
                     >
-                        <FiShoppingCart className='h-4 w-4 text-white' />
+                        <FiShoppingCart className='h-4 w-4 text-black' />
                         {cartItemCount > 0 && (
                             <span className='absolute -top-1.5 -right-1.5 bg-red-600 text-white text-[9px] font-bold rounded-full w-4 h-4 flex items-center justify-center animate-pulse'>
                                 {cartItemCount}
@@ -98,8 +98,8 @@ const Navbar = () => {
                     </button>
 
                     {/* Mobile Hamburger menu */}
-                    <button onClick={toggleNavDrawer} className='md:hidden hover:text-gray-300 transition-colors flex items-center justify-center'>
-                        <HiBars3BottomRight className='h-4 w-4 text-white' />
+                    <button onClick={toggleNavDrawer} className='md:hidden text-neutral-700 hover:text-black transition-colors flex items-center justify-center'>
+                        <HiBars3BottomRight className='h-4 w-4 text-black' />
                     </button>
                 </div>
             </nav>
