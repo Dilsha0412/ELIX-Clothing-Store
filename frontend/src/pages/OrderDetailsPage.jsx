@@ -39,16 +39,16 @@ const OrderDetailsPage = () => {
                         </div>
                         <div className='flex flex-col items-start sm:items-end mt-4 sm:mt-0'>
                             <span className={`${orderDetails.isPaid
-                                    ? "bg-black text-white"
-                                    : "bg-neutral-200 text-neutral-600"
+                                    ? "bg-green-100 text-green-700"
+                                    : "bg-red-100 text-red-700"
                                 } px-4 py-2 text-[11px] font-bold uppercase tracking-widest mb-2`}
                             >
                                 {orderDetails.isPaid ? "Approved" : "Pending"}
                             </span>
 
                             <span className={`${orderDetails.isDelivered
-                                    ? "bg-black text-white"
-                                    : "bg-neutral-200 text-neutral-600"
+                                    ? "bg-green-100 text-green-700"
+                                    : "bg-yellow-100 text-yellow-700"
                                 } px-4 py-2 text-[11px] font-bold uppercase tracking-widest`}
                             >
                                 {orderDetails.isDelivered ? "Delivered" : "Pending Delivery"}
