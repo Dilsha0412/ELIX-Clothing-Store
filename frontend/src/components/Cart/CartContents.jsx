@@ -2,8 +2,10 @@ import React from 'react'
 import { RiDeleteBin3Line } from 'react-icons/ri'
 import { updateCartItemQuantity, removeFromCart } from '../../redux/slices/cartSlice';
 import { useDispatch } from 'react-redux';
+import { useCurrency } from '../../hooks/useCurrency';
 
 const CartContents = ({ cart, userId, guestId }) => {
+  const { formatPrice } = useCurrency();
   const dispatch = useDispatch();
 
   // Handle adding or substracting to cart
@@ -73,7 +75,7 @@ const CartContents = ({ cart, userId, guestId }) => {
             </div>
           </div>
           <div className='text-right flex flex-col justify-between h-24'>
-            <p className='text-xs font-black text-black'>$ {product.price.toLocaleString()}</p>
+            <p className='text-xs font-black text-black'>{formatPrice(product.price)}</p>
             <button 
               onClick={() => handleRemoveFromCart(product.productId, product.size, product.color)}
               className="mt-auto self-end focus:outline-none"
