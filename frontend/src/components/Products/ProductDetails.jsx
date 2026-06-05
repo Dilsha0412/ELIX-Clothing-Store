@@ -9,7 +9,10 @@ import { addToCart } from "../../redux/slices/cartSlice";
 import QuickAddModal from "./QuickAddModal";
 import { toggleWishlist } from "../../redux/slices/wishlistSlice";
 
+import { useCurrency } from "../../hooks/useCurrency";
+
 const ProductDetails = ({ productId }) => {
+  const { formatPrice } = useCurrency();
   const { id } = useParams();
   const dispatch = useDispatch();
 
@@ -192,11 +195,11 @@ const ProductDetails = ({ productId }) => {
                   <div className="mb-2">
                     {selectedProduct.originalPrice && Number(selectedProduct.originalPrice) > Number(selectedProduct.price) && (
                       <p className="text-lg text-gray-400 line-through">
-                        ${Number(selectedProduct.originalPrice).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                        {formatPrice(selectedProduct.originalPrice)}
                       </p>
                     )}
                     <p className="text-2xl font-bold text-gray-900">
-                      ${Number(selectedProduct.price).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                      {formatPrice(selectedProduct.price)}
                     </p>
                   </div>
 
@@ -375,7 +378,7 @@ const ProductDetails = ({ productId }) => {
                     <div className='mt-4 text-center'>
                       <Link to={`/product/${product._id}`} className='block'>
                         <h4 className='text-xs font-semibold uppercase tracking-wider text-gray-800 mb-1'>{product.name}</h4>
-                        <p className='font-bold text-sm text-gray-900'>${Number(product.price).toLocaleString('en-US', { minimumFractionDigits: 2 })}</p>
+                        <p className='font-bold text-sm text-gray-900'>{formatPrice(product.price)}</p>
                       </Link>
                     </div>
                   </div>
