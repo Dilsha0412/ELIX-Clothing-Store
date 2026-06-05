@@ -5,16 +5,21 @@ import SearchBar from './SearchBar';
 import CartDrawer from '../Layout/CartDrawer';
 import { useState } from 'react';
 import { IoMdClose } from 'react-icons/io';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { createPortal } from 'react-dom';
+import { setCurrency } from '../../redux/slices/currencySlice';
 
 const Navbar = () => {
+    const dispatch = useDispatch();
     const location = useLocation();
     const isHomePage = location.pathname === "/";
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [navDrawerOpen, setNavDrawerOpen] = useState(false);
+    const [currencyDropdownOpen, setCurrencyDropdownOpen] = useState(false);
     const { cart } = useSelector((state) => state.cart);
     const { user } = useSelector((state) => state.auth);
     const { wishlist } = useSelector((state) => state.wishlist);
+    const { selectedCurrency } = useSelector((state) => state.currency);
 
     const cartItemCount = cart?.products?.reduce((total, product) => total + product.quantity, 0) || 0;
     const wishlistCount = wishlist?.length || 0;
@@ -104,6 +109,68 @@ const Navbar = () => {
                         </Link>
                     )}
 
+                    {/* Currency Dropdown Selector */}
+                    <div className="relative">
+                        <button
+                            onClick={() => setCurrencyDropdownOpen(!currencyDropdownOpen)}
+                            className="flex items-center space-x-1.5 text-neutral-700 hover:text-black transition-colors focus:outline-none cursor-pointer py-1"
+                        >
+                            <img
+                                src={selectedCurrency === 'LKR' ? 'https://flagcdn.com/w40/lk.png' : 'https://flagcdn.com/w40/us.png'}
+                                alt={selectedCurrency}
+                                className="w-5 h-5 rounded-full object-cover border border-neutral-200"
+                            />
+                            <span className="text-[11px] font-bold tracking-wider uppercase">
+                                {selectedCurrency}
+                            </span>
+                            <FiChevronDown className={`h-3 w-3 text-neutral-500 transition-transform duration-200 ${currencyDropdownOpen ? 'rotate-180' : ''}`} />
+                        </button>
+
+                        {currencyDropdownOpen && (
+                            <>
+                                <div 
+                                    className="fixed inset-0 z-40" 
+                                    onClick={() => setCurrencyDropdownOpen(false)}
+                                />
+                                <div className="absolute right-0 mt-2 bg-white border border-neutral-200 shadow-xl p-3 flex flex-col space-y-3 min-w-[130px] z-50 rounded-none transform scale-100 transition-all origin-top-right">
+                                    <button
+                                        onClick={() => {
+                                            dispatch(setCurrency('LKR'));
+                                            setCurrencyDropdownOpen(false);
+                                        }}
+                                        className="flex items-center space-x-3 text-left w-full text-neutral-700 hover:text-black transition-colors focus:outline-none cursor-pointer"
+                                    >
+                                        <img
+                                            src="https://flagcdn.com/w40/lk.png"
+                                            alt="LKR"
+                                            className="w-5 h-5 rounded-full object-cover border border-neutral-100"
+                                        />
+                                        <span className={`text-xs font-semibold tracking-wider ${selectedCurrency === 'LKR' ? 'underline decoration-2 underline-offset-4 text-black' : ''}`}>
+                                            LKR
+                                        </span>
+                                    </button>
+
+                                    <button
+                                        onClick={() => {
+                                            dispatch(setCurrency('USD'));
+                                            setCurrencyDropdownOpen(false);
+                                        }}
+                                        className="flex items-center space-x-3 text-left w-full text-neutral-700 hover:text-black transition-colors focus:outline-none cursor-pointer"
+                                    >
+                                        <img
+                                            src="https://flagcdn.com/w40/us.png"
+                                            alt="USD"
+                                            className="w-5 h-5 rounded-full object-cover border border-neutral-100"
+                                        />
+                                        <span className={`text-xs font-semibold tracking-wider ${selectedCurrency === 'USD' ? 'underline decoration-2 underline-offset-4 text-black' : ''}`}>
+                                            USD
+                                        </span>
+                                    </button>
+                                </div>
+                            </>
+                        )}
+                    </div>
+
                     {/* 1. Search Icon */}
                     <div className='overflow-hidden flex items-center justify-center'>
                         <SearchBar isHomePage={isHomePage} />
@@ -143,57 +210,60 @@ const Navbar = () => {
             <CartDrawer drawerOpen={drawerOpen} toggleCartDrawer={toggleCartDrawer} />
 
             {/* Sidebar Menu Drawer */}
-            <div
-                className={`fixed top-0 left-0 w-3/4 sm:w-1/3 h-full bg-neutral-950 shadow-2xl border-r border-neutral-900 transform transition-transform duration-300 z-50 ${
-                    navDrawerOpen ? "translate-x-0" : "-translate-x-full"
-                }`}
-            >
-                <div className='flex justify-end p-4'>
-                    <button onClick={toggleNavDrawer} className='text-white hover:text-gray-300 transition-colors'>
-                        <IoMdClose className='h-6 w-6' />
-                    </button>
-                </div>
-
-                <div className='p-6'>
-                    <h2 className='text-xl font-semibold mb-6 text-white tracking-wider border-b border-neutral-900 pb-3'>Menu</h2>
-                    <nav className="space-y-6">
-                        <Link to="/" onClick={toggleNavDrawer} className='block text-gray-300 hover:text-white transition-colors text-lg font-medium uppercase tracking-wider'>
-                            Home
-                        </Link>
-
-                        <Link to="/collections/all?gender=Men" onClick={toggleNavDrawer} className='block text-gray-300 hover:text-white transition-colors text-lg font-medium uppercase tracking-wider'>
-                            Men
-                        </Link>
-
-                        <Link to="/collections/all?gender=Women" onClick={toggleNavDrawer} className='block text-gray-300 hover:text-white transition-colors text-lg font-medium uppercase tracking-wider'>
-                            Women
-                        </Link>
-
-                        <Link to="/collections/all?category=Top Wear" onClick={toggleNavDrawer} className='block text-gray-300 hover:text-white transition-colors text-lg font-medium uppercase tracking-wider'>
-                            Top Wear
-                        </Link>
-
-                        <Link to="/collections/all?category=Bottom Wear" onClick={toggleNavDrawer} className='block text-gray-300 hover:text-white transition-colors text-lg font-medium uppercase tracking-wider'>
-                            Bottom Wear
-                        </Link>
-                    </nav>
-
-                    <div className='border-t border-neutral-900 pt-6 mt-6 space-y-4'>
-                        <Link to="/about" onClick={toggleNavDrawer} className='block text-gray-400 hover:text-white transition-colors text-sm uppercase tracking-wider'>
-                            About Us
-                        </Link>
-                        <Link to="/contact" onClick={toggleNavDrawer} className='block text-gray-400 hover:text-white transition-colors text-sm uppercase tracking-wider'>
-                            Contact Us
-                        </Link>
-                        <Link to="/faqs" onClick={toggleNavDrawer} className='block text-gray-400 hover:text-white transition-colors text-sm uppercase tracking-wider'>
-                            FAQs
-                        </Link>
-                        <Link to="/features" onClick={toggleNavDrawer} className='block text-gray-400 hover:text-white transition-colors text-sm uppercase tracking-wider'>
-                            Features
-                        </Link>
+            {createPortal(
+                <div
+                    className={`fixed top-0 left-0 w-3/4 sm:w-1/3 h-full bg-neutral-950 shadow-2xl border-r border-neutral-900 transform transition-transform duration-300 z-50 ${
+                        navDrawerOpen ? "translate-x-0" : "-translate-x-full"
+                    }`}
+                >
+                    <div className='flex justify-end p-4'>
+                        <button onClick={toggleNavDrawer} className='text-white hover:text-gray-300 transition-colors'>
+                            <IoMdClose className='h-6 w-6' />
+                        </button>
                     </div>
-                </div>
-            </div>
+
+                    <div className='p-6'>
+                        <h2 className='text-xl font-semibold mb-6 text-white tracking-wider border-b border-neutral-900 pb-3'>Menu</h2>
+                        <nav className="space-y-6">
+                            <Link to="/" onClick={toggleNavDrawer} className='block text-gray-300 hover:text-white transition-colors text-lg font-medium uppercase tracking-wider'>
+                                Home
+                            </Link>
+
+                            <Link to="/collections/all?gender=Men" onClick={toggleNavDrawer} className='block text-gray-300 hover:text-white transition-colors text-lg font-medium uppercase tracking-wider'>
+                                Men
+                            </Link>
+
+                            <Link to="/collections/all?gender=Women" onClick={toggleNavDrawer} className='block text-gray-300 hover:text-white transition-colors text-lg font-medium uppercase tracking-wider'>
+                                Women
+                            </Link>
+
+                            <Link to="/collections/all?category=Top Wear" onClick={toggleNavDrawer} className='block text-gray-300 hover:text-white transition-colors text-lg font-medium uppercase tracking-wider'>
+                                Top Wear
+                            </Link>
+
+                            <Link to="/collections/all?category=Bottom Wear" onClick={toggleNavDrawer} className='block text-gray-300 hover:text-white transition-colors text-lg font-medium uppercase tracking-wider'>
+                                Bottom Wear
+                            </Link>
+                        </nav>
+
+                        <div className='border-t border-neutral-900 pt-6 mt-6 space-y-4'>
+                            <Link to="/about" onClick={toggleNavDrawer} className='block text-gray-400 hover:text-white transition-colors text-sm uppercase tracking-wider'>
+                                About Us
+                            </Link>
+                            <Link to="/contact" onClick={toggleNavDrawer} className='block text-gray-400 hover:text-white transition-colors text-sm uppercase tracking-wider'>
+                                Contact Us
+                            </Link>
+                            <Link to="/faqs" onClick={toggleNavDrawer} className='block text-gray-400 hover:text-white transition-colors text-sm uppercase tracking-wider'>
+                                FAQs
+                            </Link>
+                            <Link to="/features" onClick={toggleNavDrawer} className='block text-gray-400 hover:text-white transition-colors text-sm uppercase tracking-wider'>
+                                Features
+                            </Link>
+                        </div>
+                    </div>
+                </div>,
+                document.body
+            )}
         </>
     );
 };
