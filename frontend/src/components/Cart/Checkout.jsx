@@ -5,7 +5,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { createCheckout } from '../../redux/slices/checkoutSlice';
 import axios from 'axios';
 
+import { useCurrency } from '../../hooks/useCurrency';
+
 const Checkout = () => {
+  const { formatPrice } = useCurrency();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { cart, loading, error } = useSelector((state) => state.cart);
@@ -275,14 +278,14 @@ const Checkout = () => {
                   <p className='text-[10px] font-semibold text-neutral-400 uppercase tracking-wide'>Qty: {product.quantity}</p>
                 </div>
               </div>
-              <p className='text-sm font-bold text-neutral-800'>${(product.price * product.quantity)?.toLocaleString('en-US', { minimumFractionDigits: 2 })}</p>
+              <p className='text-sm font-bold text-neutral-800'>{formatPrice(product.price * product.quantity)}</p>
             </div>
           ))}
         </div> 
 
         <div className='flex justify-between items-center text-xs font-bold uppercase tracking-wider text-neutral-500 mb-4'>
           <p>Subtotal</p>
-          <p className="text-neutral-800">${cart.totalPrice?.toLocaleString('en-US', { minimumFractionDigits: 2 })}</p>
+          <p className="text-neutral-800">{formatPrice(cart.totalPrice)}</p>
         </div>
 
         <div className='flex justify-between items-center text-xs font-bold uppercase tracking-wider text-neutral-500 mb-4'>
@@ -292,7 +295,7 @@ const Checkout = () => {
 
         <div className='flex justify-between items-center text-sm font-black uppercase tracking-widest text-neutral-800 mt-4 border-t border-neutral-200 pt-4'>
           <p>Total</p>
-          <p className="text-lg">${cart.totalPrice?.toLocaleString('en-US', { minimumFractionDigits: 2 })}</p>
+          <p className="text-lg">{formatPrice(cart.totalPrice)}</p>
         </div>
 
       </div>  

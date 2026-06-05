@@ -2,7 +2,10 @@ import React from 'react'
 import { HiOutlineCreditCard, HiShoppingBag } from 'react-icons/hi'
 import { HiArrowPathRoundedSquare } from 'react-icons/hi2';
 
+import { useCurrency } from '../../hooks/useCurrency';
+
 const FeaturedSection = () => {
+  const { formatPrice } = useCurrency();
   return <section className='py-16 w-full px-4 sm:px-6 lg:px-8 max-w-[1750px] mx-auto bg-white border-t border-neutral-100'>
     <div className='grid grid-cols-1 md:grid-cols-3 gap-10 text-center w-full'>
 
@@ -15,7 +18,7 @@ const FeaturedSection = () => {
                 Free International Shipping
             </h4>
             <p className='text-neutral-500 text-xs tracking-wider'>
-                On all orders over $100.00
+                On all orders over {formatPrice(100)}
             </p>
         </div>
 

@@ -2,8 +2,10 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { clearCart } from '../redux/slices/cartSlice';
+import { useCurrency } from '../hooks/useCurrency';
 
 const OrderConfirmationPage = () => {
+    const { formatPrice } = useCurrency();
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { checkout } = useSelector((state) => state.checkout);
@@ -68,7 +70,7 @@ const OrderConfirmationPage = () => {
                                     </p>
                                 </div>
                                 <div className='ml-auto text-right'>
-                                    <p className='text-md font-bold'>${item.price}</p>
+                                    <p className='text-md font-bold'>{formatPrice(item.price)}</p>
                                     <p className='text-sm text-gray-500'>Qty: {item.quantity}</p>
                                 </div>
                             </div>

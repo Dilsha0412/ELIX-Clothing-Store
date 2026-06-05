@@ -2,8 +2,10 @@ import React, { useEffect } from 'react'
 import { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
+import { useCurrency } from '../../hooks/useCurrency';
 
 const FilterSidebar = () => {
+  const { formatPrice } = useCurrency();
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const [filters, setFilters] = useState({
@@ -248,8 +250,8 @@ const FilterSidebar = () => {
             className='w-full h-1 bg-neutral-200 accent-black appearance-none cursor-pointer transition'
           />
           <div className='flex justify-between text-xs text-neutral-500 font-mono mt-2'>
-            <span>$0</span>
-            <span>${priceRange[1]}</span>
+            <span>{formatPrice(0)}</span>
+            <span>{formatPrice(priceRange[1])}</span>
           </div>
         </div>
       </div>
