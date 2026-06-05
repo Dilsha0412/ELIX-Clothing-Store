@@ -166,7 +166,7 @@ router.get("/", async (req, res) => {
     let query = {};
 
     // Filter logic
-    if (collection && collection.toLocaleLowerCase() !== "all") {
+    if (collection && collection.toLocaleLowerCase() !== "all" && collection.toLocaleLowerCase() !== "new-arrivals") {
       query.collections = collection;
     }
 
@@ -209,6 +209,10 @@ router.get("/", async (req, res) => {
 
     // Sort Logic
     let sort = {};
+    if (collection && collection.toLocaleLowerCase() === "new-arrivals") {
+      sort = { createdAt: -1 };
+    }
+
     if (sortBy) {
       switch (sortBy) {
         case "priceAsc":
