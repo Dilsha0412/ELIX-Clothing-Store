@@ -6,7 +6,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toggleWishlist } from '../../redux/slices/wishlistSlice';
 import { toast } from 'sonner';
 
+import { useCurrency } from '../../hooks/useCurrency';
+
 const ProductGrid = ({ products, loading, error }) => {
+    const { formatPrice } = useCurrency();
     const dispatch = useDispatch();
     const { wishlist } = useSelector((state) => state.wishlist);
     const { user } = useSelector((state) => state.auth);
@@ -68,7 +71,7 @@ const ProductGrid = ({ products, loading, error }) => {
                                     {product.name}
                                 </h4>
                                 <p className='font-bold text-sm text-gray-900'>
-                                    ${Number(product.price).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                                    {formatPrice(product.price)}
                                 </p>
                             </Link>
                         </div>

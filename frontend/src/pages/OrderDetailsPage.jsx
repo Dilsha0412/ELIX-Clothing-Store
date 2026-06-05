@@ -3,8 +3,10 @@ import { useEffect, useState } from 'react';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchOrderDetails } from '../redux/slices/orderSlice';
+import { useCurrency } from '../hooks/useCurrency';
 
 const OrderDetailsPage = () => {
+    const { formatPrice } = useCurrency();
     const { id } = useParams();
     const dispatch = useDispatch();
     const { orderDetails, loading, error } = useSelector((state) => state.orders);
@@ -99,10 +101,10 @@ const OrderDetailsPage = () => {
                                             </Link>
                                         </td>
 
-                                        <td className='py-2 px-4'>${item.price}</td>
+                                        <td className='py-2 px-4'>{formatPrice(item.price)}</td>
                                         <td className='py-2 px-4'>{item.quantity}</td>
                                         <td className='py-2 px-4'>
-                                            ${item.price * item.quantity}
+                                            {formatPrice(item.price * item.quantity)}
                                         </td>
                                     </tr>
                                 ))}

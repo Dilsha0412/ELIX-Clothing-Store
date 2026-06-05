@@ -4,7 +4,10 @@ import { addToCart } from "../../redux/slices/cartSlice";
 import { toast } from "sonner";
 import { FiX } from "react-icons/fi";
 
+import { useCurrency } from "../../hooks/useCurrency";
+
 const QuickAddModal = ({ product, onClose }) => {
+  const { formatPrice } = useCurrency();
   const dispatch = useDispatch();
   const { user, guestId } = useSelector((state) => state.auth);
 
@@ -78,7 +81,7 @@ const QuickAddModal = ({ product, onClose }) => {
           <div>
             <h3 className="text-xs font-bold uppercase tracking-wider text-neutral-800 line-clamp-2">{product.name}</h3>
             <p className="font-bold text-neutral-900 mt-1">
-              ${Number(product.price).toLocaleString("en-US", { minimumFractionDigits: 2 })}
+              {formatPrice(product.price)}
             </p>
           </div>
         </div>

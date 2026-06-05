@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
 import { fetchUserOrders } from "../redux/slices/orderSlice";
+import { useCurrency } from '../hooks/useCurrency';
 
 const MyOrdersPage = () => {
+    const { formatPrice } = useCurrency();
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { orders, loading, error } = useSelector((state) => state.orders);
@@ -69,7 +71,7 @@ const MyOrdersPage = () => {
                                     </td>
 
                                     <td className="py-4 px-6 text-sm font-semibold text-neutral-900">
-                                        ${order.totalPrice.toFixed(2)}
+                                        {formatPrice(order.totalPrice)}
                                     </td>
 
                                     <td className='py-4 px-6 text-sm'>
