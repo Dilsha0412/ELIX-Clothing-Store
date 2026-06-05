@@ -7,7 +7,7 @@ import { setFilters } from '../../redux/slices/productsSlice';
 import { fetchProductsByFilters } from '../../redux/slices/productsSlice';
 import { useNavigate } from 'react-router-dom';
 
-const SearchBar = () => {
+const SearchBar = ({ isHomePage }) => {
 
 const [searchTerm, setSearchTerm] = useState("");
 const[isOpen, setIsOpen] = useState(false);
