@@ -1,9 +1,12 @@
 import React from 'react'
 import Header from '../Common/Header';
 import Footer from '../Common/Footer';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 
 const UserLayout = () => {
+  const location = useLocation();
+  const isHomePage = location.pathname === "/";
+
   return (
     <>
       <Header />
