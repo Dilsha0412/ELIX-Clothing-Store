@@ -31,12 +31,15 @@ import ScrollToTop from './components/Common/ScrollToTop';
 import axios from 'axios';
 import { logout } from './redux/slices/authSlice';
 
+import { clearCart } from './redux/slices/cartSlice';
+
 // Global Axios Interceptor to handle 401 Unauthorized errors (token expired/invalid)
 axios.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
       store.dispatch(logout());
+      store.dispatch(clearCart());
     }
     return Promise.reject(error);
   }

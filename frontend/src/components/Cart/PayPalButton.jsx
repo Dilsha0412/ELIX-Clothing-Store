@@ -1,18 +1,18 @@
 import React from 'react';
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 
+const paypalOptions = {
+  clientId: import.meta.env.VITE_PAYPAL_CLIENT_ID || "sb",
+  currency: "USD", 
+};
+
 const PayPalButton = ({ amount, onSuccess, onError }) => {
   if (!import.meta.env.VITE_PAYPAL_CLIENT_ID) {
     console.error("PayPal Client ID is missing from .env!");
   }
 
   return (
-    <PayPalScriptProvider 
-      options={{
-        "client-id": import.meta.env.VITE_PAYPAL_CLIENT_ID || "sb",
-        currency: "USD", 
-      }}
-    >
+    <PayPalScriptProvider options={paypalOptions}>
       <PayPalButtons
         style={{ layout: "vertical" }}
         createOrder={(data, actions) => {

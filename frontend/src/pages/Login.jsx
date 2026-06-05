@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import loginImg from "../assets/login.webp";
 import { loginUser } from "../redux/slices/authSlice";
-import { mergeCart } from '../redux/slices/cartSlice';
+import { mergeCart, fetchCart } from '../redux/slices/cartSlice';
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -36,10 +36,15 @@ const Login = () => {
                         navigate(isCheckoutRedirect ? "/checkout" : redirect);
                     });
             } else {
-                navigate(isCheckoutRedirect ? "/checkout" : redirect);
+                dispatch(fetchCart({ userId })).unwrap().then(() => {
+                    navigate(isCheckoutRedirect ? "/checkout" : redirect);
+                }).catch((err) => {
+                    console.error("Cart fetch failed, navigating anyway:", err);
+                    navigate(isCheckoutRedirect ? "/checkout" : redirect);
+                });
             }
         }
-    }, [user, guestId, cart, navigate, isCheckoutRedirect, redirect]);
+    }, [user, guestId, cart, navigate, isCheckoutRedirect, redirect, dispatch]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
