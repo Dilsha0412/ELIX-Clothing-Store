@@ -3,10 +3,11 @@ import { toast } from "sonner";
 import ProductGrid from "./ProductGrid";
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { FiChevronLeft, FiChevronRight, FiHeart, FiEye } from 'react-icons/fi';
+import { FiChevronLeft, FiChevronRight, FiHeart } from 'react-icons/fi';
 import { fetchProductDetails, fetchSimilarProducts } from "../../redux/slices/productsSlice";
 import { addToCart } from "../../redux/slices/cartSlice";
 import QuickAddModal from "./QuickAddModal";
+import { toggleWishlist } from "../../redux/slices/wishlistSlice";
 
 const ProductDetails = ({ productId }) => {
   const { id } = useParams();
@@ -16,6 +17,7 @@ const ProductDetails = ({ productId }) => {
     (state) => state.products
   );
   const { user, guestId } = useSelector((state) => state.auth);
+  const { wishlist } = useSelector((state) => state.wishlist);
 
   const [mainImage, setMainImage] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
@@ -319,7 +321,7 @@ const ProductDetails = ({ productId }) => {
               {/* Scrollable Content */}
               <div
                 ref={scrollRef}
-                className={`overflow-x-scroll flex space-x-6 relative no-scrollbar ${isDragging ? "cursor-grabbing" : "cursor-grab"
+                className={`overflow-x-scroll flex space-x-1 relative no-scrollbar ${isDragging ? "cursor-grabbing" : "cursor-grab"
                   } pb-4`}
                 onMouseDown={handleMouseDown}
                 onMouseMove={handleMouseMove}
@@ -327,7 +329,7 @@ const ProductDetails = ({ productId }) => {
                 onMouseLeave={handleMouseUpOrLeave}
               >
                 {similarProducts?.map((product) => (
-                  <div key={product._id} className='min-w-full sm:min-w-[calc(50%-12px)] lg:min-w-[calc(25%-18px)] w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] shrink-0 relative select-none group/card'>
+                  <div key={product._id} className='min-w-full sm:min-w-[calc(50%-2px)] lg:min-w-[calc(25%-3px)] w-full sm:w-[calc(50%-2px)] lg:w-[calc(25%-3px)] shrink-0 relative select-none group/card'>
                     <div className='relative overflow-hidden bg-gray-100 rounded-none border border-neutral-200'>
                       <Link to={`/product/${product._id}`} className='block'>
                         <img
@@ -338,10 +340,32 @@ const ProductDetails = ({ productId }) => {
                         />
                       </Link>
 
+                      {/* Floating Action Buttons */}
+                      <div className='absolute top-2 right-2 flex flex-col space-y-2 z-20 opacity-0 translate-x-4 group-hover/card:opacity-100 group-hover/card:translate-x-0 transition-all duration-300'>
+                        {/* Wishlist Button */}
+                        <button
+                          onClick={() => {
+                            const isWishlisted = wishlist.some(item => item._id === product._id);
+                            dispatch(toggleWishlist(product));
+                            if (isWishlisted) {
+                              toast.info("Removed from wishlist!", { duration: 1500 });
+                            } else {
+                              toast.success("Added to wishlist!", { duration: 1500 });
+                            }
+                          }}
+                          className='h-8 bg-white text-black rounded-full flex items-center justify-end shadow-md border border-neutral-100 hover:border-neutral-200 transition-all duration-300 overflow-hidden cursor-pointer group/wishlist w-8 hover:w-36 px-2'
+                        >
+                          <span className='text-[9px] font-bold uppercase tracking-wider opacity-0 max-w-0 overflow-hidden group-hover/wishlist:opacity-100 group-hover/wishlist:max-w-[100px] transition-all duration-300 whitespace-nowrap pr-2'>
+                            {wishlist.some(item => item._id === product._id) ? 'In Wishlist' : 'Add to Wishlist'}
+                          </span>
+                          <FiHeart className={`h-4 w-4 shrink-0 ${wishlist.some(item => item._id === product._id) ? 'text-red-500 fill-red-500' : 'text-neutral-800'}`} />
+                        </button>
+                      </div>
+
                       {/* Quick Add Bar */}
                       <button
                         onClick={() => setSelectedQuickAddProduct(product)}
-                        className='absolute bottom-0 left-0 right-0 bg-black text-white font-bold py-3 text-xs tracking-widest uppercase opacity-0 translate-y-full group-hover/card:opacity-100 group-hover/card:translate-y-0 transition-all duration-300 rounded-none cursor-pointer'
+                        className='absolute bottom-0 left-0 right-0 bg-white hover:bg-black text-black hover:text-white border border-black font-bold py-3 text-xs tracking-widest uppercase transition-all duration-300 rounded-none cursor-pointer block text-center opacity-0 translate-y-4 group-hover/card:opacity-100 group-hover/card:translate-y-0 z-20'
                       >
                         Quick Add
                       </button>

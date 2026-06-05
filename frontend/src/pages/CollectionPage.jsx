@@ -65,7 +65,13 @@ const CollectionPage = () => {
             <div className="flex-grow p-6">
 
                 <h2 className="text-2xl font-black uppercase tracking-wider text-black mb-6">
-                    {collection ? `${collection} Collection` : "All Collection"}
+                    {collection 
+                        ? collection.toLowerCase() === 'new-arrivals'
+                            ? queryParams.gender
+                                ? `${queryParams.gender}'s New Arrivals`
+                                : "New Arrivals"
+                            : `${collection} Collection`
+                        : "All Collection"}
                 </h2>
                 
                 {/* Sort Options */}

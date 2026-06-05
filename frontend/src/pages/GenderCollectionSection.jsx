@@ -1,5 +1,4 @@
 import React from 'react'
-import mensCollection from '../assets/jeans-data.jpg'
 import womensCollection from '../assets/Valencia-Workwear-3-Piece-Set-Risate-53659975221541.webp'
 import { Link } from 'react-router-dom'
 import { FiArrowUpRight } from 'react-icons/fi'
@@ -7,11 +6,11 @@ import { FiArrowUpRight } from 'react-icons/fi'
 
 const GenderCollectionSection = () => {
     return (
-        <section className='py-16 w-full px-4 sm:px-6 lg:px-8 max-w-[1750px] mx-auto bg-white'>
-            <div className='w-full flex flex-col md:flex-row gap-6'>
+        <section className='pt-4 pb-12 w-full bg-white'>
+            <div className='w-full flex flex-col md:flex-row gap-1'>
 
                 {/*Womens collection*/}
-                <div className='relative flex-1 group overflow-hidden rounded-none border border-neutral-200 bg-white'>
+                <div className='relative flex-1 group overflow-hidden rounded-none bg-white'>
                     <img
                         src={womensCollection}
                         alt="Women's Collection"
@@ -34,7 +33,7 @@ const GenderCollectionSection = () => {
                 </div>
 
                 {/*Mens collection*/}
-                <div className='relative flex-1 group overflow-hidden rounded-none border border-neutral-200 bg-white'>
+                <div className='relative flex-1 group overflow-hidden rounded-none bg-white'>
                     <img
                         src="https://res.cloudinary.com/dzyha1lps/image/upload/v1779998467/0_0011_YARAmarch264354_rjyf87.webp"
                         alt="Men's Collection"
