@@ -11,6 +11,7 @@ import { toast } from 'sonner';
 const NewArrivals = () => {
     const dispatch = useDispatch();
     const { wishlist } = useSelector((state) => state.wishlist);
+    const { user } = useSelector((state) => state.auth);
     const scrollRef = useRef(null);
     const [isDragging, setIsDragging] = useState(false);
     const [startX, setStartX] = useState(0);
@@ -135,7 +136,7 @@ const NewArrivals = () => {
                                     <button
                                         onClick={() => {
                                             const isWishlisted = wishlist.some(item => item._id === product._id);
-                                            dispatch(toggleWishlist(product));
+                                            dispatch(toggleWishlist({ product, userId: user?._id }));
                                             if (isWishlisted) {
                                                 toast.info("Removed from wishlist!", { duration: 1500 });
                                             } else {

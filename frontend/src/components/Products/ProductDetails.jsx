@@ -346,7 +346,7 @@ const ProductDetails = ({ productId }) => {
                         <button
                           onClick={() => {
                             const isWishlisted = wishlist.some(item => item._id === product._id);
-                            dispatch(toggleWishlist(product));
+                            dispatch(toggleWishlist({ product, userId: user?._id }));
                             if (isWishlisted) {
                               toast.info("Removed from wishlist!", { duration: 1500 });
                             } else {

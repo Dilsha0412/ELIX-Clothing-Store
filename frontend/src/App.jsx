@@ -28,6 +28,19 @@ import { Provider } from "react-redux";
 import store from "./redux/store";
 import ProtectedRoute from './components/Common/ProtectedRoute';
 import ScrollToTop from './components/Common/ScrollToTop';
+import axios from 'axios';
+import { logout } from './redux/slices/authSlice';
+
+// Global Axios Interceptor to handle 401 Unauthorized errors (token expired/invalid)
+axios.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      store.dispatch(logout());
+    }
+    return Promise.reject(error);
+  }
+);
 
 const App = () => {
   return (
