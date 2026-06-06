@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { fetchUsers, addUser, updateUser, deleteUser } from '../../redux/slices/adminSlice'; 
+import { fetchUsers, addUser, updateUser, deleteUser } from '../../redux/slices/adminSlice';
 import { toast } from 'sonner';
 
 const UserManagement = () => {
@@ -15,14 +15,14 @@ const UserManagement = () => {
 
   // Security Check
   useEffect(() => {
-  if (!loading && user && user.role !== "admin") {
-    navigate("/");
-  }
-}, [user, loading, navigate]);
+    if (!loading && user && user.role !== "admin") {
+      navigate("/");
+    }
+  }, [user, loading, navigate]);
 
   useEffect(() => {
     if (user && user.role === "admin") {
-      dispatch(fetchUsers()); 
+      dispatch(fetchUsers());
     }
   }, [dispatch, user]);
 
@@ -31,7 +31,7 @@ const UserManagement = () => {
     name: "",
     email: "",
     password: "",
-    role: "customer", 
+    role: "customer",
   });
 
   // Handle Form Input Changes
@@ -45,7 +45,7 @@ const UserManagement = () => {
   // Add New User
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     dispatch(addUser(formData));
 
     setFormData({
@@ -60,11 +60,11 @@ const UserManagement = () => {
   const handleRoleChange = (uId, newRole) => {
     const targetUser = users.find((u) => u._id === uId);
     if (targetUser) {
-      dispatch(updateUser({ 
-        id: uId, 
-        name: targetUser.name, 
-        email: targetUser.email, 
-        role: newRole 
+      dispatch(updateUser({
+        id: uId,
+        name: targetUser.name,
+        email: targetUser.email,
+        role: newRole
       }));
     }
   };
@@ -87,7 +87,7 @@ const UserManagement = () => {
         <h2 className="text-3xl font-black uppercase tracking-wider text-black mb-1">User Management</h2>
         <p className="text-xs text-neutral-500 tracking-wide font-medium">Create and manage accounts and system privileges</p>
       </div>
-      
+
       {loading && <p className="text-black animate-pulse mb-4 text-xs font-semibold tracking-wider uppercase">Loading users...</p>}
       {error && <p className="text-red-500 mb-4 text-xs font-semibold">{error}</p>}
 
@@ -104,7 +104,7 @@ const UserManagement = () => {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                placeholder="John Doe"
+                placeholder="Your Name"
                 className="w-full p-3 border border-neutral-300 rounded-none text-sm focus:border-black focus:ring-0 focus:outline-none transition bg-white"
                 required
               />
@@ -118,7 +118,7 @@ const UserManagement = () => {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                placeholder="john@example.com"
+                placeholder="youremail@example.com"
                 className="w-full p-3 border border-neutral-300 rounded-none text-sm focus:border-black focus:ring-0 focus:outline-none transition bg-white"
                 required
               />
@@ -157,8 +157,8 @@ const UserManagement = () => {
 
                 {isFormRoleOpen && (
                   <>
-                    <div 
-                      className="fixed inset-0 z-30" 
+                    <div
+                      className="fixed inset-0 z-30"
                       onClick={() => setIsFormRoleOpen(false)}
                     />
                     <div className="absolute left-0 mt-1 w-full bg-white border border-neutral-300 shadow-md z-40 rounded-none">
@@ -169,11 +169,10 @@ const UserManagement = () => {
                             setFormData({ ...formData, role: "customer" });
                             setIsFormRoleOpen(false);
                           }}
-                          className={`w-full text-left px-4 py-2.5 text-xs font-semibold uppercase tracking-wider block transition ${
-                            formData.role === "customer" 
-                              ? "bg-black text-white" 
+                          className={`w-full text-left px-4 py-2.5 text-xs font-semibold uppercase tracking-wider block transition ${formData.role === "customer"
+                              ? "bg-black text-white"
                               : "text-neutral-700 hover:bg-neutral-100 hover:text-black"
-                          }`}
+                            }`}
                         >
                           Customer
                         </button>
@@ -183,11 +182,10 @@ const UserManagement = () => {
                             setFormData({ ...formData, role: "admin" });
                             setIsFormRoleOpen(false);
                           }}
-                          className={`w-full text-left px-4 py-2.5 text-xs font-semibold uppercase tracking-wider block transition ${
-                            formData.role === "admin" 
-                              ? "bg-black text-white" 
+                          className={`w-full text-left px-4 py-2.5 text-xs font-semibold uppercase tracking-wider block transition ${formData.role === "admin"
+                              ? "bg-black text-white"
                               : "text-neutral-700 hover:bg-neutral-100 hover:text-black"
-                          }`}
+                            }`}
                         >
                           Admin
                         </button>
@@ -244,8 +242,8 @@ const UserManagement = () => {
                       {openDropdownId === u._id && (
                         <>
                           {/* Overlay */}
-                          <div 
-                            className="fixed inset-0 z-30" 
+                          <div
+                            className="fixed inset-0 z-30"
                             onClick={() => setOpenDropdownId(null)}
                           />
                           <div className="absolute left-0 mt-1 w-32 bg-white border border-neutral-200 shadow-md z-40 rounded-none">
@@ -256,11 +254,10 @@ const UserManagement = () => {
                                   handleRoleChange(u._id, "customer");
                                   setOpenDropdownId(null);
                                 }}
-                                className={`w-full text-left px-4 py-2 text-xs font-semibold uppercase tracking-wider block transition ${
-                                  u.role === "customer" 
-                                    ? "bg-black text-white" 
+                                className={`w-full text-left px-4 py-2 text-xs font-semibold uppercase tracking-wider block transition ${u.role === "customer"
+                                    ? "bg-black text-white"
                                     : "text-neutral-700 hover:bg-neutral-100 hover:text-black"
-                                }`}
+                                  }`}
                               >
                                 Customer
                               </button>
@@ -270,11 +267,10 @@ const UserManagement = () => {
                                   handleRoleChange(u._id, "admin");
                                   setOpenDropdownId(null);
                                 }}
-                                className={`w-full text-left px-4 py-2 text-xs font-semibold uppercase tracking-wider block transition ${
-                                  u.role === "admin" 
-                                    ? "bg-black text-white" 
+                                className={`w-full text-left px-4 py-2 text-xs font-semibold uppercase tracking-wider block transition ${u.role === "admin"
+                                    ? "bg-black text-white"
                                     : "text-neutral-700 hover:bg-neutral-100 hover:text-black"
-                                }`}
+                                  }`}
                               >
                                 Admin
                               </button>
