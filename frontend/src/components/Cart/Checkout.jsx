@@ -58,8 +58,9 @@ const Checkout = () => {
 
   const handlePaymentSuccess = async (details) => {
     try {
+      const backendUrl = import.meta.env.VITE_BACKEND_URL?.replace(/\/+$/, '') || '';
       const response = await axios.put(
-        `${import.meta.env.VITE_BACKEND_URL}/api/checkout/${checkoutId}/pay`,
+        `${backendUrl}/api/checkout/${checkoutId}/pay`,
         { paymentStatus: "paid", paymentDetails: details },
         {
           headers: {
@@ -79,8 +80,9 @@ const Checkout = () => {
 
   const handleFinalizeCheckout = async (id) => {
     try {
+        const backendUrl = import.meta.env.VITE_BACKEND_URL?.replace(/\/+$/, '') || '';
         await axios.post(
-            `${import.meta.env.VITE_BACKEND_URL}/api/checkout/${id}/finalize`,
+            `${backendUrl}/api/checkout/${id}/finalize`,
             {},
             {
                 headers: {
