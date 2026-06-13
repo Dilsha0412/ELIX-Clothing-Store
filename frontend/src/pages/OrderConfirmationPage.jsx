@@ -28,7 +28,7 @@ const OrderConfirmationPage = () => {
     return (
         <div className='max-w-4xl mx-auto p-6 md:p-10 bg-white tracking-tighter'>
             <div className="text-center mb-10">
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-100 text-emerald-700 mb-4">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-700 text-white mb-4">
                     <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"></path>
                     </svg>

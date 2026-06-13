@@ -152,8 +152,9 @@ const StripeCheckout = ({ checkoutId, onSuccess, onError, amount }) => {
     // Create PaymentIntent as soon as the component loads
     const createPaymentIntent = async () => {
       try {
+        const backendUrl = import.meta.env.VITE_BACKEND_URL?.replace(/\/+$/, '') || '';
         const res = await axios.post(
-          `${import.meta.env.VITE_BACKEND_URL}/api/payment/create-payment-intent`,
+          `${backendUrl}/api/payment/create-payment-intent`,
           { checkoutId },
           {
             headers: {
