@@ -179,7 +179,7 @@ router.get("/", async (req, res) => {
     }
 
     if (category && category.toLocaleLowerCase() !== "all") {
-      query.category = category;
+      query.category = { $in: category.split(",") };
     }
 
     if (material) {
@@ -199,7 +199,7 @@ router.get("/", async (req, res) => {
     }
 
     if (gender) {
-      query.gender = gender;
+      query.gender = { $in: gender.split(",") };
     }
 
     if (minPrice || maxPrice) {

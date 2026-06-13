@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { toast } from "sonner";
 import ProductGrid from "./ProductGrid";
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { FiChevronLeft, FiChevronRight, FiHeart } from 'react-icons/fi';
 import { fetchProductDetails, fetchSimilarProducts } from "../../redux/slices/productsSlice";
@@ -14,6 +14,7 @@ import { useCurrency } from "../../hooks/useCurrency";
 const ProductDetails = ({ productId }) => {
   const { formatPrice } = useCurrency();
   const { id } = useParams();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const { selectedProduct, loading, error, similarProducts } = useSelector(
@@ -124,6 +125,37 @@ const ProductDetails = ({ productId }) => {
       .catch((err) => {
         console.error(err);
         toast.error("Failed to add product to cart.");
+      })
+      .finally(() => {
+        setIsButtonDisabled(false);
+      });
+  };
+
+  const handleBuyItNow = () => {
+    if (!selectedSize || !selectedColor) {
+      toast.error("Please select a size and color before buying.", {
+        duration: 1000,
+      });
+      return;
+    }
+    setIsButtonDisabled(true);
+
+    dispatch(
+      addToCart({
+        productId: productFetchId,
+        quantity,
+        size: selectedSize,
+        color: selectedColor,
+        guestId,
+        userId: user?._id,
+      })
+    )
+      .then(() => {
+        navigate('/checkout');
+      })
+      .catch((err) => {
+        console.error(err);
+        toast.error("Failed to proceed to checkout.");
       })
       .finally(() => {
         setIsButtonDisabled(false);
@@ -245,38 +277,47 @@ const ProductDetails = ({ productId }) => {
                     </div>
                   </div>
 
-                  {/* Quantity Selector */}
+                  {/* Quantity and Actions */}
                   <div className="mb-6">
                     <p className="text-xs font-bold uppercase tracking-wider text-neutral-500 mb-2">Quantity:</p>
-                    <div className="flex items-center mt-2">
+                    <div className="flex gap-4 mb-4">
+                      <div className="flex items-center border border-neutral-200">
+                        <button
+                          type="button"
+                          onClick={() => handleQuantityChange("minus")}
+                          className="px-4 py-3 bg-white text-sm font-bold hover:bg-neutral-50 transition duration-200 cursor-pointer"
+                        >
+                          -
+                        </button>
+                        <span className="text-sm font-bold w-12 text-center select-none">{quantity}</span>
+                        <button
+                          type="button"
+                          onClick={() => handleQuantityChange("plus")}
+                          className="px-4 py-3 bg-white text-sm font-bold hover:bg-neutral-50 transition duration-200 cursor-pointer"
+                        >
+                          +
+                        </button>
+                      </div>
                       <button
-                        type="button"
-                        onClick={() => handleQuantityChange("minus")}
-                        className="px-4 py-2 bg-white border border-neutral-200 text-sm font-bold hover:bg-black hover:text-white rounded-none transition duration-200 cursor-pointer"
+                        onClick={handleAddToCart}
+                        disabled={isButtonDisabled}
+                        className={`flex-1 bg-black hover:bg-white hover:text-black text-white border border-black font-bold py-3 px-6 text-xs uppercase tracking-widest rounded-none transition duration-300 cursor-pointer ${
+                          isButtonDisabled ? "cursor-not-allowed opacity-50" : ""
+                        }`}
                       >
-                        -
-                      </button>
-                      <span className="text-sm font-bold w-12 text-center select-none">{quantity}</span>
-                      <button
-                        type="button"
-                        onClick={() => handleQuantityChange("plus")}
-                        className="px-4 py-2 bg-white border border-neutral-200 text-sm font-bold hover:bg-black hover:text-white rounded-none transition duration-200 cursor-pointer"
-                      >
-                        +
+                        {isButtonDisabled ? "Adding..." : "ADD TO CART"}
                       </button>
                     </div>
+                    <button
+                      onClick={handleBuyItNow}
+                      disabled={isButtonDisabled}
+                      className={`w-full bg-white hover:bg-black hover:text-white text-black border border-black font-bold py-3 px-6 text-xs uppercase tracking-widest rounded-none transition duration-300 cursor-pointer ${
+                        isButtonDisabled ? "cursor-not-allowed opacity-50" : ""
+                      }`}
+                    >
+                      BUY IT NOW
+                    </button>
                   </div>
-
-                  {/* Add to Cart Button */}
-                  <button
-                    onClick={handleAddToCart}
-                    disabled={isButtonDisabled}
-                    className={`bg-black hover:bg-neutral-800 text-white font-bold py-4 px-6 text-xs uppercase tracking-widest rounded-none transition duration-300 w-full mb-6 cursor-pointer ${
-                      isButtonDisabled ? "cursor-not-allowed opacity-50" : ""
-                    }`}
-                  >
-                    {isButtonDisabled ? "Adding..." : "ADD TO CART"}
-                  </button>
 
                   {/* Characteristics Table */}
                   <div className="border-t pt-4">
