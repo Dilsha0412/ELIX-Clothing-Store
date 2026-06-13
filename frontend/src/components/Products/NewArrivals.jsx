@@ -92,7 +92,7 @@ const NewArrivals = () => {
                     <div className='h-[1px] bg-black flex-1 mx-4'></div>
                 </div>
 
-                <Link to="/collections/all" className='text-xs font-bold uppercase tracking-widest text-black border-b border-black pb-0.5 mb-8 hover:text-neutral-500 hover:border-neutral-500 transition-colors inline-block'>
+                <Link to="/collections/new-arrivals" className='text-xs font-bold uppercase tracking-widest text-black border-b border-black pb-0.5 mb-8 hover:text-neutral-500 hover:border-neutral-500 transition-colors inline-block'>
                     View All
                 </Link>
             </div>
