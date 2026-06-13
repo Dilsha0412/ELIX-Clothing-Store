@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import PayPalButton from './PayPalButton';
+import StripeCheckout from './StripeCheckout';
 import { useSelector, useDispatch } from 'react-redux';
 import { createCheckout } from '../../redux/slices/checkoutSlice';
 import axios from 'axios';
@@ -42,7 +42,7 @@ const Checkout = () => {
           createCheckout({
             checkoutItems: cart.products,
             shippingAddress,
-            paymentMethod: "paypal",
+            paymentMethod: "stripe",
             totalPrice: cart.totalPrice,
           })
         ).unwrap();
@@ -73,6 +73,7 @@ const Checkout = () => {
       }
     } catch (error) {
       console.error("Payment registration error:", error);
+      alert(error.response?.data?.message || "Failed to register payment on the server. Please try again.");
     }
   };
 
@@ -90,6 +91,7 @@ const Checkout = () => {
       navigate("/order-confirmation");
     } catch (error) {
         console.error("Finalize checkout error:", error);
+        alert(error.response?.data?.message || "Failed to finalize the checkout. Please try again.");
     }
   };
 
@@ -235,25 +237,28 @@ const Checkout = () => {
               </div>
 
               <div className='mt-8'>
-                {!checkoutId ? (
+                {!checkoutId && (
                   <button
                    type='submit'
                    className='w-full bg-black hover:bg-neutral-800 text-white font-bold py-4 px-6 text-xs uppercase tracking-widest rounded-none transition duration-300 cursor-pointer shadow-sm'
                    >
                     Continue to Payment
                   </button>
-                ):(
-                  <div className="mt-6 border-t border-neutral-200 pt-6">
-                    <h3 className='text-xs font-bold uppercase tracking-widest text-neutral-800 mb-4'>Pay with Paypal</h3>
-                    <PayPalButton
-                      amount={Number(cart.totalPrice).toFixed(2)} 
-                      onSuccess={handlePaymentSuccess} 
-                      onError={(err) => alert("Payment failed. Try again.")}
-                     />
-                    </div>
                 )}
               </div>
           </form>
+
+          {checkoutId && (
+            <div className="mt-6 border-t border-neutral-200 pt-6">
+              <h3 className='text-xs font-bold uppercase tracking-widest text-neutral-800 mb-4'>Pay with Stripe</h3>
+              <StripeCheckout
+                checkoutId={checkoutId}
+                amount={Number(cart.totalPrice).toFixed(2)} 
+                onSuccess={handlePaymentSuccess} 
+                onError={(err) => alert("Payment failed. Try again.")}
+               />
+              </div>
+          )}
       </div>
 
      {/* Right Section - Summary */}
