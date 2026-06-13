@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-import featured from "../../assets/Custom-Logo-Wholesales-New-Style-High-Quality-Blank-Color-100-Polyester-T-Shirt-for-Men.avif"
+import featured from "../../assets/Gemini_Generated_Image_qsi73aqsi73aqsi7 (1).png"
 
 const FeaturedCollection = () => {
   return (
