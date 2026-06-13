@@ -56,11 +56,9 @@ const FilterSidebar = () => {
     "Navy",
   ];
   const sizes = [
-    "XS",
-    "S",
-    "M",
-    "L",
-    "XL"
+    "XS", "S", "M", "L", "XL", "2XL", "3XL", "4XL", "5XL", "6XL",
+    "15", "15.5", "16", "16.5", "17", "17.5", "28", "30", "32", "34", 
+    "36", "38", "40", "42", "44", "45"
   ];
   const materials = [
     "Cotton",
@@ -200,19 +198,18 @@ const FilterSidebar = () => {
 
       {/* Size Filter */}
       <FilterSection title="Size">
-        <div className='space-y-2'>
+        <div className='grid grid-cols-4 gap-2'>
           {sizes.map((size) => (
-            <label key={size} className='flex items-center cursor-pointer group'>
-              <input
-                type="checkbox"
-                name="size"
-                value={size}
-                onChange={handleFilterChange}
-                checked={filters.size.includes(size)}
-                className='mr-3 h-4 w-4 accent-black border-neutral-300 focus:ring-0 rounded-none cursor-pointer flex-shrink-0'
-              />
-              <span className='text-sm text-neutral-700 font-medium tracking-wide group-hover:text-black transition-colors whitespace-nowrap'>{size}</span>
-            </label>
+            <button
+              key={size}
+              name="size"
+              value={size}
+              onClick={() => handleFilterChange({ target: { name: 'size', value: size, type: 'checkbox', checked: !filters.size.includes(size) } })}
+              className={`py-2 text-center text-xs font-semibold uppercase tracking-wider border rounded-none transition-all duration-200 cursor-pointer
+                ${filters.size.includes(size) ? 'bg-black text-white border-black' : 'bg-white text-gray-700 border-gray-300 hover:border-black hover:text-black'}`}
+            >
+              {size}
+            </button>
           ))}
         </div>
       </FilterSection>
