@@ -24,6 +24,7 @@ router.post("/", protect, admin, async (req, res) => {
       images,
       isFeatured,
       isPublished,
+      isNewArrival,
       tags,
       dimensions,
       weight,
@@ -46,6 +47,7 @@ router.post("/", protect, admin, async (req, res) => {
       images,
       isFeatured,
       isPublished,
+      isNewArrival,
       tags,
       dimensions,
       weight,
@@ -82,6 +84,7 @@ router.put("/:id", protect, admin, async (req, res) => {
       images,
       isFeatured,
       isPublished,
+      isNewArrival,
       tags,
       dimensions,
       weight,
@@ -108,6 +111,7 @@ router.put("/:id", protect, admin, async (req, res) => {
       product.images = images || product.images;
       product.isFeatured = isFeatured !== undefined ? isFeatured : product.isFeatured;
       product.isPublished = isPublished !== undefined ? isPublished : product.isPublished;
+      product.isNewArrival = isNewArrival !== undefined ? isNewArrival : product.isNewArrival;
       product.tags = tags || product.tags;
       product.dimensions = dimensions || product.dimensions;
       product.weight = weight || product.weight;
@@ -168,6 +172,10 @@ router.get("/", async (req, res) => {
     // Filter logic
     if (collection && collection.toLocaleLowerCase() !== "all" && collection.toLocaleLowerCase() !== "new-arrivals") {
       query.collections = collection;
+    }
+
+    if (collection && collection.toLocaleLowerCase() === "new-arrivals") {
+      query.isNewArrival = true;
     }
 
     if (category && category.toLocaleLowerCase() !== "all") {
@@ -263,8 +271,8 @@ router.get("/best-seller", async (req, res) => {
 // @access Public
 router.get("/new-arrivals", async (req, res) => {
   try {
-    // Fetch latest 8 products
-    const newArrivals = await Product.find().sort({ createdAt: -1 }).limit(8);
+    // Fetch latest 8 products that are marked as new arrivals
+    const newArrivals = await Product.find({ isNewArrival: true }).sort({ createdAt: -1 }).limit(8);
     res.json(newArrivals);
   } catch (error) {
     console.error(error);

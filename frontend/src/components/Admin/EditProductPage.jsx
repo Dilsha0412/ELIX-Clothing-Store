@@ -29,6 +29,7 @@ const EditProductPage = () => {
     images: [],
     isFeatured: false,
     isPublished: false,
+    isNewArrival: false,
   });
 
   const [sizesInput, setSizesInput] = useState("");
@@ -59,6 +60,7 @@ const EditProductPage = () => {
         images: selectedProduct.images || [],
         isFeatured: selectedProduct.isFeatured || false,
         isPublished: selectedProduct.isPublished || false,
+        isNewArrival: selectedProduct.isNewArrival || false,
       });
       setSizesInput(selectedProduct.sizes ? selectedProduct.sizes.join(", ") : "");
       setColorsInput(selectedProduct.colors ? selectedProduct.colors.join(", ") : "");
@@ -377,7 +379,7 @@ const EditProductPage = () => {
           </div>
         </div>
 
-        {/* Toggles: Featured & Published */}
+        {/* Toggles: Featured & Published & New Arrival */}
         <div className="flex gap-8 mb-6">
           <label className="flex items-center space-x-3 cursor-pointer">
             <input
@@ -398,6 +400,16 @@ const EditProductPage = () => {
               className="w-5 h-5 border-neutral-300 rounded-none focus:ring-0 focus:border-black text-black"
             />
             <span className="text-xs font-bold uppercase tracking-wider text-neutral-700">Is Published</span>
+          </label>
+          <label className="flex items-center space-x-3 cursor-pointer">
+            <input
+              type="checkbox"
+              name="isNewArrival"
+              checked={productData.isNewArrival}
+              onChange={handleChange}
+              className="w-5 h-5 border-neutral-300 rounded-none focus:ring-0 focus:border-black text-black"
+            />
+            <span className="text-xs font-bold uppercase tracking-wider text-neutral-700">Is New Arrival</span>
           </label>
         </div>
 
