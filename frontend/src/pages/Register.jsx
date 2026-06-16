@@ -4,6 +4,7 @@ import registerImg from "../assets/register.webp";
 import { registerUser } from "../redux/slices/authSlice";
 import { useSelector, useDispatch } from 'react-redux';
 import { mergeCart } from '../redux/slices/cartSlice';
+import { toast } from "sonner";
 
 const Register = () => {
     const [name, setName] = useState("");
@@ -50,10 +51,10 @@ const Register = () => {
         e.preventDefault();
         try {
             await dispatch(registerUser({ name, email, password })).unwrap();
-            alert("Registration Successful! Please login.");
+            toast.success("Registration Successful! Please login.");
             navigate("/login");
         } catch (error) {
-            alert(error || "Registration failed. Try again!");
+            toast.error(error || "Registration failed. Try again!");
         }
     };
 

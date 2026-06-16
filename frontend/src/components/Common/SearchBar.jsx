@@ -117,7 +117,7 @@ const SearchBar = ({ isHomePage }) => {
                                             />
                                         </div>
                                         <div className="text-center">
-                                            <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-800 mb-1 truncate px-2">
+                                            <h4 className="text-xs font-medium uppercase tracking-wider text-gray-800 mb-1 truncate px-2">
                                                 {product.name}
                                             </h4>
                                             <p className="font-bold text-sm text-gray-900">

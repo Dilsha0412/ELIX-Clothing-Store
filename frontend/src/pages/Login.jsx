@@ -4,6 +4,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import loginImg from "../assets/login.webp";
 import { loginUser } from "../redux/slices/authSlice";
 import { mergeCart, fetchCart } from '../redux/slices/cartSlice';
+import { toast } from "sonner";
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -59,7 +60,7 @@ const Login = () => {
             }
 
         } catch (error) {
-            alert(error?.message || error || "Invalid Credentials! Please try again.");
+            toast.error(error?.message || error || "Invalid Credentials! Please try again.");
         }
     };
 

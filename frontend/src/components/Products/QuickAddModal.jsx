@@ -79,7 +79,7 @@ const QuickAddModal = ({ product, onClose }) => {
             className="w-20 h-20 object-cover rounded-none border border-neutral-100"
           />
           <div>
-            <h3 className="text-xs font-bold uppercase tracking-wider text-neutral-800 line-clamp-2">{product.name}</h3>
+            <h3 className="text-xs font-medium uppercase tracking-wider text-neutral-800 line-clamp-2">{product.name}</h3>
             <p className="font-bold text-neutral-900 mt-1">
               {formatPrice(product.price)}
             </p>

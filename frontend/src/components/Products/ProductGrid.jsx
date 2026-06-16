@@ -67,7 +67,7 @@ const ProductGrid = ({ products, loading, error }) => {
                         </div>
                         <div className='mt-4 text-center'>
                             <Link to={`/product/${product._id}`} className='block'>
-                                <h4 className='text-xs font-semibold uppercase tracking-wider text-gray-800 mb-1'>
+                                <h4 className='text-xs font-medium uppercase tracking-wider text-gray-800 mb-1'>
                                     {product.name}
                                 </h4>
                                 <p className='font-bold text-sm text-gray-900'>
