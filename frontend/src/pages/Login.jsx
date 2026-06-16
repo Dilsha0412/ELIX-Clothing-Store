@@ -2,9 +2,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import loginImg from "../assets/login.webp";
-import { loginUser } from "../redux/slices/authSlice";
 import { mergeCart, fetchCart } from '../redux/slices/cartSlice';
 import { toast } from "sonner";
+import { GoogleLogin } from '@react-oauth/google';
+import { loginUser, googleLoginUser } from "../redux/slices/authSlice";
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -61,6 +62,15 @@ const Login = () => {
 
         } catch (error) {
             toast.error(error?.message || error || "Invalid Credentials! Please try again.");
+        }
+    };
+
+    const handleGoogleSuccess = async (credentialResponse) => {
+        try {
+            const result = await dispatch(googleLoginUser(credentialResponse.credential)).unwrap();
+            toast.success("Google Login Successful!");
+        } catch (error) {
+            toast.error(error?.message || "Google Login Failed");
         }
     };
 
@@ -131,6 +141,24 @@ const Login = () => {
                     >
                         {loading ? "Loading..." : "Sign In"}
                     </button>
+
+                    <div className="mt-6 flex flex-col items-center">
+                        <div className="w-full flex items-center justify-center mb-6">
+                            <hr className="w-full border-neutral-300" />
+                            <span className="px-4 text-xs text-neutral-500 uppercase tracking-widest bg-white">OR</span>
+                            <hr className="w-full border-neutral-300" />
+                        </div>
+                        <GoogleLogin
+                            onSuccess={handleGoogleSuccess}
+                            onError={() => {
+                                toast.error('Google Login Failed');
+                            }}
+                            theme="outline"
+                            size="large"
+                            text="signin_with"
+                            shape="rectangular"
+                        />
+                    </div>
 
                     <p className="mt-8 text-center text-xs text-neutral-500 tracking-wide">
                         Don't have an account?{" "}

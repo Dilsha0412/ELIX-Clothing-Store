@@ -5,6 +5,8 @@ import { registerUser } from "../redux/slices/authSlice";
 import { useSelector, useDispatch } from 'react-redux';
 import { mergeCart } from '../redux/slices/cartSlice';
 import { toast } from "sonner";
+import { GoogleLogin } from '@react-oauth/google';
+import { googleLoginUser } from "../redux/slices/authSlice";
 
 const Register = () => {
     const [name, setName] = useState("");
@@ -55,6 +57,16 @@ const Register = () => {
             navigate("/login");
         } catch (error) {
             toast.error(error || "Registration failed. Try again!");
+        }
+    };
+
+    const handleGoogleSuccess = async (credentialResponse) => {
+        try {
+            const result = await dispatch(googleLoginUser(credentialResponse.credential)).unwrap();
+            toast.success("Google Login Successful!");
+            navigate("/");
+        } catch (error) {
+            toast.error(error?.message || "Google Login Failed");
         }
     };
 
@@ -141,6 +153,24 @@ const Register = () => {
                     >
                         {loading ? "Loading..." : "Sign Up"}
                     </button>
+
+                    <div className="mt-6 flex flex-col items-center">
+                        <div className="w-full flex items-center justify-center mb-6">
+                            <hr className="w-full border-neutral-300" />
+                            <span className="px-4 text-xs text-neutral-500 uppercase tracking-widest bg-white">OR</span>
+                            <hr className="w-full border-neutral-300" />
+                        </div>
+                        <GoogleLogin
+                            onSuccess={handleGoogleSuccess}
+                            onError={() => {
+                                toast.error('Google Login Failed');
+                            }}
+                            theme="outline"
+                            size="large"
+                            text="signup_with"
+                            shape="rectangular"
+                        />
+                    </div>
 
                     <p className="mt-8 text-center text-xs text-neutral-500 tracking-wide">
                         Already have an account?{" "}

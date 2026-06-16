@@ -66,6 +66,27 @@ export const registerUser = createAsyncThunk(
   }
 );
 
+// Async Thunk for Google Login
+export const googleLoginUser = createAsyncThunk(
+  "auth/googleLoginUser",
+  async (token, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/users/google`,
+        { token }
+      );
+
+      localStorage.setItem("userInfo", JSON.stringify(response.data));
+      localStorage.setItem("userToken", response.data.token);
+      localStorage.setItem("token", response.data.token);
+
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || { message: "Google login failed" });
+    }
+  }
+);
+
 // Slice
 const authSlice = createSlice({
   name: "auth",
@@ -114,6 +135,21 @@ const authSlice = createSlice({
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload?.message || action.error?.message || "Registration failed. Server is unreachable.";
+      })
+      
+      // Google Login Handlers
+      .addCase(googleLoginUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(googleLoginUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+        state.error = null;
+      })
+      .addCase(googleLoginUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload?.message || action.error?.message || "Google login failed.";
       });
   },
 });
