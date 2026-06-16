@@ -4,7 +4,7 @@ const FAQs = () => {
   const faqData = [
     {
       question: "How long does shipping take?",
-      answer: "We offer worldwide shipping. Domestic orders typically arrive within 3-5 business days, while international orders take between 7-14 business days depending on customs and shipping options selected at checkout."
+      answer: "We offer worldwide shipping. Domestic orders typically arrive within 2-3 business days, while international orders take between 7-14 business days depending on customs and shipping options selected at checkout."
     },
     {
       question: "What is your return policy?",
@@ -16,7 +16,7 @@ const FAQs = () => {
     },
     {
       question: "Which payment methods do you accept?",
-      answer: "We accept all major credit and debit cards (Visa, MasterCard, American Express) and securely process transactions using PayPal. All transactions are fully encrypted and protected."
+      answer: "We accept all major credit and debit cards (Visa, MasterCard, American Express, and Discover) and securely process transactions using Stripe. All transactions are fully encrypted and protected."
     },
     {
       question: "Do you offer sizing charts?",
@@ -54,9 +54,8 @@ const FAQs = () => {
                 </span>
               </button>
               <div
-                className={`transition-all duration-300 ease-in-out overflow-hidden ${
-                  isOpen ? 'max-h-96 border-t border-neutral-100' : 'max-h-0'
-                }`}
+                className={`transition-all duration-300 ease-in-out overflow-hidden ${isOpen ? 'max-h-96 border-t border-neutral-100' : 'max-h-0'
+                  }`}
               >
                 <div className="p-5 text-neutral-500 text-xs tracking-wider leading-relaxed bg-white">
                   {faq.answer}

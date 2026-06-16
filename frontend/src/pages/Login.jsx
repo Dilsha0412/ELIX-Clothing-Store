@@ -8,6 +8,8 @@ import { mergeCart, fetchCart } from '../redux/slices/cartSlice';
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [passwordType, setPasswordType] = useState("text");
+    const [isInteracted, setIsInteracted] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
@@ -67,36 +69,58 @@ const Login = () => {
                 <form
                     onSubmit={handleSubmit}
                     className="w-full max-w-md bg-white p-8 border border-neutral-200 rounded-none shadow-none"
+                    autoComplete="off"
+                    onMouseEnter={() => setIsInteracted(true)}
+                    onFocus={() => setIsInteracted(true)}
+                    onClick={() => setIsInteracted(true)}
                 >
+                    {/* Dummy hidden inputs to prevent automatic browser autofill on page load */}
+                    <div style={{ height: 0, overflow: 'hidden', opacity: 0, position: 'absolute' }}>
+                        <input type="email" name="prevent_autofill_email" tabIndex="-1" aria-hidden="true" autoComplete="off" />
+                        <input type="password" name="prevent_autofill_password" tabIndex="-1" aria-hidden="true" autoComplete="off" />
+                    </div>
+
                     <div className="flex justify-center mb-6">
                         <h2 className="text-xl font-black uppercase tracking-widest text-black">ELIX</h2>
                     </div>
                     <h2 className="text-2xl font-black uppercase tracking-wider text-center text-black mb-3">Hey there!</h2>
                     <p className="text-xs text-neutral-500 tracking-wide font-medium text-center mb-8">
-                        Enter your username and password to Login
+                         Enter your username and password to Login
                     </p>
 
                     <div className="mb-6">
                         <label className="block text-xs font-bold uppercase tracking-wider text-neutral-500 mb-2">Email</label>
                         <input
-                            type="email"
+                            type="text"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             className="w-full p-3 text-sm border border-neutral-300 rounded-none focus:outline-none focus:border-black focus:ring-0 bg-white transition-all"
                             placeholder="Enter your email address"
                             required
+                            readOnly={!isInteracted}
+                            onFocus={() => setIsInteracted(true)}
                         />
                     </div>
 
                     <div className="mb-6">
                         <label className="block text-xs font-bold uppercase tracking-wider text-neutral-500 mb-2">Password</label>
                         <input
-                            type="password"
+                            type={passwordType}
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             className="w-full p-3 text-sm border border-neutral-300 rounded-none focus:outline-none focus:border-black focus:ring-0 bg-white transition-all"
                             placeholder="Enter your password"
                             required
+                            readOnly={!isInteracted}
+                            onFocus={() => {
+                                setIsInteracted(true);
+                                setPasswordType("password");
+                            }}
+                            onBlur={(e) => {
+                                if (!e.target.value) {
+                                    setPasswordType("text");
+                                }
+                            }}
                         />
                     </div>
 
