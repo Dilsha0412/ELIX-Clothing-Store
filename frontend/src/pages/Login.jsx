@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import loginImg from "../assets/login.webp";
+import loginImg from "../assets/Gemini_Generated_Image_h8e33eh8e33eh8e3 (1).png";
 import { mergeCart, fetchCart } from '../redux/slices/cartSlice';
 import { toast } from "sonner";
 import { GoogleLogin } from '@react-oauth/google';
@@ -169,13 +169,11 @@ const Login = () => {
                 </form>
             </div>
             <div className="hidden md:block w-1/2 bg-neutral-100 border-l border-neutral-200">
-                <div className="h-full flex flex-col justify-center items-center">
-                    <img
-                        src={loginImg}
-                        alt="Login to Account"
-                        className="h-[750px] w-full object-cover"
-                    />
-                </div>
+                <img
+                    src={loginImg}
+                    alt="Login to Account"
+                    className="w-full h-full object-cover object-top"
+                />
             </div>
         </div>
     );

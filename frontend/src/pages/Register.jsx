@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import registerImg from "../assets/register.webp";
+import registerImg from "../assets/Gemini_Generated_Image_on0bq0on0bq0on0b (1).png";
 import { registerUser } from "../redux/slices/authSlice";
 import { useSelector, useDispatch } from 'react-redux';
 import { mergeCart } from '../redux/slices/cartSlice';
@@ -181,13 +181,11 @@ const Register = () => {
                 </form>
             </div>
             <div className="hidden md:block w-1/2 bg-neutral-100 border-l border-neutral-200">
-                <div className="h-full flex flex-col justify-center items-center">
-                    <img
-                        src={registerImg}
-                        alt="Register Account"
-                        className="h-[750px] w-full object-cover"
-                    />
-                </div>
+                <img
+                    src={registerImg}
+                    alt="Register Account"
+                    className="w-full h-full object-cover object-top"
+                />
             </div>
         </div>
     );
