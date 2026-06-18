@@ -44,6 +44,12 @@ const CheckoutForm = ({ checkoutId, onSuccess, onError, amount }) => {
 
   return (
     <form onSubmit={handleSubmit} id="payment-form">
+      <div className="bg-blue-50 border border-blue-200 p-4 mb-6 rounded-md">
+        <p className="text-sm text-blue-800 font-bold mb-1">ℹ️ Test Mode Active</p>
+        <p className="text-xs text-blue-700">
+          To test a successful payment, please use the card number <span className="font-bold tracking-wider">4242 4242 4242 4242</span> along with any future expiration date (e.g. 12/28) and any CVC.
+        </p>
+      </div>
       <PaymentElement id="payment-element" />
       <button
         disabled={isLoading || !stripe || !elements}
