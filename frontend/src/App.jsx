@@ -30,7 +30,6 @@ import ProtectedRoute from './components/Common/ProtectedRoute';
 import ScrollToTop from './components/Common/ScrollToTop';
 import axios from 'axios';
 import { logout } from './redux/slices/authSlice';
-
 import { clearCart } from './redux/slices/cartSlice';
 
 // Global Axios Interceptor to handle 401 Unauthorized errors (token expired/invalid)

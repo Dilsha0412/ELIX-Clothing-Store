@@ -16,16 +16,16 @@ cloudinary.config({
 
 mongoose.connect(process.env.MONGO_URI).then(async () => {
     console.log("Connected to MongoDB. Starting migration...");
-    
+
     const products = await Product.find();
     let updatedCount = 0;
 
     for (let p of products) {
         let changed = false;
-        
+
         for (let i = 0; i < p.images.length; i++) {
             let imgUrl = p.images[i].url;
-            
+
             // Skip if already a cloudinary URL
             if (imgUrl.includes('res.cloudinary.com')) {
                 continue;
@@ -40,7 +40,7 @@ mongoose.connect(process.env.MONGO_URI).then(async () => {
                     uploadSource = localFilePath;
                 } else {
                     console.log(`File not found locally: ${localFilePath}`);
-                    continue; // Skip if file doesn't exist
+                    continue;
                 }
             } else if (imgUrl.startsWith('/')) {
                 const localFilePath = path.join(__dirname, '..', 'frontend', 'public', imgUrl);
@@ -51,7 +51,7 @@ mongoose.connect(process.env.MONGO_URI).then(async () => {
                     continue;
                 }
             }
-            
+
             try {
                 console.log(`Uploading ${uploadSource} to Cloudinary...`);
                 const result = await cloudinary.uploader.upload(uploadSource, { folder: "products" });
@@ -62,7 +62,7 @@ mongoose.connect(process.env.MONGO_URI).then(async () => {
                 console.error(`Error uploading ${uploadSource}:`, err.message);
             }
         }
-        
+
         if (changed) {
             await p.save();
             updatedCount++;

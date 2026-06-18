@@ -34,10 +34,9 @@ const Navbar = () => {
     return (
         <>
             <nav className='relative w-full max-w-none mx-auto flex items-center justify-between py-3 px-4 md:px-6 lg:px-8 bg-transparent select-none'>
-                
+
                 {/* Left side: Hamburger (mobile only) + Logo */}
                 <div className="flex items-center space-x-4">
-                    {/* Hamburger Button (mobile only) */}
                     <button
                         onClick={toggleNavDrawer}
                         className='md:hidden flex items-center space-x-2 transition-colors cursor-pointer group text-neutral-700 hover:text-black'
@@ -57,7 +56,7 @@ const Navbar = () => {
                         </span>
                     </button>
 
-                    {/* Logo (left-aligned on desktop, absolute centered on mobile) */}
+                    {/* Logo (left-aligned on desktop, centered on mobile) */}
                     <div className="absolute left-1/2 transform -translate-x-1/2 md:static md:transform-none md:ml-4 z-10">
                         <Link to="/" className="text-xl sm:text-2xl font-serif tracking-widest uppercase transition-opacity hover:opacity-85 text-black">
                             ELIX
@@ -72,7 +71,7 @@ const Navbar = () => {
                         <button className="text-red-500 hover:text-red-600 transition-colors flex items-center gap-0.5 py-3 cursor-pointer">
                             New <FiChevronDown className="h-3 w-3 text-red-400 group-hover:text-red-500" />
                         </button>
-                        
+
                         {/* Dropdown Box */}
                         <div className="absolute top-full left-0 bg-white border border-neutral-200 shadow-lg py-3.5 px-5 w-[200px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 flex flex-col space-y-3">
                             <Link to="/collections/new-arrivals?gender=Women" className="text-xs text-neutral-800 hover:text-black font-semibold tracking-wider transition-colors block py-0.5">
@@ -128,8 +127,8 @@ const Navbar = () => {
 
                         {currencyDropdownOpen && (
                             <>
-                                <div 
-                                    className="fixed inset-0 z-40" 
+                                <div
+                                    className="fixed inset-0 z-40"
                                     onClick={() => setCurrencyDropdownOpen(false)}
                                 />
                                 <div className="absolute right-0 mt-2 bg-white border border-neutral-200 shadow-xl p-3 flex flex-col space-y-3 min-w-[130px] z-50 rounded-none transform scale-100 transition-all origin-top-right">
@@ -212,9 +211,8 @@ const Navbar = () => {
             {/* Sidebar Menu Drawer */}
             {createPortal(
                 <div
-                    className={`fixed top-0 left-0 w-3/4 sm:w-1/3 h-full bg-neutral-950 shadow-2xl border-r border-neutral-900 transform transition-transform duration-300 z-50 ${
-                        navDrawerOpen ? "translate-x-0" : "-translate-x-full"
-                    }`}
+                    className={`fixed top-0 left-0 w-3/4 sm:w-1/3 h-full bg-neutral-950 shadow-2xl border-r border-neutral-900 transform transition-transform duration-300 z-50 ${navDrawerOpen ? "translate-x-0" : "-translate-x-full"
+                        }`}
                 >
                     <div className='flex justify-end p-4'>
                         <button onClick={toggleNavDrawer} className='text-white hover:text-gray-300 transition-colors'>

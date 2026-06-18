@@ -247,9 +247,8 @@ const ProductDetails = ({ productId }) => {
                         <button
                           key={color}
                           onClick={() => setSelectedColor(color)}
-                          className={`w-8 h-8 rounded-full border border-neutral-300 cursor-pointer transition-all duration-200 hover:scale-110 ${
-                            selectedColor === color ? "ring-2 ring-black ring-offset-2 scale-110" : ""
-                          }`}
+                          className={`w-8 h-8 rounded-full border border-neutral-300 cursor-pointer transition-all duration-200 hover:scale-110 ${selectedColor === color ? "ring-2 ring-black ring-offset-2 scale-110" : ""
+                            }`}
                           style={{ backgroundColor: color.toLowerCase() }}
                           title={color}
                         />
@@ -265,11 +264,10 @@ const ProductDetails = ({ productId }) => {
                         <button
                           key={size}
                           onClick={() => setSelectedSize(size)}
-                          className={`px-4 py-2 text-xs font-bold uppercase tracking-wider border rounded-none transition-all duration-200 ${
-                            selectedSize === size
+                          className={`px-4 py-2 text-xs font-bold uppercase tracking-wider border rounded-none transition-all duration-200 ${selectedSize === size
                               ? "bg-black text-white border-black"
                               : "bg-white text-black border-neutral-200 hover:bg-neutral-50 hover:border-black"
-                          }`}
+                            }`}
                         >
                           {size}
                         </button>
@@ -301,9 +299,8 @@ const ProductDetails = ({ productId }) => {
                       <button
                         onClick={handleAddToCart}
                         disabled={isButtonDisabled}
-                        className={`flex-1 bg-black hover:bg-white hover:text-black text-white border border-black font-bold py-3 px-6 text-xs uppercase tracking-widest rounded-none transition duration-300 cursor-pointer ${
-                          isButtonDisabled ? "cursor-not-allowed opacity-50" : ""
-                        }`}
+                        className={`flex-1 bg-black hover:bg-white hover:text-black text-white border border-black font-bold py-3 px-6 text-xs uppercase tracking-widest rounded-none transition duration-300 cursor-pointer ${isButtonDisabled ? "cursor-not-allowed opacity-50" : ""
+                          }`}
                       >
                         {isButtonDisabled ? "Adding..." : "ADD TO CART"}
                       </button>
@@ -311,9 +308,8 @@ const ProductDetails = ({ productId }) => {
                     <button
                       onClick={handleBuyItNow}
                       disabled={isButtonDisabled}
-                      className={`w-full bg-white hover:bg-black hover:text-white text-black border border-black font-bold py-3 px-6 text-xs uppercase tracking-widest rounded-none transition duration-300 cursor-pointer ${
-                        isButtonDisabled ? "cursor-not-allowed opacity-50" : ""
-                      }`}
+                      className={`w-full bg-white hover:bg-black hover:text-white text-black border border-black font-bold py-3 px-6 text-xs uppercase tracking-widest rounded-none transition duration-300 cursor-pointer ${isButtonDisabled ? "cursor-not-allowed opacity-50" : ""
+                        }`}
                     >
                       BUY IT NOW
                     </button>
@@ -339,8 +335,8 @@ const ProductDetails = ({ productId }) => {
                   </div>
                 </div>
               </div>
-            </div> {/* Close Product Details Card */}
-          </div> {/* Close top padding wrapper */}
+            </div>
+          </div>
 
           {/* Similar Products Section - Moved outside for full-width layout matching New Arrivals */}
           <div className="mb-16 w-full px-4 sm:px-6 lg:px-8 max-w-[1750px] mx-auto">
@@ -416,7 +412,7 @@ const ProductDetails = ({ productId }) => {
                     </div>
 
                     {/* Product Info below image */}
-                     <div className='mt-4 text-center'>
+                    <div className='mt-4 text-center'>
                       <Link to={`/product/${product._id}`} className='block'>
                         <h4 className='text-xs font-medium uppercase tracking-wider text-gray-800 mb-1'>{product.name}</h4>
                         <p className='font-bold text-sm text-gray-900'>{formatPrice(product.price)}</p>

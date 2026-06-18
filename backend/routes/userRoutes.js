@@ -109,20 +109,20 @@ router.post("/google", async (req, res) => {
       audience: process.env.GOOGLE_CLIENT_ID,
     });
     const { name, email } = ticket.getPayload();
-    
+
     // 2. Check if user exists
     let user = await User.findOne({ email });
-    
+
     // 3. Create user if not exists
     if (!user) {
       user = new User({
         name,
         email,
-        password: "randomGeneratedPassword123!", // Dummy password since it's required in model
+        password: "randomGeneratedPassword123!",
       });
       await user.save();
     }
-    
+
     // 4. Generate system JWT token
     const payload = { user: { id: user._id, role: user.role } };
     jwt.sign(

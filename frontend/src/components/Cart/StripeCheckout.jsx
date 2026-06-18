@@ -149,7 +149,6 @@ const StripeCheckout = ({ checkoutId, onSuccess, onError, amount }) => {
   const [isMock, setIsMock] = useState(false);
 
   useEffect(() => {
-    // Create PaymentIntent as soon as the component loads
     const createPaymentIntent = async () => {
       try {
         const backendUrl = import.meta.env.VITE_BACKEND_URL?.replace(/\/+$/, '') || '';
