@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import loginImg from "../assets/Gemini_Generated_Image_h8e33eh8e33eh8e3 (1).png";
 import { mergeCart, fetchCart } from '../redux/slices/cartSlice';
 import { toast } from "sonner";
 import { GoogleLogin } from '@react-oauth/google';
@@ -170,7 +169,7 @@ const Login = () => {
             </div>
             <div className="hidden md:block w-1/2 bg-neutral-100 border-l border-neutral-200">
                 <img
-                    src={loginImg}
+                    src="/products/a-male-model-wearing-a-black-suit.webp"
                     alt="Login to Account"
                     className="w-full h-full object-cover object-top"
                 />
