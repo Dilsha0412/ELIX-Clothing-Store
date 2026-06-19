@@ -70,7 +70,11 @@ const CollectionPage = () => {
                             ? queryParams.gender
                                 ? `${queryParams.gender}'s New Arrivals`
                                 : "New Arrivals"
-                            : `${collection} Collection`
+                            : collection.toLowerCase() === 'all'
+                                ? queryParams.gender
+                                    ? `${queryParams.gender}'s Collection`
+                                    : "All Collection"
+                                : `${collection} Collection`
                         : "All Collection"}
                 </h2>
                 
