@@ -9,7 +9,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { createPortal } from 'react-dom';
 import { setCurrency } from '../../redux/slices/currencySlice';
 
-const Navbar = () => {
+const Navbar = ({ isTransparent }) => {
+    const textColor = isTransparent ? "text-white/70" : "text-neutral-700";
+    const hoverColor = isTransparent ? "hover:text-white" : "hover:text-black";
     const dispatch = useDispatch();
     const location = useLocation();
     const isHomePage = location.pathname === "/";
@@ -39,10 +41,10 @@ const Navbar = () => {
                 <div className="flex items-center space-x-4">
                     <button
                         onClick={toggleNavDrawer}
-                        className='md:hidden flex items-center space-x-2 transition-colors cursor-pointer group text-neutral-700 hover:text-black'
+                        className={`md:hidden flex items-center space-x-2 transition-colors duration-200 cursor-pointer group ${textColor} ${hoverColor}`}
                     >
                         <svg
-                            className='w-4.5 h-4.5 transition-colors text-neutral-700 group-hover:text-black'
+                            className="w-4.5 h-4.5 transition-colors duration-200 text-current"
                             fill="none"
                             stroke="currentColor"
                             strokeWidth="2"
@@ -58,14 +60,16 @@ const Navbar = () => {
 
                     {/* Logo (left-aligned on desktop, centered on mobile) */}
                     <div className="absolute left-1/2 transform -translate-x-1/2 md:static md:transform-none md:ml-4 z-10">
-                        <Link to="/" className="text-xl sm:text-2xl font-serif tracking-widest uppercase transition-opacity hover:opacity-85 text-black">
+                        <Link to="/" className={`text-xl sm:text-2xl font-serif tracking-widest uppercase transition-colors duration-200 ${
+                            isTransparent ? "text-white hover:text-white/85" : "text-black hover:opacity-80"
+                        }`}>
                             ELIX
                         </Link>
                     </div>
                 </div>
 
                 {/* Center: Desktop Navigation Links (hidden on mobile) */}
-                <div className="hidden md:flex items-center space-x-6 text-[13px] text-neutral-800 font-medium tracking-wide">
+                <div className={`hidden md:flex items-center space-x-6 text-[13px] ${textColor} font-medium tracking-wide`}>
                     {/* NEW Dropdown Menu */}
                     <div className="relative group">
                         <button className="text-red-500 hover:text-red-600 transition-colors flex items-center gap-0.5 py-3 cursor-pointer">
@@ -83,16 +87,16 @@ const Navbar = () => {
                         </div>
                     </div>
 
-                    <Link to="/collections/all?gender=Men" className="hover:text-black transition-colors">
+                    <Link to="/collections/all?gender=Men" className={`transition-colors duration-200 ${hoverColor}`}>
                         Men
                     </Link>
-                    <Link to="/collections/all?gender=Women" className="hover:text-black transition-colors">
+                    <Link to="/collections/all?gender=Women" className={`transition-colors duration-200 ${hoverColor}`}>
                         Women
                     </Link>
-                    <Link to="/collections/all?category=Top Wear" className="hover:text-black transition-colors">
+                    <Link to="/collections/all?category=Top Wear" className={`transition-colors duration-200 ${hoverColor}`}>
                         Top Wear
                     </Link>
-                    <Link to="/collections/all?category=Bottom Wear" className="hover:text-black transition-colors">
+                    <Link to="/collections/all?category=Bottom Wear" className={`transition-colors duration-200 ${hoverColor}`}>
                         Bottom Wear
                     </Link>
                 </div>
@@ -112,7 +116,7 @@ const Navbar = () => {
                     <div className="relative">
                         <button
                             onClick={() => setCurrencyDropdownOpen(!currencyDropdownOpen)}
-                            className="flex items-center space-x-1.5 text-neutral-700 hover:text-black transition-colors focus:outline-none cursor-pointer py-1"
+                            className={`flex items-center space-x-1.5 ${textColor} ${hoverColor} transition-colors duration-200 focus:outline-none cursor-pointer py-1`}
                         >
                             <img
                                 src={selectedCurrency === 'LKR' ? 'https://flagcdn.com/w40/lk.png' : 'https://flagcdn.com/w40/us.png'}
@@ -122,7 +126,7 @@ const Navbar = () => {
                             <span className="text-[11px] font-bold tracking-wider uppercase">
                                 {selectedCurrency}
                             </span>
-                            <FiChevronDown className={`h-3 w-3 text-neutral-500 transition-transform duration-200 ${currencyDropdownOpen ? 'rotate-180' : ''}`} />
+                            <FiChevronDown className="h-3 w-3 text-current transition-transform duration-200" />
                         </button>
 
                         {currencyDropdownOpen && (
@@ -172,16 +176,16 @@ const Navbar = () => {
 
                     {/* 1. Search Icon */}
                     <div className='overflow-hidden flex items-center justify-center'>
-                        <SearchBar isHomePage={isHomePage} />
+                        <SearchBar isHomePage={isHomePage} textColor={textColor} hoverColor={hoverColor} />
                     </div>
 
                     {/* 2. User Profile Icon */}
-                    <Link to="/profile" className='text-neutral-700 hover:text-black transition-colors flex items-center justify-center' title="Profile">
+                    <Link to="/profile" className={`${textColor} ${hoverColor} transition-colors duration-200 flex items-center justify-center`} title="Profile">
                         <FiUser className='h-4 w-4' />
                     </Link>
 
                     {/* 3. Wishlist (Heart) Icon */}
-                    <Link to="/wishlist" className='relative text-neutral-700 hover:text-black transition-colors flex items-center justify-center' title="Wishlist">
+                    <Link to="/wishlist" className={`relative ${textColor} ${hoverColor} transition-colors duration-200 flex items-center justify-center`} title="Wishlist">
                         <FiHeart className='h-4 w-4' />
                         {wishlistCount > 0 && (
                             <span className='absolute -top-1.5 -right-1.5 bg-red-600 text-white text-[9px] font-bold rounded-full w-4 h-4 flex items-center justify-center'>
@@ -193,7 +197,7 @@ const Navbar = () => {
                     {/* 4. Shopping Bag Icon */}
                     <button
                         onClick={toggleCartDrawer}
-                        className='relative text-neutral-700 hover:text-black transition-colors flex items-center justify-center'
+                        className={`relative ${textColor} ${hoverColor} transition-colors duration-200 flex items-center justify-center`}
                         title="Cart"
                     >
                         <FiShoppingBag className='h-4 w-4' />

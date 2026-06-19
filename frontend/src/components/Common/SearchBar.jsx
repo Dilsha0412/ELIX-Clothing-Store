@@ -7,7 +7,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { useCurrency } from '../../hooks/useCurrency';
 
-const SearchBar = ({ isHomePage }) => {
+const SearchBar = ({ isHomePage, textColor, hoverColor }) => {
 
     const [searchTerm, setSearchTerm] = useState("");
     const [isOpen, setIsOpen] = useState(false);
@@ -139,7 +139,7 @@ const SearchBar = ({ isHomePage }) => {
                     )}
                 </div>
             ) : (
-                <button onClick={handleSearchToggle} className='text-black hover:text-neutral-600 transition-colors flex items-center justify-center'>
+                <button onClick={handleSearchToggle} className={`${textColor || 'text-black'} ${hoverColor || 'hover:text-neutral-600'} transition-colors flex items-center justify-center`}>
                     <FiSearch className='h-4 w-4' />
                 </button>
             )}

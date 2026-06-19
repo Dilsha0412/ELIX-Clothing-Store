@@ -5,7 +5,7 @@ const Topbar = () => {
   const repeatedText = Array(10).fill(text).join(" ");
 
   return (
-    <div className='bg-black text-white py-1 overflow-hidden select-none border-b border-black group-marquee'>
+    <div className='bg-red-600 text-white py-1 overflow-hidden select-none border-b border-red-600 group-marquee'>
       <div className='flex whitespace-nowrap min-w-full'>
         <div className='animate-marquee flex shrink-0 pr-4'>
           <span className='text-[9px] sm:text-[10px] font-semibold uppercase tracking-widest text-white'>

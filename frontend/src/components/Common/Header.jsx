@@ -39,7 +39,7 @@ const Header = () => {
   const positionClass = isHomePage ? "fixed" : "sticky";
   const bgClass = isTransparent
     ? "bg-transparent border-transparent shadow-none"
-    : "bg-black border-b border-neutral-900 shadow-sm";
+    : "bg-white border-b border-neutral-200 shadow-sm";
 
   return (
     <header className={`${positionClass} ${bgClass} w-full z-50 top-0 transition-all duration-300 transform ${
