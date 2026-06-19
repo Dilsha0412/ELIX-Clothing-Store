@@ -30,6 +30,19 @@ const AdminSidebar = () => {
 
         <nav className='flex flex-col space-y-1.5'>
           <NavLink
+            to="/admin"
+            end
+            className={({ isActive }) =>
+              isActive
+                ? "bg-neutral-900 text-white border-l-2 border-white py-3 px-4 flex items-center space-x-3 text-xs font-bold uppercase tracking-wider transition-all duration-200"
+                : "text-neutral-400 hover:bg-neutral-900 hover:text-white py-3 px-4 flex items-center space-x-3 text-xs font-semibold uppercase tracking-wider transition-all duration-200"
+            }
+          >
+            <FaChartPie className="text-sm" />
+            <span>Dashboard</span>
+          </NavLink>
+
+          <NavLink
             to="/admin/users"
             className={({ isActive }) =>
               isActive
