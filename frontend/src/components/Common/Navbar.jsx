@@ -106,7 +106,7 @@ const Navbar = ({ isTransparent }) => {
                     {user && user.role === "admin" && (
                         <Link
                             to="/admin"
-                            className="block px-2 py-0.5 text-[9px] font-bold uppercase tracking-widest transition-colors bg-black text-white hover:bg-neutral-800"
+                            className={`block px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest transition-colors ${textColor} ${hoverColor}`}
                         >
                             Admin
                         </Link>
