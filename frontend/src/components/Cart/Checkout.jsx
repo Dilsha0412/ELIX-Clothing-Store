@@ -15,6 +15,7 @@ const Checkout = () => {
   const { user } = useSelector((state) => state.auth);
 
   const [checkoutId, setCheckoutId] = useState(null);
+  const [paymentMethod, setPaymentMethod] = useState("stripe");
   
   const [shippingAddress, setShippingAddress] = useState({
     firstName: "",
@@ -42,13 +43,17 @@ const Checkout = () => {
           createCheckout({
             checkoutItems: cart.products,
             shippingAddress,
-            paymentMethod: "stripe",
+            paymentMethod: paymentMethod,
             totalPrice: cart.totalPrice,
           })
         ).unwrap();
 
         if (result && result._id) {
-          setCheckoutId(result._id); // Set checkout ID if successful
+          if (paymentMethod === "stripe") {
+            setCheckoutId(result._id); // Set checkout ID if successful
+          } else {
+            handleFinalizeCheckout(result._id); // Finalize immediately for COD
+          }
         }
       } catch (err) {
         alert(err?.message || "Failed to create checkout. Try again.");
@@ -238,13 +243,66 @@ const Checkout = () => {
                 />
               </div>
 
+              <h3 className='text-xs font-bold uppercase tracking-widest text-neutral-800 border-b border-neutral-200 pb-3 mb-6 mt-8'>Payment Method</h3>
+              <div className='mb-6'>
+                <label 
+                  htmlFor="stripe"
+                  className="flex items-center mb-4 cursor-pointer"
+                >
+                  <input
+                    type="radio"
+                    id="stripe"
+                    name="paymentMethod"
+                    value="stripe"
+                    checked={paymentMethod === "stripe"}
+                    onChange={(e) => setPaymentMethod(e.target.value)}
+                    className="sr-only"
+                  />
+                  <div className={`w-5 h-5 flex items-center justify-center rounded-sm border transition-colors ${paymentMethod === 'stripe' ? 'bg-black border-black' : 'bg-white border-neutral-300'}`}>
+                    {paymentMethod === 'stripe' && (
+                      <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="4" d="M5 13l4 4L19 7"></path>
+                      </svg>
+                    )}
+                  </div>
+                  <span className="ml-3 text-[10px] font-bold uppercase tracking-widest text-neutral-800">
+                    Stripe (Credit Card)
+                  </span>
+                </label>
+
+                <label 
+                  htmlFor="cod"
+                  className="flex items-center cursor-pointer"
+                >
+                  <input
+                    type="radio"
+                    id="cod"
+                    name="paymentMethod"
+                    value="Cash On Delivery"
+                    checked={paymentMethod === "Cash On Delivery"}
+                    onChange={(e) => setPaymentMethod(e.target.value)}
+                    className="sr-only"
+                  />
+                  <div className={`w-5 h-5 flex items-center justify-center rounded-sm border transition-colors ${paymentMethod === 'Cash On Delivery' ? 'bg-black border-black' : 'bg-white border-neutral-300'}`}>
+                    {paymentMethod === 'Cash On Delivery' && (
+                      <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="4" d="M5 13l4 4L19 7"></path>
+                      </svg>
+                    )}
+                  </div>
+                  <span className="ml-3 text-[10px] font-bold uppercase tracking-widest text-neutral-800">
+                    Cash On Delivery
+                  </span>
+                </label>
+              </div>
+
               <div className='mt-8'>
                 {!checkoutId && (
                   <button
                    type='submit'
                    className='w-full bg-black hover:bg-neutral-800 text-white font-bold py-4 px-6 text-xs uppercase tracking-widest rounded-none transition duration-300 cursor-pointer shadow-sm'
                    >
-                    Continue to Payment
+                    {paymentMethod === "stripe" ? "Continue to Payment" : "Place Order"}
                   </button>
                 )}
               </div>
