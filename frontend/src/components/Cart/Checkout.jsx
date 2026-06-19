@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import StripeCheckout from './StripeCheckout';
 import { useSelector, useDispatch } from 'react-redux';
 import { createCheckout } from '../../redux/slices/checkoutSlice';
@@ -13,6 +13,13 @@ const Checkout = () => {
   const dispatch = useDispatch();
   const { cart, loading, error } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.auth);
+
+  const location = useLocation();
+  const buyNowItem = location.state?.buyNowItem;
+  const isBuyNow = location.state?.isBuyNow;
+
+  const checkoutProducts = buyNowItem ? [buyNowItem] : cart?.products || [];
+  const checkoutTotalPrice = buyNowItem ? (buyNowItem.price * buyNowItem.quantity) : cart?.totalPrice || 0;
 
   const [checkoutId, setCheckoutId] = useState(null);
   const [paymentMethod, setPaymentMethod] = useState("stripe");
@@ -29,22 +36,23 @@ const Checkout = () => {
 
   // Ensure cart is loaded before proceeding
   useEffect(() => {
-    if (!cart || !cart.products || cart.products.length === 0) {
+    if (!buyNowItem && (!cart || !cart.products || cart.products.length === 0)) {
         navigate("/");
     }
-  }, [cart, navigate]);
+  }, [cart, navigate, buyNowItem]);
 
   const handleCreateCheckout = async (e) => {
     e.preventDefault();
 
-    if (cart && cart.products.length > 0) {
+    if (checkoutProducts.length > 0) {
       try {
         const result = await dispatch(
           createCheckout({
-            checkoutItems: cart.products,
+            checkoutItems: checkoutProducts,
             shippingAddress,
             paymentMethod: paymentMethod,
-            totalPrice: cart.totalPrice,
+            totalPrice: checkoutTotalPrice,
+            isBuyNow: isBuyNow || false,
           })
         ).unwrap();
 
@@ -104,7 +112,7 @@ const Checkout = () => {
 
   if (loading) return <p>Loading cart ...</p>;
   if (error) return <p>Error: {error}</p>;
-  if (!cart || !cart.products || cart.products.length === 0) {
+  if (!checkoutProducts || checkoutProducts.length === 0) {
     return <p>Your cart is empty</p>;
   }
 
@@ -313,7 +321,7 @@ const Checkout = () => {
               <h3 className='text-xs font-bold uppercase tracking-widest text-neutral-800 mb-4'>Pay with Stripe</h3>
               <StripeCheckout
                 checkoutId={checkoutId}
-                amount={Number(cart.totalPrice).toFixed(2)} 
+                amount={Number(checkoutTotalPrice).toFixed(2)} 
                 onSuccess={handlePaymentSuccess} 
                 onError={(err) => alert("Payment failed. Try again.")}
                />
@@ -325,7 +333,7 @@ const Checkout = () => {
      <div className='bg-neutral-50 rounded-none border border-neutral-200 p-6 md:p-8 shadow-none h-fit'>
         <h3 className='text-xs font-bold uppercase tracking-widest text-neutral-800 border-b border-neutral-200 pb-3 mb-6'>Order Summary</h3>
         <div className='divide-y divide-neutral-200 py-2 mb-6'>
-          {cart.products.map((product, index) => (
+          {checkoutProducts.map((product, index) => (
             <div 
             key={index}
             className='flex items-start justify-between py-4'
@@ -350,7 +358,7 @@ const Checkout = () => {
 
         <div className='flex justify-between items-center text-xs font-bold uppercase tracking-wider text-neutral-500 mb-4'>
           <p>Subtotal</p>
-          <p className="text-neutral-800">{formatPrice(cart.totalPrice)}</p>
+          <p className="text-neutral-800">{formatPrice(checkoutTotalPrice)}</p>
         </div>
 
         <div className='flex justify-between items-center text-xs font-bold uppercase tracking-wider text-neutral-500 mb-4'>
@@ -360,7 +368,7 @@ const Checkout = () => {
 
         <div className='flex justify-between items-center text-sm font-black uppercase tracking-widest text-neutral-800 mt-4 border-t border-neutral-200 pt-4'>
           <p>Total</p>
-          <p className="text-lg">{formatPrice(cart.totalPrice)}</p>
+          <p className="text-lg">{formatPrice(checkoutTotalPrice)}</p>
         </div>
 
       </div>  

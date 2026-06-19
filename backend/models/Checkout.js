@@ -70,6 +70,10 @@ const checkoutSchema = new mongoose.Schema({
     finalizeAt: {
         type: Date,
     },
+    isBuyNow: {
+        type: Boolean,
+        default: false,
+    },
 }, {
     timestamps: true,
 });

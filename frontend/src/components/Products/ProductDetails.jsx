@@ -140,26 +140,21 @@ const ProductDetails = ({ productId }) => {
     }
     setIsButtonDisabled(true);
 
-    dispatch(
-      addToCart({
-        productId: productFetchId,
-        quantity,
-        size: selectedSize,
-        color: selectedColor,
-        guestId,
-        userId: user?._id,
-      })
-    )
-      .then(() => {
-        navigate('/checkout');
-      })
-      .catch((err) => {
-        console.error(err);
-        toast.error("Failed to proceed to checkout.");
-      })
-      .finally(() => {
-        setIsButtonDisabled(false);
-      });
+    const buyNowItem = {
+      productId: productFetchId,
+      name: selectedProduct.name,
+      image: selectedProduct.images[0]?.url,
+      price: selectedProduct.price,
+      quantity,
+      size: selectedSize,
+      color: selectedColor,
+    };
+
+    navigate('/checkout', {
+      state: { buyNowItem, isBuyNow: true }
+    });
+
+    setIsButtonDisabled(false);
   };
 
   if (loading) {

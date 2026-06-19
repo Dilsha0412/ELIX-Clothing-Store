@@ -10,7 +10,7 @@ const router = express.Router();
 // @desc Create a new checkout session
 // @access Private
 router.post("/", protect, async (req, res) => {
-    const { checkoutItems, shippingAddress, paymentMethod, totalPrice } =
+    const { checkoutItems, shippingAddress, paymentMethod, totalPrice, isBuyNow } =
         req.body;
 
     if (!checkoutItems || checkoutItems.length === 0) {
@@ -27,6 +27,7 @@ router.post("/", protect, async (req, res) => {
             totalPrice,
             paymentStatus: "Pending",
             isPaid: false,
+            isBuyNow: isBuyNow || false,
         });
 
         console.log(`Checkout created for user: ${req.user._id}`);
@@ -98,8 +99,10 @@ router.post("/:id/finalize", protect, async (req, res) => {
             checkout.finalizedAt = Date.now();
             await checkout.save();
 
-            // Delete the cart associated with the user
-            await Cart.findOneAndDelete({ user: checkout.user });
+            // Delete the cart associated with the user only if it wasn't a Buy Now checkout
+            if (!checkout.isBuyNow) {
+                await Cart.findOneAndDelete({ user: checkout.user });
+            }
             res.status(201).json(finalOrder);
         } else if (checkout.isFinalized) {
             res.status(400).json({ message: "Checkout already finalized" });
