@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { updateOrderStatus, fetchAllOrders } from '../../redux/slices/adminOrderSlice';
+import { toast } from 'sonner';
 
 const OrderManagement = () => {
 const dispatch = useDispatch();
@@ -24,7 +25,7 @@ useEffect(() => {
 
     dispatch(updateOrderStatus({ id: orderId, status: newStatus }));
 
-    alert(`Order #${orderId} status has been updated to ${newStatus}!`);
+    toast.success(`Order #${orderId} status has been updated to ${newStatus}!`);
   };
 
   if(loading) return <p>Loading...</p>;

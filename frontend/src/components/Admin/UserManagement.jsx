@@ -12,6 +12,8 @@ const UserManagement = () => {
   const { users, loading, error } = useSelector((state) => state.admin);
   const [openDropdownId, setOpenDropdownId] = useState(null);
   const [isFormRoleOpen, setIsFormRoleOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [userToDelete, setUserToDelete] = useState(null);
 
   // Security Check
   useEffect(() => {
@@ -70,11 +72,13 @@ const UserManagement = () => {
   };
 
   // Delete User
-  const handleDeleteUser = async (userId) => {
-    if (window.confirm("Are you sure you want to delete this user?")) {
+  const confirmDeleteUser = async () => {
+    if (userToDelete) {
       try {
-        await dispatch(deleteUser(userId)).unwrap();
+        await dispatch(deleteUser(userToDelete)).unwrap();
         toast.success("User deleted successfully!");
+        setIsDeleteDialogOpen(false);
+        setUserToDelete(null);
       } catch (err) {
         toast.error(err || "Failed to delete user.");
       }
@@ -282,7 +286,10 @@ const UserManagement = () => {
                   </td>
                   <td className="py-4 px-6 text-center">
                     <button
-                      onClick={() => handleDeleteUser(u._id)}
+                      onClick={() => {
+                        setUserToDelete(u._id);
+                        setIsDeleteDialogOpen(true);
+                      }}
                       className="border border-neutral-300 bg-white text-neutral-500 px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest rounded-none hover:text-red-600 hover:border-red-600 transition duration-300 cursor-pointer"
                     >
                       Delete
@@ -300,6 +307,35 @@ const UserManagement = () => {
           </tbody>
         </table>
       </div>
+
+      {/* Custom Delete Confirmation Modal */}
+      {isDeleteDialogOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+          <div className="bg-white p-6 max-w-xs w-full shadow-2xl rounded-none border border-neutral-200">
+            <h3 className="text-lg font-black uppercase tracking-wider text-black mb-3">Confirm Deletion</h3>
+            <p className="text-xs text-neutral-600 mb-6 font-medium leading-relaxed">
+              Are you sure you want to delete this user? This action cannot be undone.
+            </p>
+            <div className="flex flex-col sm:flex-row justify-end gap-3">
+              <button
+                onClick={() => {
+                  setIsDeleteDialogOpen(false);
+                  setUserToDelete(null);
+                }}
+                className="w-full sm:w-auto px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-neutral-600 border border-neutral-300 hover:bg-neutral-100 hover:text-black transition-colors rounded-none"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmDeleteUser}
+                className="w-full sm:w-auto px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-white bg-black hover:bg-red-600 transition-colors rounded-none shadow-sm"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
