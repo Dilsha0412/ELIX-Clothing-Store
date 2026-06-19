@@ -387,7 +387,7 @@ const EditProductPage = () => {
               name="isFeatured"
               checked={productData.isFeatured}
               onChange={handleChange}
-              className="w-5 h-5 border-neutral-300 rounded-none focus:ring-0 focus:border-black text-black"
+              className="w-5 h-5 border-neutral-300 rounded-none focus:ring-0 focus:border-black text-black accent-black cursor-pointer"
             />
             <span className="text-xs font-bold uppercase tracking-wider text-neutral-700">Is Featured</span>
           </label>
@@ -397,7 +397,7 @@ const EditProductPage = () => {
               name="isPublished"
               checked={productData.isPublished}
               onChange={handleChange}
-              className="w-5 h-5 border-neutral-300 rounded-none focus:ring-0 focus:border-black text-black"
+              className="w-5 h-5 border-neutral-300 rounded-none focus:ring-0 focus:border-black text-black accent-black cursor-pointer"
             />
             <span className="text-xs font-bold uppercase tracking-wider text-neutral-700">Is Published</span>
           </label>
@@ -407,7 +407,7 @@ const EditProductPage = () => {
               name="isNewArrival"
               checked={productData.isNewArrival}
               onChange={handleChange}
-              className="w-5 h-5 border-neutral-300 rounded-none focus:ring-0 focus:border-black text-black"
+              className="w-5 h-5 border-neutral-300 rounded-none focus:ring-0 focus:border-black text-black accent-black cursor-pointer"
             />
             <span className="text-xs font-bold uppercase tracking-wider text-neutral-700">Is New Arrival</span>
           </label>
