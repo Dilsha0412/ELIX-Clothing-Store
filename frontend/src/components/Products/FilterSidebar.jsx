@@ -75,6 +75,9 @@ const FilterSidebar = () => {
     "Street Style",
     "Beach Breeze",
     "Classic Comfort",
+    "Vintage Vibe",
+    "Active Gear",
+    "Denim Co.",
   ];
   const genders = ["Men", "Women"];
 
